@@ -1,0 +1,21 @@
+uuid: 882af9ef-76ec-4573-bcac-89fe19dcad8c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_2_column_grid_options
+    - paragraphs.paragraphs_type.uswds_2_column_breakpoints
+  module:
+    - options
+id: paragraph.uswds_2_column_breakpoints.field_2_column_grid_options
+field_name: field_2_column_grid_options
+entity_type: paragraph
+bundle: uswds_2_column_breakpoints
+label: 'Grid Options'
+description: 'First value is for first column. Second value for the second column.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

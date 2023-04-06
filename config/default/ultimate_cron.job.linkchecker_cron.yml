@@ -1,0 +1,29 @@
+uuid: e3112abb-6978-463d-8a52-11ee34e0cc6d
+langcode: en
+status: true
+dependencies:
+  module:
+    - linkchecker
+title: 'Default cron handler'
+id: linkchecker_cron
+weight: 0
+module: linkchecker
+callback: linkchecker_cron
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '0+@ */6 * * *'
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

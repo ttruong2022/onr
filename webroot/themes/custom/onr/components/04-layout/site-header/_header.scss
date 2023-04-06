@@ -1,0 +1,76 @@
+@import '../../01-core/variables';
+@import '../../02-element/site-logo/site-logo';
+@import '../../03-component/government-banner/government-banner';
+@import '../../03-component/banner-menu-nav/banner-menu-nav';
+@import '../../03-component/header-sub-links/sub-links';
+@import '../../03-component/main-navigation/main-navigation';
+@import '../../03-component/search-bar/search-bar';
+
+div {
+  &.region-header {
+    &.usa-navbar {
+      position: relative;
+      border-bottom: 0;
+      height: auto;
+
+      .usa-header--extended & {
+        //Not editing any display styles on tablet or mobile views
+
+        @include mq-min-nonmobile {
+          //Styles on small desktops (1024px - 1199px wide)
+          display: flex;
+          flex-direction: row;
+          align-items: stretch;
+          justify-content: space-between;
+          min-width: 100%;
+
+          & > .navbar--container,
+          & > .block-headersublinks {
+            display: flex;
+            width: max-content;
+          }
+        }
+
+        .navbar--container {
+          $plefts: 
+          1024px 1rem,
+          1038px 2rem,
+          1054px 3rem,
+          1086px 4rem,
+          1102px 5rem,
+          1118px 6rem,
+          1134px 7rem,
+          1150px 8rem, 
+          1166px 9rem,
+          1182px 10rem,
+          1200px 5rem;
+
+          @each $width, $padd in $plefts {
+            @media screen and (min-width: $width) {
+              padding-left: $padd;
+            }
+          }
+        }
+        
+
+        @include mq-min-width('desktop-lg') {
+          //Styles on large desktops (1200px + wide)
+          min-width: 75rem;
+          max-width: 75rem;
+        }
+      }
+
+      .usa-menu-btn {
+        height: 4rem;
+
+        @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          height: 100%;
+        }
+      }
+    }    
+  }
+}

@@ -1,0 +1,113 @@
+uuid: 41fc1122-d967-43f7-a9a6-934ecd9f4747
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.uswds_card_regular.field_button
+    - field.field.paragraph.uswds_card_regular.field_card_breakpoints
+    - field.field.paragraph.uswds_card_regular.field_card_image
+    - field.field.paragraph.uswds_card_regular.field_card_title
+    - field.field.paragraph.uswds_card_regular.field_extend_media
+    - field.field.paragraph.uswds_card_regular.field_indent_media
+    - field.field.paragraph.uswds_card_regular.field_make_card_link
+    - field.field.paragraph.uswds_card_regular.field_text
+    - field.field.paragraph.uswds_card_regular.field_title_first
+    - paragraphs.paragraphs_type.uswds_card_regular
+  module:
+    - entity_reference_revisions
+    - link
+    - text
+_core:
+  default_config_hash: TrsNDXQPfKbiFPEWSDMeI-W4jsJuMPoM1odDIRTx6lk
+id: paragraph.uswds_card_regular.default
+targetEntityType: paragraph
+bundle: uswds_card_regular
+mode: default
+content:
+  field_button:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_card_breakpoints:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_card_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: ar_16x9
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_card_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_extend_media:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_indent_media:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_make_card_link:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_text:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_title_first:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  search_api_excerpt: true

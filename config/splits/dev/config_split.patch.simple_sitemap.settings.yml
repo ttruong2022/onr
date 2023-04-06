@@ -1,0 +1,5 @@
+adding:
+  disable_language_hreflang: false
+  base_url: 'http://stage.onr-research.com'
+removing:
+  base_url: ''

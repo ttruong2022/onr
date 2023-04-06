@@ -1,0 +1,12 @@
+uuid: 0938f2b3-8527-47eb-ab59-dae909d33f85
+langcode: en
+status: true
+dependencies: {  }
+id: orange_divider
+label: 'Orange Divider'
+image: ''
+description: 'Add an ONR orange divider'
+html:
+  value: '<hr class="orange-divider" />'
+  format: full_html
+weight: 7

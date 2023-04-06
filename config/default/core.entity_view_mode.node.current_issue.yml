@@ -1,0 +1,10 @@
+uuid: abdd9143-a707-472d-9d4a-eacf5209071c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.current_issue
+label: 'Current Issue'
+targetEntityType: node
+cache: true

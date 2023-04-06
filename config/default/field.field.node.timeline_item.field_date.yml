@@ -1,0 +1,21 @@
+uuid: 53a55c86-b5fb-4cf2-9218-8c94c230915a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date
+    - node.type.timeline_item
+  module:
+    - datetime
+id: node.timeline_item.field_date
+field_name: field_date
+entity_type: node
+bundle: timeline_item
+label: Date
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

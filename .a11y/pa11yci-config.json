@@ -1,0 +1,27 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "runners": ["axe"],
+    "timeout": 90000,
+    "level": "none",
+    "wait": 2000,
+    "chromeLaunchConfig": {
+      "ignoreHTTPSErrors": false,
+      "args": ["--no-sandbox"]
+    },
+    "ignore": [
+      "Section508.D.H49.AlignAttr",
+      "Section508.D.HeadingOrder",
+      "WCAG2A.Principle1.Guideline1_3.1_3_1.H49.AlignAttr",
+      "WCAG2A.Principle1.Guideline1_3.1_3_1.G141",
+      "WCAG2AA.Principle1.Guideline1_3.1_3_1.H49.AlignAttr",
+      "WCAG2AA.Principle1.Guideline1_3.1_3_1.G141",
+      "color-contrast",
+      "heading-order",
+      "WCAG2AAA.Principle1.Guideline1_3.1_3_1.H49.AlignAttr",
+      "WCAG2AAA.Principle1.Guideline1_3.1_3_1.G141"
+    ],
+    "includeWarnings": true,
+    "includeNotices": true
+  }
+}

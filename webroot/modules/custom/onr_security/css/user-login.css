@@ -1,0 +1,7 @@
+.user-login-form {
+  max-width: unset !important;
+}
+
+.user-login-form p {
+  padding: 0 0.5rem;
+}

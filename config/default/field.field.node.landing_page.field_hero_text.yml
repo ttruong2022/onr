@@ -1,0 +1,21 @@
+uuid: c9653fe0-45dc-452d-b2b8-ad26eaf9478f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hero_text
+    - node.type.landing_page
+  module:
+    - text
+id: node.landing_page.field_hero_text
+field_name: field_hero_text
+entity_type: node
+bundle: landing_page
+label: 'Hero Text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,21 @@
+uuid: 24bbdd5b-39ca-4743-b561-34389f23f528
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_text
+    - node.type.location
+  module:
+    - text
+id: node.location.field_text
+field_name: field_text
+entity_type: node
+bundle: location
+label: 'Contact Information'
+description: 'To add more than one contact person for this location, click "Add another item"'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

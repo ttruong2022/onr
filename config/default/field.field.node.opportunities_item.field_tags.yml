@@ -1,0 +1,35 @@
+uuid: f8a3bd93-6600-4d8e-ba24-cc80c00b276e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.opportunities_item
+    - taxonomy.vocabulary.tags
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: true
+    use_queue: false
+id: node.opportunities_item.field_tags
+field_name: field_tags
+entity_type: node
+bundle: opportunities_item
+label: Topics
+description: 'Assign multiple topics to this page to be used for search'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

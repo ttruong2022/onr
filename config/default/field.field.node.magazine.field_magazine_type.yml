@@ -1,0 +1,23 @@
+uuid: 62755894-8c4b-484e-89ae-1fd200c6048b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_magazine_type
+    - node.type.magazine
+  module:
+    - options
+id: node.magazine.field_magazine_type
+field_name: field_magazine_type
+entity_type: node
+bundle: magazine
+label: 'Magazine Type'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: futureForce
+default_value_callback: ''
+settings: {  }
+field_type: list_string

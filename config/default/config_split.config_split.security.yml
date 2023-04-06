@@ -1,0 +1,18 @@
+uuid: e89d7521-381a-41ee-a0ed-a5a2ce6e9ffd
+langcode: en
+status: true
+dependencies: {  }
+id: security
+label: Security
+description: ''
+weight: 0
+stackable: false
+storage: folder
+folder: ../config/splits/security
+module:
+  block_inactive_users: 0
+  flood_settings: 0
+  session_limit: 0
+theme: {  }
+complete_list: {  }
+partial_list: {  }

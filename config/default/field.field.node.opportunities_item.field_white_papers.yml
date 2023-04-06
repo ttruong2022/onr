@@ -1,0 +1,21 @@
+uuid: 1890a274-1390-4101-b64f-c9fb80d04d4c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_white_papers
+    - node.type.opportunities_item
+  module:
+    - datetime
+id: node.opportunities_item.field_white_papers
+field_name: field_white_papers
+entity_type: node
+bundle: opportunities_item
+label: 'White Papers Due Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

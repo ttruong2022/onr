@@ -1,0 +1,76 @@
+@import '../../01-core/variables';
+
+.full-bleed {
+  margin: 1rem calc(50% - 50vw) 2rem;
+  padding: 2.5rem 0;
+
+  .grid-container {
+    padding: 0;
+  }
+
+  h2 {
+    margin-top: 0 !important;
+  }
+
+  div {
+    &.block {
+      margin: 0 2rem;
+    }
+  }
+}
+
+.full-bleed-bottom {
+  margin: 1rem calc(50% - 50vw) -2rem;
+  padding-bottom: 0;
+}
+
+.full-height-column {
+  > div {
+    height: 100%;
+  }
+}
+
+@each $color, $hex in $onr-colors {
+  .background-#{$color} {
+    background-color: $hex;
+
+    @if $color == 'title-blue' or $color == 'dark-blue' {
+      // If color is one specified above,
+      // set the block title color to white
+      div {
+        &.block {
+          & > h2 {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+
+  .color-#{$color} {
+    color: $hex;
+  }
+}
+
+.onr-blue-grey {
+  background-color: $onr-dark-blue;
+
+  .layout-builder__layout {
+    > div {
+      padding: 1.5rem 4rem;
+
+      &:first-child {
+        background-color: $onr-dark-blue;
+        color: $white;
+
+        h2 {
+          color: $white;
+        }
+      }
+
+      &:nth-child(2) {
+        background-color: $onr-lightgrey;
+      }
+    }
+  }
+}

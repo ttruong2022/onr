@@ -1,0 +1,29 @@
+uuid: 721ce5d8-25f2-4a30-908a-042ffd9f091e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.landing_page
+  module:
+    - linkchecker
+    - text
+third_party_settings:
+  linkchecker:
+    scan: true
+    extractor: html_link_extractor
+id: node.landing_page.body
+field_name: body
+entity_type: node
+bundle: landing_page
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: true
+  allowed_formats: {  }
+field_type: text_with_summary

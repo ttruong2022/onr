@@ -1,0 +1,196 @@
+@import '../../01-core/variables';
+@import '../../03-component/social-icons/social-icons';
+
+footer {
+  &.usa-footer {
+
+    &--big {
+      section {
+        &.usa-footer__primary-content {
+          .usa-footer__primary-link {
+            &.nolink {
+              margin-bottom: 0;
+              letter-spacing: 0.5px;
+              font-family: $header-font;
+              font-size: 1.5rem;
+              font-weight: normal;
+            }
+          }
+        }
+      }
+    }
+
+    
+
+    .usa-footer__primary-section,
+    .usa-footer__secondary-section {
+      background-color: $black;
+      color: $white;
+    }
+
+    .usa-footer__primary-section {
+
+      .mobile-footer-menu {
+        display: block;
+        padding-top: 0.5rem;
+        width: 100%;
+
+        @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+          display: none;
+        }
+
+        .usa-accordion {
+          color: $white;
+
+          .usa-accordion__heading {
+            border-bottom: 1px solid $white;
+          }
+
+          .usa-accordion__content,
+          .usa-accordion__button {
+            background-color: $black;
+          }
+
+          .usa-accordion__content {
+            a {
+              text-decoration: none;
+              color: $white;
+            }
+          }
+
+          .usa-accordion__button {
+            background-position: left;
+            background-size: 1rem;
+            padding-left: 30px;
+            color: $white;
+
+            &[aria-expanded=false] {
+              background-image: url('#{$theme-image-path}/angle-arrow-down-white.svg'), linear-gradient(transparent, transparent);
+            }
+
+            &[aria-expanded=true] {
+              background-image: url('#{$theme-image-path}/angle-arrow-up-white.svg'), linear-gradient(transparent, transparent);
+            }
+          }
+        }
+      }
+
+      .usa-footer__logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0 0;
+        width: 100%;
+
+        @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+          display: inline;
+          align-items: unset;
+        }
+
+        .usa-footer__logo-img,
+        .usa-footer__logo-heading {
+          vertical-align: middle;
+        }
+
+        .usa-footer__logo-img {
+          display: inline;
+          width: 12rem;
+          max-width: 100%;
+
+          @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+            width: 6.875rem;
+          }
+        }
+
+        .usa-footer__logo-heading {
+          display: block;
+          padding-top: 0.5rem;
+          padding-left: 0.5rem;
+          color: $white;
+          font-size: $extra-large;
+          font-weight: normal;
+
+          @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+            display: inline;
+            padding-left: $small;
+          }
+        }
+      }
+
+      .footer-menu {
+
+        strong {
+          .nolink {
+            cursor: inherit;
+          }
+        }
+
+        a,
+        .nolink {
+          text-decoration: none;
+          color: $white;
+
+          svg {
+            path {
+              stroke: $white;
+            }
+          }
+        }
+
+        .usa-footer__secondary-link {
+          padding-top: 0.8rem;
+        }
+
+        .usa-footer__nav {
+          border-bottom: 0;
+        }
+      }
+
+      .footer-contact-info {
+        .footer-text {
+          padding-top: 2rem;
+
+          > div {
+            display: inline-block;
+          }
+
+          .footer-text--icon {
+            margin: 0.2rem 6px 0 0;
+            background-image: url('#{$theme-image-path-onr}/icon-pin-white/icon-pin-white@2x.png'), linear-gradient(transparent, transparent);
+            background-size: 14px 20px;
+            width: 14px;
+            height: 20px;
+            vertical-align: top;
+            content: '';
+          }
+
+          .field__item {
+            p {
+              margin: 0.2rem 0;
+            }
+          }
+        }
+      }
+
+      .usa-footer__social-links {
+        padding-top: 2rem;
+
+        .grid-row {
+          padding-top: $small;
+        }
+      }
+    }
+
+    .usa-footer__secondary-section {
+      padding: 0;
+
+      .field__item {
+        text-align: center;
+
+        p {
+          font-size: $small;
+        }
+      }
+    }
+  }
+}

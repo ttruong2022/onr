@@ -1,0 +1,21 @@
+uuid: 89b3ff9c-042f-42e9-b281-02f4479e5320
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_override_mad_module
+    - media.type.image
+id: media.image.field_override_mad_module
+field_name: field_override_mad_module
+entity_type: media
+bundle: image
+label: 'Override Media Alias Display'
+description: 'Check to have this media entity override the Media Alias Display module.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

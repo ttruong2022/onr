@@ -1,0 +1,215 @@
+Description: >
+  This template deploys ElastiCache 
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+  
+  Subnets:
+    Description: Choose which subnets this RDS should be deployed to
+    Type: List<AWS::EC2::Subnet::Id>
+
+  NodeType:
+    Default: cache.t4g.medium
+    Description: ElastiCache Instance Class
+    Type: String
+    AllowedValues:
+    # Standard
+    - cache.t4g.micro
+    - cache.t4g.small
+    - cache.t4g.medium
+    - cache.t3.micro
+    - cache.t3.small
+    - cache.t3.medium
+    - cache.t2.micro
+    - cache.t2.small
+    - cache.t2.medium
+    - cache.m6g.large
+    - cache.m6g.xlarge
+    - cache.m6g.2xlarge
+    - cache.m6g.4xlarge
+    - cache.m6g.8xlarge
+    - cache.m6g.12xlarge
+    - cache.m6g.16xlarge
+    - cache.m5.large
+    - cache.m5.xlarge
+    - cache.m5.2xlarge
+    - cache.m5.4xlarge
+    - cache.m5.12xlarge
+    - cache.m5.24xlarge
+    - cache.m4.large
+    - cache.m4.xlarge
+    - cache.m4.2xlarge
+    - cache.m4.4xlarge
+    - cache.m4.10xlarge
+    # Memory Optimized
+    - cache.r6g.large
+    - cache.r6g.xlarge
+    - cache.r6g.2xlarge
+    - cache.r6g.4xlarge
+    - cache.r6g.8xlarge
+    - cache.r6g.12xlarge
+    - cache.r6g.16xlarge
+    - cache.r5.large
+    - cache.r5.xlarge
+    - cache.r5.2xlarge
+    - cache.r5.4xlarge
+    - cache.r5.12xlarge
+    - cache.r5.24xlarge
+    - cache.r4.large
+    - cache.r4.xlarge
+    - cache.r4.2xlarge
+    - cache.r4.4xlarge
+    - cache.r4.8xlarge
+    - cache.r4.16xlarge
+    # Memory Optimized Cache Nodes with data tiering 
+    - cache.r6gd.xlarge
+    - cache.r6gd.2xlarge
+    - cache.r6gd.4xlarge
+    - cache.r6gd.8xlarge
+    - cache.r6gd.12xlarge
+    - cache.r6gd.16xlarge
+  
+  ECSecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Database security group
+
+Resources:
+
+  ECSlowLog:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      LogGroupName: !Sub "${EnvironmentName}-redis-slow"
+      RetentionInDays: 3
+  
+  ECEngineLog:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      LogGroupName: !Sub "${EnvironmentName}-redis-engine"
+      RetentionInDays: 3
+
+  ECSubnetGroup:
+    Type: 'AWS::ElastiCache::SubnetGroup'
+    Properties:
+      Description: !Ref 'AWS::StackName'
+      SubnetIds: !Ref Subnets
+
+  ECSecretKey:
+    Type: AWS::KMS::Key
+    Properties:
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "Allow access through AWS Secrets Manager for all principals in the account that are authorized to use AWS Secrets Manager"
+            Effect: "Allow"
+            Principal:
+              AWS: "*"
+            Action:
+              - "kms:Decrypt"
+              - "kms:ReEncrypt*"
+              - "kms:GenerateDataKey*"
+              - "kms:CreateGrant"
+              - "kms:DescribeKey"
+            Resource: "*"
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub secretsmanager.${AWS::Region}.amazonaws.com
+                kms:CallerAccount: !Sub ${AWS::AccountId}
+          - Sid: "Allow direct access to key metadata to the account"
+            Effect: "Allow"
+            Principal:
+              AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+            Action:
+              - "kms:*"
+            Resource: "*"
+  ECSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      KmsKeyId: !Ref ECSecretKey
+      Description: The secret for ElastiCache auth token
+      GenerateSecretString:
+        SecretStringTemplate: '{}'
+        GenerateStringKey: 'AuthToken'
+        PasswordLength: 16
+        ExcludePunctuation: true
+        ExcludeCharacters: '"@/\'
+
+  ECEncryptionKey:
+    Type: AWS::KMS::Key
+    Properties:
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "Allow access through AWS Secrets Manager for all principals in the account that are authorized to use AWS Secrets Manager"
+            Effect: "Allow"
+            Principal:
+              AWS: "*"
+            Action:
+              - "kms:Decrypt"
+              - "kms:ReEncrypt*"
+              - "kms:GenerateDataKey*"
+              - "kms:CreateGrant"
+              - "kms:DescribeKey"
+            Resource: "*"
+            Condition:
+              StringEquals:
+                kms:ViaService:
+                  - !Sub elasticache.${AWS::Region}.amazonaws.com
+                  - !Sub dax.${AWS::Region}.amazonaws.com
+                kms:CallerAccount: !Sub ${AWS::AccountId}
+          - Sid: "Allow direct access to key metadata to the account"
+            Effect: "Allow"
+            Principal:
+              AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+            Action:
+              - "kms:*"
+            Resource: "*"
+
+  ECCluster:
+    Type: 'AWS::ElastiCache::ReplicationGroup'
+    Properties:
+      ReplicationGroupId: !Ref EnvironmentName
+      ReplicationGroupDescription: !Sub "${EnvironmentName} redis"
+      LogDeliveryConfigurations:
+        - DestinationDetails:
+            CloudWatchLogsDetails:
+              LogGroup: !Ref ECSlowLog
+          DestinationType: 'cloudwatch-logs'
+          LogFormat: 'text'
+          LogType: 'slow-log'
+        - DestinationDetails:
+            CloudWatchLogsDetails:
+              LogGroup: !Ref ECEngineLog
+          DestinationType: 'cloudwatch-logs'
+          LogFormat: 'text'
+          LogType: 'engine-log'
+      CacheNodeType: !Ref NodeType
+      Engine: redis
+      Port: 6379
+      CacheSubnetGroupName: !Ref ECSubnetGroup
+      SecurityGroupIds:
+        - !Ref ECSecurityGroup
+      AutomaticFailoverEnabled: false
+      NumCacheClusters: '1'
+      TransitEncryptionEnabled: true
+      AtRestEncryptionEnabled: true
+      KmsKeyId: !Ref ECEncryptionKey
+      AuthToken: !Join [ '', [ '{{resolve:secretsmanager:', !Ref ECSecret, ':SecretString:AuthToken}}' ] ]
+
+Outputs:
+  ECEndpoint:
+    Description: The ElastiCache endpoint address
+    Value: !GetAtt [ECCluster, PrimaryEndPoint.Address]
+
+  ECPort:
+    Description: The ElasticCache port
+    Value: !GetAtt [ECCluster, PrimaryEndPoint.Port]
+    
+  ECAuthToken:
+    Description: The ElasticCache AuthToken secret
+    Value: !Join [ '', [ '{{resolve:secretsmanager:', !Ref ECSecret, ':SecretString:AuthToken}}' ] ]

@@ -1,0 +1,8 @@
+uuid: bbd07e1b-e3af-4955-9994-bb1bf26c2063
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_summary_box
+label: 'USWDS Summary Box'
+revision: 1
+description: ''

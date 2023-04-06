@@ -1,0 +1,113 @@
+uuid: a3ec7a66-66de-4dcc-869e-0e5effe70056
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.block
+    - field.field.node.location.field_address
+    - field.field.node.location.field_group
+    - field.field.node.location.field_location_category
+    - field.field.node.location.field_location_type
+    - field.field.node.location.field_text
+    - node.type.location
+  module:
+    - dynamic_entity_reference
+    - layout_builder
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.location.block
+targetEntityType: node
+bundle: location
+mode: block
+content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  field_location_category:
+    type: dynamic_entity_reference_entity_view
+    label: hidden
+    settings:
+      media:
+        view_mode: token
+      node:
+        view_mode: default
+        link: false
+      content_moderation_state:
+        view_mode: default
+        link: false
+      crop:
+        view_mode: default
+        link: false
+      block_content:
+        view_mode: default
+        link: false
+      menu_link_content:
+        view_mode: default
+        link: false
+      elog:
+        view_mode: default
+        link: false
+      embedded_paragraphs:
+        view_mode: default
+        link: false
+      entity_embed_fake_entity:
+        view_mode: default
+        link: false
+      file:
+        view_mode: default
+        link: false
+      linkcheckerlink:
+        view_mode: default
+        link: false
+      paragraph:
+        view_mode: default
+        link: false
+      redirect:
+        view_mode: default
+        link: false
+      search_api_task:
+        view_mode: default
+        link: false
+      section_association:
+        view_mode: default
+        link: false
+      shortcut:
+        view_mode: default
+        link: false
+      taxonomy_term:
+        view_mode: default
+        link: false
+      path_alias:
+        view_mode: default
+        link: false
+      user:
+        view_mode: default
+        link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_text:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_address: true
+  field_group: true
+  field_location_type: true
+  langcode: true
+  published_at: true
+  search_api_excerpt: true

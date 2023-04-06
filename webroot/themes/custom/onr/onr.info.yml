@@ -1,0 +1,49 @@
+name: ONR Theme
+description: 'Custom theme for ONR using USWDS library'
+type: theme
+base theme: uswds_base
+package: 'USWDS Base'
+core: 8.x
+core_version_requirement: ^8 || ^9
+logo: 'logo.png'
+screenshot: 'screenshot.png'
+libraries:
+  - onr/global
+  - uswds_blb_configuration/plugin.text_color.build
+libraries-extend:
+  sitemap/sitemap.theme:
+    - onr/sitemap
+ckeditor_stylesheets:
+  - css/uswds_base.min.css
+  - css/main.min.css
+  - css/01-core/overrides/ckeditor/ckeditor.min.css
+regions:
+  header_top: 'Above Header'
+  header: 'Header'
+  primary_menu: 'Primary Menu'
+  secondary_menu: 'Secondary Menu'
+  sidebar_first: 'First sidebar'
+  sidebar_second: 'Second sidebar'
+  breadcrumb: 'Breadcrumb'
+  highlighted: 'Highlighted'
+  help: 'Help'
+  hero: 'Hero'
+  content: 'Content'
+  footer_menu: 'Footer Menu'
+  footer: 'Primary Footer'
+  footer_secondary: 'Secondary Footer'
+
+components:
+  namespaces:
+    uswds:
+      - assets
+    core:
+      - components/01-core
+    element:
+      - components/02-element
+    component:
+      - components/03-component
+    layout:
+      - components/04-layout
+    images:
+      - images

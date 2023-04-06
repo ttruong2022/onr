@@ -1,0 +1,14 @@
+uuid: dede3254-9c90-49a8-b7ac-6d63df31195c
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.news_editor
+  module:
+    - user
+id: user_remove_role_action.news_editor
+label: 'Remove the News Editor role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: news_editor

@@ -1,0 +1,5 @@
+# Ignore transpiled JS files
+assets/
+css/
+js/
+styleguide/

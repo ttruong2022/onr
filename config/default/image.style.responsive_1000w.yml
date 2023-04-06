@@ -1,0 +1,15 @@
+uuid: 48106aad-76ca-4a81-9ef7-8dcc319bfb1f
+langcode: en
+status: true
+dependencies: {  }
+name: responsive_1000w
+label: responsive_1000w
+effects:
+  10285028-8528-4b7a-8566-7f4b73fc2ad2:
+    uuid: 10285028-8528-4b7a-8566-7f4b73fc2ad2
+    id: image_scale
+    weight: null
+    data:
+      width: 1000
+      height: null
+      upscale: true

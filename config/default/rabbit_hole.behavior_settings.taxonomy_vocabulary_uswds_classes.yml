@@ -1,0 +1,14 @@
+uuid: 93d3820a-424c-4f03-926d-9b5dbb920a24
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.uswds_classes
+id: taxonomy_vocabulary_uswds_classes
+entity_type_id: taxonomy_vocabulary
+entity_id: uswds_classes
+action: page_redirect
+allow_override: 1
+redirect: /
+redirect_code: 301
+redirect_fallback_action: access_denied

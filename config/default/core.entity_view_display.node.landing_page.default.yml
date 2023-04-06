@@ -1,0 +1,226 @@
+uuid: a88aa147-6418-4d58-a70f-44cd34d121af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.landing_page.body
+    - field.field.node.landing_page.field_components
+    - field.field.node.landing_page.field_full_bleed_bottom
+    - field.field.node.landing_page.field_group
+    - field.field.node.landing_page.field_hero_image
+    - field.field.node.landing_page.field_hero_text
+    - field.field.node.landing_page.field_metatags
+    - field.field.node.landing_page.field_search_api_best_bets
+    - field.field.node.landing_page.field_search_api_exclude_entity
+    - field.field.node.landing_page.field_tags
+    - field.field.node.landing_page.layout_builder__layout
+    - node.type.landing_page
+  module:
+    - entity_reference_revisions
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_discovery
+    - metatag
+    - search_api_best_bets
+    - search_api_exclude_entity
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          d57fe17b-fef2-47e9-a347-59b2ed7f2cee:
+            uuid: d57fe17b-fef2-47e9-a347-59b2ed7f2cee
+            region: content
+            configuration:
+              id: 'extra_field_block:node:landing_page:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 0
+            additional: {  }
+          c028fde3-9635-4ebe-8458-4b17cd755f9e:
+            uuid: c028fde3-9635-4ebe-8458-4b17cd755f9e
+            region: content
+            configuration:
+              id: 'extra_field_block:node:landing_page:content_moderation_control'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 2
+            additional: {  }
+          a3d416db-f065-4f6a-a7c9-a5e4310c524e:
+            uuid: a3d416db-f065-4f6a-a7c9-a5e4310c524e
+            region: content
+            configuration:
+              id: 'field_block:node:landing_page:body'
+              label: Body
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+        third_party_settings: {  }
+  layout_builder_restrictions:
+    allowed_block_categories: {  }
+    entity_view_mode_restriction:
+      allowed_layouts:
+        - 'bootstrap_layout_builder:blb_col_1'
+        - 'bootstrap_layout_builder:blb_col_2'
+        - 'bootstrap_layout_builder:blb_col_3'
+        - 'bootstrap_layout_builder:blb_col_4'
+      blacklisted_blocks:
+        'Custom blocks':
+          - 'block_content:ee5b0381-81a1-44b3-bb72-ab1575198cc4'
+          - 'block_content:b9bc4463-a1c9-4d4b-9855-207e3fa3b098'
+          - 'block_content:66ccb7c8-1a35-4edf-b284-f499abd55cb5'
+        'Lists (Views)':
+          - 'views_block:hero_banner-block_1'
+          - 'views_block:content_moderation_dashboard_in_review-block_2'
+          - 'views_block:content_moderation_dashboard_in_review-block_1'
+          - 'views_block:content_moderation_dashboard_in_review-block_3'
+          - 'views_block:moderation_dashboard_recent_changes-block_1'
+          - 'views_block:moderation_dashboard_recent_changes-block_2'
+          - 'views_block:moderation_dashboard_recently_created-block_2'
+          - 'views_block:moderation_dashboard_recently_created-block_1'
+          - 'views_block:content_recent-block_1'
+          - 'views_block:who_s_online-who_s_online_block'
+      whitelisted_blocks:
+        'Content fields':
+          - 'field_block:node:landing_page:title'
+      restricted_categories:
+        - 'Chaos Tools'
+        - Devel
+        - Forms
+        - Help
+        - Menus
+        - 'Moderation Dashboard'
+        - System
+        - User
+        - core
+    entity_view_mode_restriction_by_region:
+      allowed_layouts:
+        - 'bootstrap_layout_builder:blb_col_1'
+        - 'bootstrap_layout_builder:blb_col_2'
+        - 'bootstrap_layout_builder:blb_col_3'
+        - 'bootstrap_layout_builder:blb_col_4'
+      whitelisted_blocks:
+        'bootstrap_layout_builder:blb_col_1':
+          all_regions:
+            'Future Force':
+              - 'views_block:future_force-block_2'
+id: node.landing_page.default
+targetEntityType: node
+bundle: landing_page
+mode: default
+content:
+  body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  field_components:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_full_bleed_bottom:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_group:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_hero_image:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_hero_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_metatags:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_search_api_best_bets:
+    type: search_api_best_bets_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_search_api_exclude_entity:
+    type: search_api_exclude_entity_formatter
+    label: above
+    settings:
+      format: yes-no
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_tags:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  layout_builder__layout: true
+  published_at: true
+  search_api_excerpt: true

@@ -1,0 +1,31 @@
+uuid: 3ff73736-cbcf-462b-a9b9-cf73b18bb54b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - filter.format.full_html
+    - paragraphs.paragraphs_type.text_field
+  module:
+    - linkchecker
+    - text
+third_party_settings:
+  linkchecker:
+    scan: true
+    extractor: html_link_extractor
+_core:
+  default_config_hash: 84Ggqu8gwH27l1Ey3XqX-ePQLmmUVkm4Bu5gaq_VV0c
+id: paragraph.text_field.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: text_field
+label: Text
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

@@ -1,0 +1,10 @@
+uuid: ad6af513-f2e6-41da-a830-6339e6456061
+langcode: en
+status: true
+dependencies: {  }
+id: info_group
+label: 'Info Group'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

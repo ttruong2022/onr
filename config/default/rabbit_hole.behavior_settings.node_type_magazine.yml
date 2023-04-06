@@ -1,0 +1,14 @@
+uuid: 1060a5ec-a24f-43c3-abdf-c44a743fc036
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.magazine
+id: node_type_magazine
+entity_type_id: node_type
+entity_id: magazine
+action: page_redirect
+allow_override: 1
+redirect: /media-center/futureforce
+redirect_code: 301
+redirect_fallback_action: access_denied

@@ -1,0 +1,14 @@
+@import '../../01-core/variables';
+
+.layout__region {
+  .block--type-basic {
+    &:nth-child(even) {
+      padding: 1rem 0;
+
+      h2 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}

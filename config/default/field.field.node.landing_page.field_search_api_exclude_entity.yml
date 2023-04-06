@@ -1,0 +1,23 @@
+uuid: 9c6025d7-3d9c-431c-af1d-c7846b4c11ea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_search_api_exclude_entity
+    - node.type.landing_page
+  module:
+    - search_api_exclude_entity
+id: node.landing_page.field_search_api_exclude_entity
+field_name: field_search_api_exclude_entity
+entity_type: node
+bundle: landing_page
+label: 'Search API Exclude Entity'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: false
+default_value_callback: ''
+settings: {  }
+field_type: search_api_exclude_entity

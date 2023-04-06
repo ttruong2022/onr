@@ -1,0 +1,10 @@
+uuid: cb19e912-bd3f-4b0d-8dc0-d6ac469797f8
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.ar_4x3
+label: 'AR: 4X3'
+targetEntityType: media
+cache: true

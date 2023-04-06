@@ -1,0 +1,29 @@
+uuid: 5d3fbd70-6365-4c8a-9c20-07fa8850c048
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_group
+    - node.type.landing_page
+    - taxonomy.vocabulary.groups
+id: node.landing_page.field_group
+field_name: field_group
+entity_type: node
+bundle: landing_page
+label: Group
+description: 'Select the "group" of users that can edit this piece of content.  Example users of group CSC can only edit content belonging to CSC.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      groups: groups
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

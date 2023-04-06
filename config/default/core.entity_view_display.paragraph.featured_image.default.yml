@@ -1,0 +1,44 @@
+uuid: f8c75270-cd8f-4ca2-a86a-48dcb093f138
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_image.field_button
+    - field.field.paragraph.featured_image.field_card_image
+    - field.field.paragraph.featured_image.field_card_title
+    - field.field.paragraph.featured_image.field_text
+    - paragraphs.paragraphs_type.featured_image
+  module:
+    - text
+id: paragraph.featured_image.default
+targetEntityType: paragraph
+bundle: featured_image
+mode: default
+content:
+  field_card_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_card_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_text:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_button: true
+  search_api_excerpt: true

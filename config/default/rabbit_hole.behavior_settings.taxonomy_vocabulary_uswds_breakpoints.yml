@@ -1,0 +1,14 @@
+uuid: 8da32d9a-b669-43f6-8d25-72bfef07d061
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.uswds_breakpoints
+id: taxonomy_vocabulary_uswds_breakpoints
+entity_type_id: taxonomy_vocabulary
+entity_id: uswds_breakpoints
+action: page_redirect
+allow_override: 1
+redirect: /
+redirect_code: 301
+redirect_fallback_action: access_denied

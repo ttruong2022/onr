@@ -1,0 +1,59 @@
+uuid: 6facee0d-096a-4bc6-b5b0-873b5969aca2
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.block
+    - field.field.node.magazine.body
+    - field.field.node.magazine.field_featured_image
+    - field.field.node.magazine.field_file_single
+    - field.field.node.magazine.field_group
+    - field.field.node.magazine.field_magazine_type
+    - field.field.node.magazine.field_metatags
+    - field.field.node.magazine.field_search_api_best_bets
+    - field.field.node.magazine.field_search_api_exclude_entity
+    - field.field.node.magazine.field_tags
+    - field.field.node.magazine.field_year
+    - node.type.magazine
+  module:
+    - layout_builder
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.magazine.block
+targetEntityType: node
+bundle: magazine
+mode: block
+content:
+  field_featured_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_file_single:
+    type: entity_reference_entity_id
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  body: true
+  content_moderation_control: true
+  field_group: true
+  field_magazine_type: true
+  field_metatags: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  field_year: true
+  langcode: true
+  links: true
+  published_at: true
+  search_api_excerpt: true

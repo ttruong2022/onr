@@ -1,0 +1,10 @@
+uuid: 56529c8a-ad0c-417c-a909-41fab968da4c
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.natural_height
+label: 'Natural Height'
+targetEntityType: media
+cache: true

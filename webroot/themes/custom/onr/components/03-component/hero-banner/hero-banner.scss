@@ -1,0 +1,62 @@
+@import '../../01-core/variables';
+
+%placeholder-hero-header {
+  color: $white;
+  font-family: $header-font;
+  font-weight: normal;
+
+  @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+    font-size: $h1;
+  }
+}
+
+.usa-hero {
+  min-height: 250px;
+  font-family: $body-font;
+
+  @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+    padding-top: 4rem;
+    min-height: 425px;
+  }
+
+  .usa-hero__title {
+    text-align: center;
+
+    h1 {
+      @extend %placeholder-hero-header;
+      margin: 2rem 0;
+    }
+  }
+
+  .usa-hero__callout {
+    background: transparent radial-gradient(closest-side at 50% 50%, rgba(1, 2, 8, 1) 0%, rgba(1, 2, 8, 0.7) 100%) 0 0 no-repeat padding-box;
+    max-width: 40rem;
+
+    p {
+      @media screen and (max-width: $uswds-tablet-lg-breakpoint) {
+        text-align: center;
+      }
+    }
+
+    
+
+    .usa-hero__heading {
+      @extend %placeholder-hero-header;
+    }
+
+    //SASS parent selector hack
+    [class*=grid-col] {
+      $root: &; //Set variable $root to be end target
+
+      .valign-center { //Child selector which indicates if we need to target parent element
+        @at-root { //Def necessary, as parent doesn't exist within child or else this would be much easier
+          #{$root} { //target parent with styles using variable $root
+            display: flex; 
+            align-items: center;
+          } 
+        }
+      }
+    }
+    //End SASS parent selector hack
+  }
+}

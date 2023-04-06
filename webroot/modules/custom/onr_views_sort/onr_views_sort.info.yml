@@ -1,0 +1,7 @@
+name: 'ONR Views Custom Sorting'
+type: module
+description: 'Custom code for ONR for sorting views'
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Custom
+configure: onr_views_sort.settings_form

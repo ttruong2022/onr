@@ -1,0 +1,8 @@
+uuid: f60f6170-3110-4d94-9749-ce997da361b1
+langcode: en
+status: true
+dependencies: {  }
+name: 'Person Roles'
+vid: person_group
+description: 'Use tags to group people into categories.'
+weight: 0

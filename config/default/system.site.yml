@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: yTxtFqBHnEWxQswuWvkjE8mKw2t8oKuCL1q8KnfHuGE
+langcode: en
+uuid: 9f93ce86-37fc-47eb-801c-5a181ffa73b1
+name: 'Office of Naval Research'
+mail: webmaster@onr-research.com
+slogan: ''
+page:
+  403: ''
+  404: /search404
+  front: /node/1291
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: en
+mail_notification: ''

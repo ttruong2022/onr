@@ -1,0 +1,113 @@
+uuid: 0b402d22-0cee-4b7a-976f-32b43757db5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.full_html
+  module:
+    - ckeditor
+_core:
+  default_config_hash: 967ijj7p6i7rwrYl7r08WQFeCY_c23YAh0h8u-w_CXM
+format: full_html
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Italic
+            - Underline
+            - JustifyLeft
+            - JustifyCenter
+            - JustifyRight
+            - Superscript
+            - Subscript
+            - Strike
+            - '-'
+            - RemoveFormat
+            - HorizontalRule
+            - Blockquote
+        -
+          name: Linking
+          items:
+            - DrupalLink
+            - DrupalUnlink
+            - Anchor
+        -
+          name: Lists
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Media
+          items:
+            - DrupalMediaLibrary
+        -
+          name: 'Block Formatting'
+          items:
+            - CreateDiv
+            - Format
+        -
+          name: Tools
+          items:
+            - Maximize
+            - ShowBlocks
+            - Source
+            - Iframe
+            - Styles
+        -
+          name: USWDS
+          items:
+            - Templates
+            - Table
+            - uswds_grid
+  plugins:
+    drupallink:
+      linkit_enabled: true
+      linkit_profile: default
+    language:
+      language_list: un
+    stylescombo:
+      styles: "ul.arrow-list|Arrow List\r\nul.horizontal-list|Horizontal List\r\nul.three-col-list|3 Column List\r\nul.three-col-list.arrow-list|3 Column Arrow List\r\nul.two-col-list|2 Column List\r\nul.two-col-list.arrow-list|2 Column Arrow List\r\na.usa-button|USWDS Button\r\na.usa-button.transparent|Transparent USWDS Button\r\ndiv.box|Blue Box\r\ndiv.box.yellow-box|Yellow Box\r\nh2.inline-header|Inline H2\r\nh3.inline-header|Inline H3\r\nh4.inline-header|Inline H4\r\nh5.inline-header|Inline H5\r\nh6.inline-header|Inline H6"
+    templates:
+      template_path: ''
+      replace_content: 0
+    uswds_grid:
+      available_columns:
+        2: '2'
+        3: '3'
+        4: '4'
+        1: 0
+        5: 0
+        6: 0
+        7: 0
+        8: 0
+        9: 0
+        10: 0
+        11: 0
+        12: 0
+      available_breakpoints:
+        mobile: mobile
+        tablet: tablet
+        desktop: desktop
+        card: 0
+        card-lg: 0
+        mobile-lg: 0
+        tablet-lg: 0
+        desktop-lg: 0
+        widescreen: 0
+    uswds_overrides:
+      overrides_lists: 0
+    uswds_table:
+      override_table: 1
+image_upload:
+  status: true
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

@@ -1,0 +1,114 @@
+uuid: e4259148-cfc1-4fe9-8eb9-c88a5614f150
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.audio
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+    - media.type.video
+    - node.type.article
+    - node.type.landing_page
+    - node.type.location
+    - node.type.magazine
+    - node.type.opportunities_item
+    - node.type.page
+    - node.type.person
+    - node.type.timeline_item
+  module:
+    - content_moderation
+id: editorial
+label: Editorial
+type: content_moderation
+type_settings:
+  states:
+    archived_published_:
+      label: 'Archived (Published)'
+      weight: 0
+      published: true
+      default_revision: true
+    draft:
+      label: Draft
+      weight: -3
+      published: false
+      default_revision: false
+    published:
+      label: Published
+      weight: -1
+      published: true
+      default_revision: true
+    ready_to_review:
+      label: 'Ready to Review'
+      weight: -2
+      published: false
+      default_revision: true
+    unpublished:
+      label: Unpublished
+      weight: 1
+      published: false
+      default_revision: true
+  transitions:
+    archived_published_:
+      label: 'Archived (Published)'
+      from:
+        - published
+        - unpublished
+      to: archived_published_
+      weight: 4
+    create_new_draft:
+      label: 'Create New Draft'
+      from:
+        - archived_published_
+        - draft
+        - published
+        - ready_to_review
+      to: draft
+      weight: 0
+    master_publish:
+      label: 'Master: Publish'
+      from:
+        - archived_published_
+        - draft
+        - unpublished
+      to: published
+      weight: 5
+    publish:
+      label: Publish
+      from:
+        - published
+        - ready_to_review
+      to: published
+      weight: 1
+    ready_to_review:
+      label: 'Ready to Review'
+      from:
+        - draft
+        - ready_to_review
+      to: ready_to_review
+      weight: 2
+    unpublished:
+      label: Unpublished
+      from:
+        - archived_published_
+        - published
+        - unpublished
+      to: unpublished
+      weight: 3
+  entity_types:
+    media:
+      - audio
+      - document
+      - image
+      - remote_video
+      - video
+    node:
+      - article
+      - landing_page
+      - location
+      - magazine
+      - opportunities_item
+      - page
+      - person
+      - timeline_item
+  default_moderation_state: draft

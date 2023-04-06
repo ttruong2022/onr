@@ -1,0 +1,7 @@
+login:
+  version: 1.0.0
+  css:
+    theme:
+      css/user-login.css: { }
+  dependencies:
+    - core/drupal

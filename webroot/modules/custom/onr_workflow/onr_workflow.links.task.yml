@@ -1,0 +1,5 @@
+onr_workflow.media_workflow:
+  title: 'Moderated Media'
+  parent_id: entity.media.collection
+  route_name: view.moderated_media.page_1
+  weight: 100

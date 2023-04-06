@@ -1,0 +1,74 @@
+uuid: 03cace36-af0e-4ab9-b77f-5feb9e56d3d9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.audio.field_group
+    - field.field.media.document.field_group
+    - field.field.media.image.field_group
+    - field.field.media.remote_video.field_group
+    - field.field.media.video.field_group
+    - field.field.node.article.field_group
+    - field.field.node.landing_page.field_group
+    - field.field.node.location.field_group
+    - field.field.node.magazine.field_group
+    - field.field.node.opportunities_item.field_group
+    - field.field.node.page.field_group
+    - field.field.node.person.field_group
+    - taxonomy.vocabulary.groups
+id: editorial
+plural_label: Editiorial
+label: Editorial
+scheme: taxonomy
+scheme_settings:
+  vocabularies:
+    - groups
+  fields:
+    -
+      entity_type: media
+      bundle: video
+      field: field_group
+    -
+      entity_type: media
+      bundle: remote_video
+      field: field_group
+    -
+      entity_type: media
+      bundle: image
+      field: field_group
+    -
+      entity_type: media
+      bundle: document
+      field: field_group
+    -
+      entity_type: media
+      bundle: audio
+      field: field_group
+    -
+      entity_type: node
+      bundle: person
+      field: field_group
+    -
+      entity_type: node
+      bundle: page
+      field: field_group
+    -
+      entity_type: node
+      bundle: opportunities_item
+      field: field_group
+    -
+      entity_type: node
+      bundle: landing_page
+      field: field_group
+    -
+      entity_type: node
+      bundle: article
+      field: field_group
+    -
+      entity_type: node
+      bundle: location
+      field: field_group
+    -
+      entity_type: node
+      bundle: magazine
+      field: field_group

@@ -1,0 +1,4 @@
+adding:
+  region: us-gov-west-1
+removing:
+  region: us-east-1

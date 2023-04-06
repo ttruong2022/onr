@@ -1,0 +1,46 @@
+uuid: 09c967f4-f333-4649-9bf3-6ad6044586cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.rss
+    - field.field.node.article.body
+    - field.field.node.article.field_article_author
+    - field.field.node.article.field_featured_image
+    - field.field.node.article.field_group
+    - field.field.node.article.field_metatags
+    - field.field.node.article.field_search_api_best_bets
+    - field.field.node.article.field_search_api_exclude_entity
+    - field.field.node.article.field_tags
+    - field.field.node.article.field_year
+    - node.type.article
+  module:
+    - user
+_core:
+  default_config_hash: 2rIr6K5Q0UQ9khg0zE_CK-PtJH76UL-BDDZcZnZzwCc
+id: node.article.rss
+targetEntityType: node
+bundle: article
+mode: rss
+content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  body: true
+  field_article_author: true
+  field_featured_image: true
+  field_group: true
+  field_metatags: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  field_year: true
+  langcode: true
+  published_at: true
+  search_api_excerpt: true

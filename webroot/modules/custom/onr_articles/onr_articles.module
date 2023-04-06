@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+use Drupal\pathauto\PathautoState;
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for node entities.
+ *
+ * @throws InvalidArgumentException
+ */
+function onr_articles_node_presave(NodeInterface $node) {
+  if ($node->getType() === 'article') {
+    $tags = $node->get('field_tags');
+    foreach ($tags as $tag) {
+      $term = Term::load($tag->getValue()['target_id']);
+      if ($term) {
+        $name = $term->get('name')->value;
+        if (strtolower($name) === 'onr global') {
+          $node->set('path', [
+            'alias' => '/organization/onr-global/news-releases/' . $node->getTitle(),
+            'pathauto' => PathautoState::SKIP,
+          ]);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function onr_articles_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  if (str_starts_with($form['#id'], 'views-exposed-form-press-releases-page')) {
+
+    $options = ['' => 'All'];
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('years');
+    foreach ($terms as $term) {
+      $options[$term->name] = $term->name;
+    }
+
+    if (isset($form['year'])) {
+      $form['year']['#type'] = 'select';
+      $form['year']['#options'] = $options;
+      $form['year']['#size'] = 1;
+    }
+  }
+}

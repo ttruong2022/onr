@@ -1,0 +1,120 @@
+name: onr
+recipe: drupal9
+config:
+  webroot: webroot
+  php: '8.0'
+  via: nginx
+  xdebug: true
+  config:
+    php: lando-src/php.ini
+services:
+  appserver:
+    overrides:
+      ports:
+        - "0.0.0.0::80"
+      environment:
+        PHP_IDE_CONFIG: "serverName=onr"
+        LANDO_HOST_IP: "host.docker.internal"
+        DRUSH_OPTIONS_ROOT: '/app/webroot'
+        DRUSH_OPTIONS_URI: 'http://onr.lndo.site'
+        PHP_SENDMAIL_PATH: '/usr/sbin/sendmail -S mailhog:1025'
+    build:
+      - /usr/local/bin/composer global require --dev drupal/coder
+      - COMPOSER_PROCESS_TIMEOUT=1200 /usr/local/bin/composer install --working-dir=/app
+    build_as_root:
+      - apt-get update
+      - curl -sL https://deb.nodesource.com/setup_17.x | bash -
+      - apt-get install -y nodejs python3-pip clamav clamav-daemon rsyslog
+      - npm install -g npm@latest
+      - npm install gulp-cli gulp -g
+      - wget https://robo.li/robo.phar
+      - chmod +x robo.phar && mv robo.phar /usr/bin/robo
+      - pip3 install git-remote-codecommit
+      - echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
+      - freshclam
+      - update-rc.d clamav-daemon enable
+    run_as_root:
+      - service clamav-daemon start
+      - service rsyslog start
+      - chmod 777 /app/lando-src/config/rsyslog.conf
+      - cat /app/lando-src/config/rsyslog.conf >> /etc/rsyslog.conf
+  database:
+    type: mariadb
+    portforward: 33306
+  redis:
+    type: redis
+    portforward: true
+  search:
+    type: solr:8.11
+    portforward: true
+    core: onr
+    config:
+      dir: lando-src/solr-primary
+    build_as_root:
+      - mkdir -p /opt/solr/server/solr/mycores/onr/conf
+      - chown -R solr:solr /opt/solr/server/solr/mycores
+  cypress:
+    type: node:custom
+    app_mount: false
+    overrides:
+      environment:
+        CYPRESS_DRUPAL_USER: admin
+        CYPRESS_DRUPAL_PASS: admin
+      image: 'mobomo/cypress'
+      volumes:
+        - ./tests/integration:/app/cypress/integration/custom
+        - ./tests/cypress.local.json:/app/cypress.json
+        - ./tests/videos:/app/cypress/videos
+  mailhog:
+    type: mailhog
+    hogfrom:
+      - appserver
+
+proxy:
+  mailhog:
+    - mail.lndo.site
+
+tooling:
+  logs-drupal:
+    service: appserver
+    description: Displays and tails Drupal logs using syslog module (because drush wd-show no longer supports tail)
+    cmd:
+      - /app/lando-src/scripts/logs-drupal.sh
+    user: root
+  robo:
+    service: appserver
+    description: Runs <robo> commmands
+    cmd: robo
+  npm:
+    service: appserver
+  node:
+    service: appserver
+  gulp:
+    service: appserver
+  xdebug-on:
+    service: appserver
+    description: Enable xdebug
+    cmd: "docker-php-ext-enable xdebug &&  pkill -o -USR2 php-fpm"
+    user: root
+  xdebug-off:
+    service: appserver
+    description: Disable xdebug
+    cmd: "rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini &&  pkill -o -USR2 php-fpm"
+    user: root
+  test:
+    service: appserver
+    cmd: "php /app/vendor/bin/phpunit -c /app/phpunit.xml"
+  test-full:
+    service: appserver
+    cmd: "php /app/vendor/bin/phpunit -c /app/webroot/core/phpunit.xml.dist"
+  blt:
+    service: appserver
+    cmd: /app/vendor/bin/blt
+  cypress:
+    service: cypress
+    cmd: export DISPLAY="host.docker.internal:0" && cypress open --env TAGS='@e2e-test'
+env_file:
+  - .lando.env
+  - .secrets.env
+excludes:
+  - vendor

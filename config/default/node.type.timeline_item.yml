@@ -1,0 +1,17 @@
+uuid: 7f6153d2-0837-4821-8045-435d3431b593
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Timeline Item'
+type: timeline_item
+description: 'Item to appear on the timeline'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

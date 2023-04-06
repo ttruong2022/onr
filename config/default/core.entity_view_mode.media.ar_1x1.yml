@@ -1,0 +1,10 @@
+uuid: e1480eb8-ab5c-470f-8965-7896f32e80f7
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.ar_1x1
+label: 'AR: 1X1'
+targetEntityType: media
+cache: true

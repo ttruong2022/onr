@@ -1,0 +1,11 @@
+services:
+  onr_security.subscriber:
+    class: Drupal\onr_security\EventSubscriber\LogoutEventSubscriber
+    arguments: ['@messenger', '@request_stack']
+    tags:
+      - { name: event_subscriber }
+  
+  onr_security.route_subscriber:
+    class: Drupal\onr_security\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

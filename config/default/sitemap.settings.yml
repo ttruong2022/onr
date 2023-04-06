@@ -1,0 +1,18 @@
+_core:
+  default_config_hash: xu0yG13sSQJcXrOJJqsn44W_hUWAIFHVlphrzxT2ycU
+page_title: Sitemap
+message:
+  value: ''
+  format: plain_text
+plugins:
+  frontpage:
+    enabled: false
+  'menu:main':
+    enabled: true
+    weight: 0
+    settings:
+      title: 'Office of Naval Research'
+      show_disabled: true
+    id: 'menu:main'
+    provider: sitemap
+include_css: true

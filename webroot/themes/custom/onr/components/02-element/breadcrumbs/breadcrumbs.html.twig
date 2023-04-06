@@ -1,0 +1,24 @@
+{% if page.breadcrumb|render|striptags|trim|length > 0 or page.highlighted|render|striptags|trim|length > 0 or page.help|render|striptags|trim|length > 0 %}
+	<div class="grid-container breadcrumb-region">
+		{% block breadcrumb %}
+			<div class="grid-row">
+				{{ page.breadcrumb }}
+			</div>
+		{% endblock %}
+
+		{% block highlighted %}
+			<div class="">
+				{{ page.highlighted }}
+			</div>
+		{% endblock %}
+
+		{# Help #}
+		{% if page.help %}
+			{% block help %}
+				<div class="grid-row">
+					{{ page.help }}
+				</div>
+			{% endblock %}
+		{% endif %}
+	</div>
+{% endif %}

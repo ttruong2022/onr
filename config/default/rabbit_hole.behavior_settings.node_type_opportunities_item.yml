@@ -1,0 +1,14 @@
+uuid: 5cb87fd8-8351-4dcd-982e-2384b6137674
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.opportunities_item
+id: node_type_opportunities_item
+entity_type_id: node_type
+entity_id: opportunities_item
+action: display_page
+allow_override: 1
+redirect: ''
+redirect_code: 301
+redirect_fallback_action: access_denied

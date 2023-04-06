@@ -1,0 +1,21 @@
+uuid: 0dbf780a-1362-454e-807d-33f8d4423397
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_override_mad_module
+    - media.type.remote_video
+id: media.remote_video.field_override_mad_module
+field_name: field_override_mad_module
+entity_type: media
+bundle: remote_video
+label: 'Override Media Alias Display'
+description: 'Check to have this media entity override the Media Alias Display module.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

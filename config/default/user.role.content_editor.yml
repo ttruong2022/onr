@@ -1,0 +1,113 @@
+uuid: 0351d79e-d7ac-4fa6-a712-2fb4aa52d1e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_display.node.page.default
+    - media.type.audio
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+    - media.type.video
+    - node.type.landing_page
+    - node.type.location
+    - node.type.magazine
+    - node.type.opportunities_item
+    - node.type.page
+    - node.type.person
+    - workflows.workflow.editorial
+  module:
+    - block_content_permissions
+    - content_moderation
+    - editoria11y
+    - layout_builder
+    - media
+    - moderation_dashboard
+    - node
+    - paragraphs
+    - publication_date
+    - quickedit
+    - rabbit_hole
+    - system
+    - toolbar
+    - tour
+id: content_editor
+label: 'Content Editor'
+weight: -8
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access content'
+  - 'access in-place editing'
+  - 'access media overview'
+  - 'access site in maintenance mode'
+  - 'access toolbar'
+  - 'access tour'
+  - 'access user profiles'
+  - 'change own username'
+  - 'configure editable page node layout overrides'
+  - 'create and edit custom blocks'
+  - 'create audio media'
+  - 'create basic block content'
+  - 'create contact_block block content'
+  - 'create document media'
+  - 'create featured_image block content'
+  - 'create image media'
+  - 'create landing_page content'
+  - 'create media'
+  - 'create opportunities_item content'
+  - 'create page content'
+  - 'create person content'
+  - 'create remote_video media'
+  - 'create video media'
+  - 'delete any featured_image block content'
+  - 'edit any audio media'
+  - 'edit any document media'
+  - 'edit any image media'
+  - 'edit any landing_page content'
+  - 'edit any opportunities_item content'
+  - 'edit any page content'
+  - 'edit any person content'
+  - 'edit any remote_video media'
+  - 'edit any video media'
+  - 'edit own audio media'
+  - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own landing_page content'
+  - 'edit own magazine content'
+  - 'edit own opportunities_item content'
+  - 'edit own page content'
+  - 'edit own person content'
+  - 'edit own remote_video media'
+  - 'edit own video media'
+  - 'rabbit hole bypass node'
+  - 'rabbit hole bypass taxonomy_term'
+  - 'revert landing_page revisions'
+  - 'revert opportunities_item revisions'
+  - 'revert page revisions'
+  - 'revert person revisions'
+  - 'set any published on date'
+  - 'set landing_page published on date'
+  - 'set opportunities_item published on date'
+  - 'set page published on date'
+  - 'set person published on date'
+  - 'update any basic block content'
+  - 'update any featured_image block content'
+  - 'update any media'
+  - 'update media'
+  - 'use editorial transition create_new_draft'
+  - 'use editorial transition ready_to_review'
+  - 'use moderation dashboard'
+  - 'view all media revisions'
+  - 'view any unpublished content'
+  - 'view editoria11y checker'
+  - 'view landing_page revisions'
+  - 'view latest version'
+  - 'view location revisions'
+  - 'view opportunities_item revisions'
+  - 'view own unpublished content'
+  - 'view own unpublished media'
+  - 'view page revisions'
+  - 'view person revisions'
+  - 'view the administration theme'
+  - 'view unpublished paragraphs'

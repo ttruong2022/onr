@@ -1,0 +1,408 @@
+Description: >
+  This template deploys an RDS 
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+  
+  Subnets:
+    Description: Choose which subnets this RDS should be deployed to
+    Type: List<AWS::EC2::Subnet::Id>
+
+  InstanceClass:
+    Default: db.r5.large
+    Description: Database Instance Class. db.r6g instance classes are supported for Aurora PostgreSQL 12.4 and higher, 11.9 and higher. db.t3.medium instance class is supported for Aurora PostgreSQL 10.7 or later. db.t3.large instance class is supported for Aurora PostgreSQL 11.6 and higher, 10.11 and higher.
+    Type: String
+    AllowedValues:
+    # https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
+    - db.t3.small
+    - db.t3.medium
+    - db.t3.large
+    - db.t4g.micro
+    - db.t4g.small
+    - db.t4g.medium
+    - db.t4g.large
+    - db.r5.large
+    - db.r5.xlarge
+    - db.r5.2xlarge
+    - db.r5.4xlarge
+    - db.r5.8xlarge
+    - db.r5.12xlarge
+    - db.r5.16xlarge
+    - db.r5.24xlarge
+    - db.r6g.large
+    - db.r6g.xlarge
+    - db.r6g.2xlarge
+    - db.r6g.4xlarge
+    - db.r6g.8xlarge
+    - db.r6g.12xlarge
+    - db.r6g.16xlarge
+    
+  DBMasterUserName:
+    Type: String
+    Default: admin
+    Description: Database admin user name for DB
+  
+  DBUserName:
+    Type: String
+    Default: drupal
+    Description: Database user name for DB
+  
+  DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Database security group
+
+  pyMySQLLambdaLayer:
+    Type: String
+    Description: "The pyMySQL python3 package layer"
+
+Resources:
+
+  DBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: !Ref 'AWS::StackName'
+      SubnetIds: !Ref Subnets
+
+  DBParameterGroup:
+    Type: "AWS::RDS::DBParameterGroup"
+    Properties:
+      Description: "DB Parameter Group for Drupal"
+      Family: mariadb10.5
+      Parameters:
+        max_allowed_packet: 67108864
+        slow_query_log: 1
+        long_query_time: 2
+        interactive_timeout: 300
+        wait_timeout: 90
+        max_connections: 205
+
+  DBEncryptionKey:
+    Type: AWS::KMS::Key
+    Properties:
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "Allow access through RDS for all principals in the account that are authorized to use RDS"
+            Effect: "Allow"
+            Principal:
+              AWS: "*"
+            Action:
+              - "kms:Encrypt"
+              - "kms:Decrypt"
+              - "kms:ReEncrypt*"
+              - "kms:GenerateDataKey*"
+              - "kms:CreateGrant"
+              - "kms:ListGrants"
+              - "kms:DescribeKey"
+            Resource: "*"
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub rds.${AWS::Region}.amazonaws.com
+                kms:CallerAccount: !Sub ${AWS::AccountId}
+          - Sid: "Allow direct access to key metadata to the account"
+            Effect: "Allow"
+            Principal:
+              AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+            Action:
+              - "kms:*"
+            Resource: "*"
+
+  DBSecretKey:
+    Type: AWS::KMS::Key
+    Properties:
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "Allow access through AWS Secrets Manager for all principals in the account that are authorized to use AWS Secrets Manager"
+            Effect: "Allow"
+            Principal:
+              AWS: "*"
+            Action:
+              - "kms:Decrypt"
+              - "kms:ReEncrypt*"
+              - "kms:GenerateDataKey*"
+              - "kms:CreateGrant"
+              - "kms:DescribeKey"
+            Resource: "*"
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub secretsmanager.${AWS::Region}.amazonaws.com
+                kms:CallerAccount: !Sub ${AWS::AccountId}
+          - Sid: "Allow direct access to key metadata to the account"
+            Effect: "Allow"
+            Principal:
+              AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+            Action:
+              - "kms:*"
+            Resource: "*"
+
+  DBSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      KmsKeyId: !Ref DBSecretKey
+      Description: The RDS master credentials
+      GenerateSecretString:
+        SecretStringTemplate: !Join [ '', [ '{"username": "', !Ref DBMasterUserName, '"}' ] ]
+        GenerateStringKey: 'password'
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\'
+        
+  # DBCluster:
+  #   Type: "AWS::RDS::DBCluster"
+  #   DependsOn: RDSSecurityGroup
+  #   Properties:
+  #     MasterUsername: !Ref DBMasterUserName
+  #     MasterUserPassword: !Join [ '', [ '{{resolve:secretsmanager:', !Ref DBSecret, ':SecretString:password}}' ] ]
+  #     Engine: "MySQL"
+  #     EngineVersion: "8.0.20"
+  #     DBSubnetGroupName: !Ref DBSubnetGroup
+  #     VpcSecurityGroupIds:
+  #       - !Ref ClusterSecurityGroup
+
+  DBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      # DBClusterIdentifier: !Ref DatabaseCluster
+      StorageType: gp2
+      AllocatedStorage: 20
+      StorageEncrypted: true
+      KmsKeyId: !Ref DBEncryptionKey
+      DBInstanceClass: !Ref InstanceClass
+      DBInstanceIdentifier: !Sub ${EnvironmentName}-db
+      DBName: drupal
+      MasterUsername: !Ref DBMasterUserName
+      MasterUserPassword: !Join [ '', [ '{{resolve:secretsmanager:', !Ref DBSecret, ':SecretString:password}}' ] ]
+      Engine: mariadb
+      EngineVersion: "10.5.12"
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DBParameterGroupName: !Ref DBParameterGroup
+      PubliclyAccessible: false
+      VPCSecurityGroups:
+        - !Ref DBSecurityGroup
+
+  CreateDrupalUserExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action:
+                  - "secretsmanager:GetSecretValue"
+                Resource: 
+                  - !Ref DBSecret
+                  - !Ref DBUserSecret
+
+  CreateDrupalUserLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    DeletionPolicy: Delete
+    Properties:
+      Code:
+        ZipFile: |
+          import sys
+          import pymysql
+          import boto3
+          import botocore
+          import json
+          import random
+          import time
+          import os
+          import cfnresponse # this needs to be imported for replying to CloudFormation
+          from botocore.exceptions import ClientError
+          
+          # rds settings
+          rds_host = os.environ['RDS_HOST']
+          name = os.environ['RDS_USERNAME']
+          
+          master_secret_name = os.environ['MASTER_SECRET']
+          user_secret_name = os.environ['USER_SECRET']
+          
+          my_session = boto3.session.Session()
+          region_name = my_session.region_name
+          conn = None
+          
+          # Get the service resource.
+          lambdaClient = boto3.client('lambda')
+          
+          def getPassword(secret_name):
+              print("In getPassword")
+              
+              # Create a Secrets Manager client
+              session = boto3.session.Session()
+              client = session.client(
+                service_name='secretsmanager',
+                region_name=region_name
+              )
+              
+              password = "None"
+              
+              # See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+              # We rethrow the exception by default.
+              
+              try:
+                get_secret_value_response = client.get_secret_value(
+                    SecretId=secret_name
+                )
+              except ClientError as e:
+                print(e)
+                if e.response['Error']['Code'] == 'DecryptionFailureException':
+                    # Secrets Manager can't decrypt the protected secret text using the provided KMS key.
+                    # Deal with the exception here, and/or rethrow at your discretion.
+                    raise e
+                elif e.response['Error']['Code'] == 'InternalServiceErrorException':
+                    # An error occurred on the server side.
+                    # Deal with the exception here, and/or rethrow at your discretion.
+                    raise e
+                elif e.response['Error']['Code'] == 'InvalidParameterException':
+                    # You provided an invalid value for a parameter.
+                    # Deal with the exception here, and/or rethrow at your discretion.
+                    raise e
+                elif e.response['Error']['Code'] == 'InvalidRequestException':
+                    # You provided a parameter value that is not valid for the current state of the resource.
+                    # Deal with the exception here, and/or rethrow at your discretion.
+                    raise e
+                elif e.response['Error']['Code'] == 'ResourceNotFoundException':
+                    # We can't find the resource that you asked for.
+                    # Deal with the exception here, and/or rethrow at your discretion.
+                    raise e
+              else:
+                # Decrypts secret using the associated KMS CMK.
+                # Depending on whether the secret is a string or binary, one of these fields will be populated.
+                if 'SecretString' in get_secret_value_response:
+                    secret = get_secret_value_response['SecretString']
+                    j = json.loads(secret)
+                    password = j['password']
+                else:
+                    decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+                    # print("password binary:" + decoded_binary_secret)
+                    password = decoded_binary_secret.password
+              
+              return password
+          
+          def openConnection():
+              print("In openConnection")
+              global conn
+              
+              password = getPassword(master_secret_name)
+              
+              try:
+                  if(conn is None):
+                    conn = pymysql.connect(
+                        host=rds_host, user=name, password=password, database="mysql", connect_timeout=5)
+                  elif (not conn.open):
+                    # print(conn.open)
+                    conn = pymysql.connect(
+                        host=rds_host, user=name, password=password, database="mysql", connect_timeout=5)
+          
+              except Exception as e:
+                  print (e)
+                  print("ERROR: Unexpected error: Could not connect to MySql instance.")
+                  raise e
+          
+          
+          def handler(event, context):
+              print (event)
+              
+              if (event['RequestType']) == "Create":
+                  database = event['ResourceProperties']['Database']
+                  username = event['ResourceProperties']['Username']
+                  
+                  try:
+                      password = getPassword(user_secret_name)
+                      
+                      openConnection()
+                      with conn.cursor() as cur:
+                          cur.execute("SHOW DATABASES WHERE `database` = '" + database + "'")
+                          if cur.fetchone() is None:
+                              cur.execute("CREATE DATABASE " + database);
+                          cur.execute("SELECT * FROM mysql.user WHERE User = '" + username + "'")
+                          if cur.fetchone() is None:
+                              cur.execute("GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES ON " + database + ".* TO '" + username + "'@'%' IDENTIFIED BY '" + password + "'");
+                              cur.execute("ALTER USER '" + username + "'@'%' REQUIRE SSL");
+                  except Exception as e:
+                      # Error while opening connection or processing
+                      print(e)
+                      
+                      AccountRegionInfo=f'Occured in Account {context.invoked_function_arn.split(":")[4]} in region {context.invoked_function_arn.split(":")[3]}'
+                      FinalMsg=str(e) + ' ' + AccountRegionInfo
+                      
+                      responseData = {
+                          "Message": FinalMsg
+                      }
+                      
+                      cfnresponse.send(event, context, cfnresponse.FAILED, responseData)
+                      
+                      quit();
+              
+              responseData = {}
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+      Handler: index.handler
+      Layers:
+        - !Ref pyMySQLLambdaLayer
+      Environment:
+        Variables:
+          RDS_HOST: !GetAtt [DBInstance, Endpoint.Address]
+          RDS_USERNAME: !Ref DBMasterUserName
+          MASTER_SECRET: !Ref DBSecret
+          USER_SECRET: !Ref DBUserSecret
+      Role: !GetAtt CreateDrupalUserExecutionRole.Arn
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref DBSecurityGroup
+        SubnetIds: !Ref Subnets
+      Runtime: python3.6
+      MemorySize: 128
+      Timeout: 30
+
+  DBUserSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      KmsKeyId: !Ref DBSecretKey
+      Description: The RDS master credentials
+      GenerateSecretString:
+        SecretStringTemplate: !Join [ '', [ '{"username": "', !Ref DBUserName, '"}' ] ]
+        GenerateStringKey: 'password'
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\'
+  
+  # Will create the drupal database and the drupal user
+  CreateDrupalUserInvocation:
+    Type: Custom::CreateDrupalUser
+    Properties:
+      ServiceToken: !GetAtt CreateDrupalUserLambdaFunction.Arn
+      Database: drupal
+      Username: !Ref DBUserName
+
+Outputs:
+  DBEndpoint:
+    Description: "Database endpoint address"
+    Value: !GetAtt [DBInstance, Endpoint.Address]
+
+  DBUsername:
+    Description: DB Master Username
+    Value: !Join [ '', [ '{{resolve:secretsmanager:', !Ref DBUserSecret, ':SecretString:username}}' ] ]
+  DBPassword:
+    Description: DB Master Password
+    Value: !Join [ '', [ '{{resolve:secretsmanager:', !Ref DBUserSecret, ':SecretString:password}}' ] ]

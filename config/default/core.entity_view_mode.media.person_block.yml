@@ -1,0 +1,10 @@
+uuid: 7b0396d1-49ed-47e6-98ae-06d6c8ab04f9
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.person_block
+label: 'Person Block'
+targetEntityType: media
+cache: true

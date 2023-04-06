@@ -1,0 +1,162 @@
+#!/usr/bin/env node
+/**
+ * @fileOverview A Script to convert pa11y json to csv.
+ *
+ * Matches the `--reporter csv` format of pa11y with the inclusion of the url as the very first column.
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+var jsonFile = "";
+var csvFile = "";
+var standard = "";
+var noHeader = 0;
+
+function processData () {
+    
+    var summaryJson = "";
+    var summary = "";
+    var inputJson = "";
+    var input = "";
+
+    /// check for input file
+    try {
+      if (fs.existsSync(jsonFile)) {
+        inputJson = fs.readFileSync(jsonFile); 
+      } else {
+        console.log('Source file does not exist:',jsonFile);
+        return;  
+      }
+    } catch(err) {
+      console.log(err);
+      return;
+    }
+    
+    try {
+      input = JSON.parse(inputJson);
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+
+    /// check for a output file
+    try {
+      if (!fs.existsSync(csvFile)) {
+        fs.closeSync(fs.openSync(csvFile,'a+',0o777));
+      }
+    } catch(err) {
+      console.log(err);
+      return;
+    }
+
+    /// check for a summary file
+    var summary = {
+      overall: {total:0,passes:0,errors:0},
+      pages: {}
+    };
+    // var fileBase = path.parse(csvFile).name;
+    var summaryFile = path.resolve(__dirname, csvFile + '-summary.json');
+    try {
+      if (fs.existsSync(summaryFile)) {
+        summaryJson = fs.readFileSync(summaryFile);
+        if ( summaryJson && summaryJson != "" ) {
+          summary = JSON.parse(summaryJson);
+        } else {
+          try {
+            fs.writeFileSync(summaryFile, JSON.stringify(summary,null,2));
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    /// add current data to overall summary
+    if ( input.total ) {
+      summary.overall.total += parseInt(input.total);
+    }
+    if ( input.passes ) {
+      summary.overall.passes += parseInt(input.passes);
+    }
+    if ( input.errors ) {
+      summary.overall.errors += parseInt(input.errors);
+    }
+
+    const fields = ["runner","type","code","message","context","selector"];
+    if ( noHeader == "" || noHeader == "0" || noHeader == false || noHeader == "false" ) {
+      fs.appendFileSync(csvFile, "url,standard,"+ fields.join(','));
+    }
+    for ( var k in input.results ) {
+        var issues = input.results[k];
+        if ( issues.length == 0 ) {
+            var item = [k,standard,'','','','',''];
+            fs.appendFileSync(csvFile, "\n\"" + item.join("\",\"") + "\"");
+        } else {
+            if ( ! summary.pages.hasOwnProperty(k) ) {
+              summary.pages[k] = { errors:0, codes:{} };
+            }
+            for ( var i in issues ) {
+                var item = [k,standard];
+                var issue = issues[i];
+                try {
+                  if ( issue.code != "" ) {
+                    summary.pages[k].errors++;
+                    if ( ! summary.pages[k].codes.hasOwnProperty(issue.code) ) {
+                      summary.pages[k].codes[issue.code] = 0;
+                    }
+                    summary.pages[k].codes[issue.code]++;
+                  }
+                } catch (err) {
+                  console.log(err,k,issue.code,issue.message);
+                }
+                for ( var f in fields ) {
+                    if ( fields[f] in issue ) {
+                        var ff = issue[fields[f]] || "";
+                        item.push(ff.replace(/(\r\n|\n|\r)+/gm," ").replace('"','""'));
+                    } else {
+                        item.push("");
+                    }
+                }
+                fs.appendFileSync(csvFile, "\n\"" + item.join("\",\"") + "\"");
+            }
+        }
+    }
+
+    try {
+      fs.writeFileSync(summaryFile, JSON.stringify(summary,null,2));
+    } catch (err) {
+      console.log(err);
+    }
+}
+
+// ------------------------------------------------------------
+// Called with arguments. E.g.:
+// ./pa11yciJsonToCsv "jsonFile" "csvFile" "standards" "noHeader?"
+// ------------------------------------------------------------
+
+
+process.argv.slice(2).forEach((val, index) => {
+  switch (index) {
+    case 0:
+      // jsonFile = path.resolve(__dirname, 'results', val);
+      jsonFile = path.resolve(val);
+      break;
+    case 1:
+      csvFile = path.resolve(val);
+      break;
+    case 2:
+      standard = val;
+      break;
+    case 3:
+      noHeader = val;
+      break;
+  }
+});
+if ( !jsonFile || jsonFile == "" ) {
+  console.log('empty input file');
+  return;
+}
+processData();

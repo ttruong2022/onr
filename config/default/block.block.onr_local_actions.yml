@@ -1,0 +1,20 @@
+uuid: f80ffb19-983c-4be7-b8f8-3375ff715ace
+langcode: en
+status: true
+dependencies:
+  theme:
+    - onr
+_core:
+  default_config_hash: 5kcABbGhndgkz6v_n5Cg7CwavkGqidHMgaxy1K2XECM
+id: onr_local_actions
+theme: onr
+region: content
+weight: -7
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

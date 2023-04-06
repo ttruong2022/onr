@@ -1,0 +1,7 @@
+adding:
+  dependencies:
+    module:
+      - environment_indicator
+  permissions:
+    - 'access environment indicator'
+removing: {  }

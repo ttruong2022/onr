@@ -1,0 +1,52 @@
+uuid: bbb8fa16-42a0-4205-a736-4da44cf10dc1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.person.body
+    - field.field.node.person.field_group
+    - field.field.node.person.field_person_roles
+    - field.field.node.person.field_person_type
+    - field.field.node.person.field_photo
+    - field.field.node.person.field_search_api_best_bets
+    - field.field.node.person.field_search_api_exclude_entity
+    - field.field.node.person.field_tags
+    - node.type.person
+  module:
+    - text
+    - user
+id: node.person.teaser
+targetEntityType: node
+bundle: person
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_group: true
+  field_person_roles: true
+  field_person_type: true
+  field_photo: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  langcode: true
+  published_at: true
+  search_api_excerpt: true

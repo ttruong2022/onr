@@ -1,0 +1,29 @@
+uuid: 883b5e8f-d132-4a19-8d10-14591ac9ef95
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_group
+    - node.type.person
+    - taxonomy.vocabulary.groups
+id: node.person.field_group
+field_name: field_group
+entity_type: node
+bundle: person
+label: Group
+description: 'Select the "group" of users that can edit this piece of content.  Example users of group CSC can only edit content belonging to CSC.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      groups: groups
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

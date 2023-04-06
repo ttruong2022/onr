@@ -1,0 +1,47 @@
+@import '../../01-core/variables';
+
+.navbar--container {
+  @extend %hide-on-mobile;
+  align-items: end;
+  justify-content: end;
+
+  @include mq-min-nonmobile {
+    align-items: center;
+    padding-bottom: 1.5rem;
+
+    &,
+    .user-logged-in & {
+      display: flex;
+    }
+  }
+
+  .usa-search {
+    width: 100%;
+  }
+
+  .usa-header & {
+    [role=search] {
+      max-width: unset;
+    }
+  }
+
+  .usa-search--small {
+    [type=submit] {
+      padding: 0 0.5rem;
+      min-width: unset;
+    }
+  }
+
+  .usa-input {
+    &[type=search] {
+      border-width: 0 0 1px;
+      border-radius: 0;
+    }
+  }
+
+  .usa-button {
+    border-bottom: 1px solid #565c65;
+    border-radius: 0;
+    background-color: transparent;
+  }
+}

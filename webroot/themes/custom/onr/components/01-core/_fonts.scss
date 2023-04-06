@@ -1,0 +1,26 @@
+@import './variables';
+
+@font-face {
+  font-family: 'Google-Abel';
+  src: url('#{$theme-path}/components/01-core/fonts/Abel/Abel-Regular.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
+@font-face {
+  font-family: 'Public Sans Regular';
+  src: url('#{$theme-path}/components/01-core/fonts/PublicSans/PublicSans-Regular.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
+@font-face {
+  font-family: 'Public Sans ExtraBold';
+  src: url('#{$theme-path}/components/01-core/fonts/PublicSans/PublicSans-ExtraBold.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
+@font-face {
+  font-family: 'Public Sans Bold';
+  src: url('#{$theme-path}/components/01-core/fonts/PublicSans/PublicSans-Bold.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
+@font-face {
+  font-family: 'Public Sans SemiBold';
+  src: url('#{$theme-path}/components/01-core/fonts/PublicSans/PublicSans-SemiBold.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}

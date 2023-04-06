@@ -1,0 +1,30 @@
+uuid: aca43b39-c876-46d8-b9c0-0edca20f61e5
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:66ccb7c8-1a35-4edf-b284-f499abd55cb5'
+  module:
+    - block_classes
+    - block_content
+  theme:
+    - onr
+third_party_settings:
+  block_classes:
+    content_class: headersublinks-content
+    block_class: block-headersublinks
+id: headersublinks
+theme: onr
+region: header
+weight: -5
+provider: null
+plugin: 'block_content:66ccb7c8-1a35-4edf-b284-f499abd55cb5'
+settings:
+  id: 'block_content:66ccb7c8-1a35-4edf-b284-f499abd55cb5'
+  label: 'Header Sub links'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

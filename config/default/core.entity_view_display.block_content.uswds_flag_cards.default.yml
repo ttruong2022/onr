@@ -1,0 +1,26 @@
+uuid: 58e50c70-efda-47ce-8ce2-5ff8fbe8719e
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_flag_cards
+    - field.field.block_content.uswds_flag_cards.field_uswds_component
+  module:
+    - entity_reference_revisions
+id: block_content.uswds_flag_cards.default
+targetEntityType: block_content
+bundle: uswds_flag_cards
+mode: default
+content:
+  field_uswds_component:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

@@ -1,0 +1,329 @@
+Description: >
+  This template deploys a solr to the provided VPC and subnets
+  using an Auto Scaling Group. We use ASG to manage rolling deployments, not to actually scale.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  VPC:
+    Description: Choose which VPC Solr should be deployed to
+    Type: AWS::EC2::VPC::Id
+
+  Subnets:
+    Description: Choose which subnets Solr should be deployed to
+    Type: List<AWS::EC2::Subnet::Id>
+
+  SecurityGroups:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: The list of Security Groups in your Virtual Private Cloud (VPC).
+      Make sure select SecurityGroups in the same VPC.
+
+  Listener:
+    Description: The Application Load Balancer listener to register with
+    Type: String
+
+  EC2AMI:
+    Description: EC2 AMI Parameter
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /test/images/RHELStigImage/latest
+
+  InstanceType:
+    Description: Which instance type should we use to build the ECS cluster?
+    Type: String
+    Default: c5.large
+  
+  LoadBalancerCertificate:
+    Description: The Load Balancer ACM Certificate Arn
+    Type: String
+
+  KeyPair:
+    Description: Amazon EC2 Key Pair
+    Type: AWS::EC2::KeyPair::KeyName
+  
+Resources:
+
+  #Create SSM parameter Store for CW unified agent configuration on Linux
+  SSMParameterStore:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub 'AmazonCloudWatch-Linux-${AWS::StackName}-solr'
+      Type: String
+      Value: !Sub |
+        {
+            "logs": {
+                "force_flush_interval": 5,
+                "logs_collected": {
+                    "files": {
+                        "collect_list": [
+                            {
+                                "file_path": "/var/log/messages",
+                                "log_group_name": "${EnvironmentName}-/var/log/messages",
+                                "log_stream_name": "{instance_id}",
+                                "timestamp_format": "%b %d %H:%M:%S"
+                            },
+                            {
+                                "file_path": "/var/log/dmesg",
+                                "log_group_name": "${EnvironmentName}-/var/log/dmesg",
+                                "log_stream_name": "{instance_id}"
+                            },
+                            {
+                                "file_path": "/var/log/secure",
+                                "log_group_name": "${EnvironmentName}-/var/log/secure",
+                                "log_stream_name": "{instance_id}"
+                            },
+                            {
+                                "file_path": "/var/log/maillog",
+                                "log_group_name": "${EnvironmentName}-/var/log/maillog",
+                                "log_stream_name": "{instance_id}"
+                            }
+                            {
+                                "file_path": "/var/solr/logs/solr-8983-console.log",
+                                "log_group_name": "${EnvironmentName}-applogs",
+                                "log_stream_name": "/var/solr/logs/solr-8983-console.log"
+                            }
+                            {
+                                "file_path": "/var/solr/logs/solr.log",
+                                "log_group_name": "${EnvironmentName}-applogs",
+                                "log_stream_name": "/var/solr/logs/solr.log"
+                            }
+                            {
+                                "file_path": "/var/solr/logs/solr_slow_requests.log",
+                                "log_group_name": "${EnvironmentName}-applogs",
+                                "log_stream_name": "/var/solr/logs/solr_slow_requests.log"
+                            }
+                        ]
+                    }
+                }
+            },
+            "agent": {
+                "metrics_collection_interval": 60
+            },
+            "metrics": {
+                "append_dimensions": {
+                    "AutoScalingGroupName": "${!aws:AutoScalingGroupName}",
+                    "InstanceId": "${!aws:InstanceId}",
+                    "InstanceType": "${!aws:InstanceType}"
+                },
+                "aggregation_dimensions" : [["AutoScalingGroupName"]],
+                "metrics_collected": {
+                    "disk": {
+                        "measurement": [
+                            {"name": "used_percent", "rename": "DiskUtilization", "unit": "Percent"}
+                        ],
+                        "metrics_collection_interval": 60,
+                        "resources": [
+                            "/"
+                        ]
+                    },
+                    "mem": {
+                        "measurement": [
+                            {"name": "mem_used_percent", "rename": "MemoryUtilization", "unit": "Percent"}
+                        ],
+                        "metrics_collection_interval": 60
+                    }
+                }
+            }
+        }
+      Description: SSM Parameter for AmazonCloudWatch Linux Solr.
+
+#create IAM role using CloudWatch Agent Server Policy
+  CloudWatchAgentServerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      RoleName: !Sub 'CloudWatchAgentServerRole-${AWS::StackName}-solr'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: "acm:GetCertificate"
+                Resource: !Ref LoadBalancerCertificate
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMDirectoryServiceAccess
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy
+
+#Create instance profile
+  SolrInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: !Sub 'CloudWatchAgentServerRole-${AWS::StackName}-solr'
+      Path: /
+      Roles:
+        - !Ref 'CloudWatchAgentServerRole'
+
+#Create launch template
+  SolrLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: !Sub 'AS-CW-Linux-${AWS::StackName}'
+      LaunchTemplateData:
+        IamInstanceProfile:
+          Arn: !GetAtt 'SolrInstanceProfile.Arn'
+        ImageId: !Ref 'EC2AMI'
+        InstanceType: !Ref 'InstanceType'
+        KeyName: !Ref 'KeyPair'
+        MetadataOptions:
+          HttpPutResponseHopLimit: 2
+        NetworkInterfaces:
+          - DeviceIndex: 0
+            AssociatePublicIpAddress: false
+            DeleteOnTermination: true
+            Groups: !Ref SecurityGroups
+        UserData: !Base64
+          Fn::Sub: |
+            #!/bin/bash
+            # Install the files and packages from the metadata
+            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource SolrLaunchTemplate --configsets All  --region ${AWS::Region}
+            # Signal the status from cfn-init
+            /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource SolrASG --region ${AWS::Region}
+            chmod 0600 /etc/ssh/ssh_host*key
+            sed -i '/Allow root to run any commands anywhere/!b;n;croot    ALL=(ALL)       ALL' /etc/sudoers
+            aws acm get-certificate --region ${AWS::Region} --certificate-arn ${LoadBalancerCertificate} --output text > acm.crt
+            keytool -import -alias acm -file acm.crt -storetype JKS -keystore /opt/solr-8.11.1/server/etc/solr-ssl.keystore.jks -storepass secret -noprompt
+            systemctl restart solr
+            dnf update -y
+            /sbin/aide --init
+            rm -rf /var/lib/aide/aide.db.gz
+            mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+        TagSpecifications:
+          - ResourceType: 'instance'
+            Tags:
+              - Key: 'Environment'
+                Value: !Ref 'EnvironmentName'
+              - Key: 'Group'
+                Value: 'rhel'
+              - Key: 'Type'
+                Value: 'solr'
+              - Key: 'Automatic Updates'
+                Value: 'True'
+    Metadata:
+      Comment: Install CloudWatch agent
+      AWS::CloudFormation::Init:
+        configSets:
+          All:
+            - 01-CWAgent
+            - 02-SetupCfnHup
+        01-CWAgent:
+          commands:
+            1-StopCWAgentService:
+              command: /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a stop
+            2-ConfigureCWAgent:
+              command: !Sub |
+                /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c ssm:${SSMParameterStore} -s
+        02-SetupCfnHup:
+          files:
+            /etc/cfn/cfn-hup.conf:
+              content: !Sub |
+                [main]
+                stack=${AWS::StackId}
+                region=${AWS::Region}
+              mode: '000400'
+              owner: root
+              group: root
+            /etc/cfn/hooks.d/cfn-auto-reloader.conf:
+              content: !Sub |
+                [cfn-auto-reloader-hook]
+                triggers=post.update
+                path=Resources.SolrLaunchTemplate.Metadata.AWS::CloudFormation::Init
+                action=/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource SolrLaunchTemplate --configsets All  --region ${AWS::Region}
+                runas=root
+              mode: '000400'
+              owner: root
+              group: root
+            /lib/systemd/system/cfn-hup.service:
+              content: |
+                [Unit]
+                Description=cfn-hup daemon
+                
+                [Service]
+                Type=simple
+                ExecStart=/opt/aws/bin/cfn-hup
+                Restart=always
+                
+                [Install]
+                WantedBy=multi-user.target
+          services:
+            sysvinit:
+              cfn-hup:
+                enabled: true
+                ensureRunning: true
+                files:
+                  - /etc/cfn/cfn-hup.conf
+                  - /etc/cfn/hooks.d/cfn-auto-reloader.conf
+
+#Create ASG using previous created launch template
+  SolrASG:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: !Sub ${EnvironmentName}-solr
+      VPCZoneIdentifier: !Ref 'Subnets'
+      LaunchTemplate:
+        LaunchTemplateId: !Ref 'SolrLaunchTemplate'
+        Version: !GetAtt 'SolrLaunchTemplate.LatestVersionNumber'
+      MinSize: 1
+      MaxSize: 2
+      DesiredCapacity: 1
+      TargetGroupARNs:
+        - !Ref TargetGroup
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Solr host
+          PropagateAtLaunch: true
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT15M
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        MinInstancesInService: 1
+        MaxBatchSize: 1
+        PauseTime: PT5M
+        SuspendProcesses:
+          - HealthCheck
+          - ReplaceUnhealthy
+          - AZRebalance
+          - AlarmNotification
+          - ScheduledActions
+        WaitOnResourceSignals: true
+        
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VPC
+      Port: 8983
+      Protocol: HTTPS
+      Matcher:
+        HttpCode: 200-299
+      HealthCheckIntervalSeconds: 10
+      HealthCheckPath: /
+      HealthCheckProtocol: HTTPS
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      TargetType: instance
+
+  ListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref Listener
+      Priority: 1
+      Conditions:
+        - Field: path-pattern
+          Values:
+            - /*
+      Actions:
+        - TargetGroupArn: !Ref TargetGroup
+          Type: forward

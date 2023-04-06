@@ -1,0 +1,82 @@
+@import '../../01-core/variables';
+
+/*
+ * NOTE: Any nonmobile media queries in this sheet
+ *   are to address specific differences between 
+ *   mobile and non-mobile views for the particular styles
+ *   addressed in that one block
+**/
+
+.usa-nav {
+  &__submenu {
+    
+    /* Add space to the bottom of each mobile submenu
+     * to differentiate from the following top-level link
+    **/
+    > .grid-row {
+      &:last-child {
+        :last-child {
+          ul {            
+            margin-bottom: 0.75rem;
+
+            /* 
+            //Remove space on non-mobile views 
+            @include mq-min-nonmobile {
+              margin-bottom: 0;
+            }
+            */
+          }
+        }
+      }
+    }
+
+    &-item {
+      /* Style all links in mobile menu the same
+       * regardless of containing elements
+      **/
+      & > * {
+        line-height: 1.1rem;
+        font-family: $body-font;
+        font-size: 0.93rem;
+        font-weight: normal;
+      }
+
+      //Remove extra spacing around <h3>
+      & > h3 {
+        margin: 0;
+      }
+
+      /* Standardize spacing around links in mobile menu
+       *
+      **/
+      a {
+        &:not(.usa-button) {
+          //Make it bigger for smallest screens
+          //Avoid fat-fingering
+          padding: 0.75rem 0 0.75rem 1.5rem;         
+
+          //Remove on non-mobile menu
+          @include mq-min-nonmobile {
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .usa-nav__submenu-item {
+    &:not(div) {
+      padding-left: 1.5rem;
+    }
+  }
+
+}
+
+.social-nav__buttons {
+  .usa-button {
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: normal;
+  }
+}

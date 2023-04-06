@@ -1,0 +1,10 @@
+uuid: 9f05ba7a-c8eb-44b6-a581-797307fc6e1e
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.ar_3x2
+label: 'AR: 3X2'
+targetEntityType: media
+cache: true

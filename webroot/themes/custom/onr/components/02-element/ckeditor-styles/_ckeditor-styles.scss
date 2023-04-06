@@ -1,0 +1,106 @@
+@import '../../01-core/variables';
+
+.arrow-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  li {
+    display: block;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-image: url('#{$theme-image-path-onr}/uswds-icons/chevron_right_blue.svg');
+    background-repeat: no-repeat;
+    background-position: left 5px;
+    padding: 0.5rem 0 0 1.5rem;
+    color: $onr-blue;
+
+    &::marker {
+      content: '';
+    }
+
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
+.three-col-list {
+  // Desktop/Tablet view
+  @media screen and (min-width: $uswds-tablet-breakpoint) {
+    column-count: 3;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+  }
+}
+
+.two-col-list {
+  // Desktop/Tablet view
+  @media screen and (min-width: $uswds-tablet-breakpoint) {
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+  }
+}
+
+
+.horizontal-list {
+  display: inline-block;
+  padding-left: 0;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    padding: 0.5rem;
+    color: $onr-blue;
+
+    a {
+      background-repeat: no-repeat;
+      background-position: calc(100% - 10px) 50%;
+      background-size: 10px;
+      padding-right: 25px;
+    }
+  }
+}
+
+.transparent {
+  &.usa-button {
+    border: 1px solid $white;
+    background-color: transparent;
+  }
+}
+
+
+// SiteCore Classes
+p {
+  &.summary {
+    margin: 20px 0;
+    background: $light-blue;
+    padding: 20px;
+    font-size: $large;
+    font-style: italic;
+  }
+}
+
+.contentBox, // sass-lint:disable-line class-name-format
+.box {
+  margin-top: 15px;
+  border: 6px solid $light-blue;
+  padding: 1rem;
+
+  &.notice,
+  &.yellow-box {
+    border-color: $light-yellow;
+  }
+}
+
+hr {
+  &.orange-divider {
+    border: 1px solid $onr-orange;
+  }
+}
+
+.inline-header {
+  display: inline-block;
+  width: 100%;
+}

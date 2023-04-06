@@ -1,0 +1,23 @@
+uuid: 0aa21d23-584b-4358-9f20-4394ecf0f076
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_full_bleed_bottom
+    - node.type.landing_page
+id: node.landing_page.field_full_bleed_bottom
+field_name: field_full_bleed_bottom
+entity_type: node
+bundle: landing_page
+label: 'Full Bleed Bottom'
+description: 'Check to force the last content block to touch the footer with no white space between'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

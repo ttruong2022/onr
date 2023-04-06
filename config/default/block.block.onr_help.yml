@@ -1,0 +1,22 @@
+uuid: 6d970b7f-e994-47cd-a1e1-5bc6859d352d
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - onr
+_core:
+  default_config_hash: AKnQem5Vfi4bxsSbRrj6AwSJpCPaYuK1waVt0s4yxRQ
+id: onr_help
+theme: onr
+region: help
+weight: -30
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

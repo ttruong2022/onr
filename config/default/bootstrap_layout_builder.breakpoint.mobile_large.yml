@@ -1,0 +1,10 @@
+uuid: 22901cc2-812d-420d-a2e9-2b1ef7d17543
+langcode: en
+status: 0
+dependencies: {  }
+_core:
+  default_config_hash: PlfZnJa5zKhC2LbI6zY-GNO1gl2X5PGyAkF3OQEAuVk
+id: mobile_large
+label: 'Mobile Large'
+base_class: 'mobile-lg:grid-col'
+weight: '-4'

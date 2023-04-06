@@ -1,0 +1,36 @@
+uuid: ac23665b-1d16-4bc4-9a6a-42e384431a49
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.timeline-sub-menu
+  module:
+    - menu_block
+    - system
+  theme:
+    - onr
+id: timelinesubmenu
+theme: onr
+region: content
+weight: -5
+provider: null
+plugin: 'menu_block:timeline-sub-menu'
+settings:
+  id: 'menu_block:timeline-sub-menu'
+  label: 'Timeline Sub Menu'
+  label_display: '0'
+  provider: menu_block
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: false
+  parent: 'timeline-sub-menu:'
+  suggestion: timeline
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/about-onr/history/timeline/*\r\n/about-onr/history/timeline"

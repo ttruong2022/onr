@@ -1,0 +1,21 @@
+uuid: dede4c44-8d65-4756-9fab-9e062d1e2bd2
+langcode: en
+status: true
+dependencies: {  }
+id: prod
+label: Prod
+description: ''
+weight: 0
+stackable: false
+storage: folder
+folder: ../config/splits/prod
+module:
+  content_moderation_notifications: 0
+  google_analytics: 0
+  syslog: 0
+theme: {  }
+complete_list: {  }
+partial_list:
+  - s3fs.settings
+  - simple_sitemap_engines.settings
+  - system.site

@@ -1,0 +1,36 @@
+uuid: b513649f-a631-4027-aabc-acbc8881742a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.a11y_paragraphs_tabs_panel.field_a11y_para_tabs_tab_content
+    - field.field.paragraph.a11y_paragraphs_tabs_panel.field_a11y_para_tabs_tab_title
+    - paragraphs.paragraphs_type.a11y_paragraphs_tabs_panel
+  module:
+    - entity_reference_revisions
+    - text
+_core:
+  default_config_hash: UhxEufVX3eq2H86I7NdZq1-rEaTyqEQ5otBWLDKFeeI
+id: paragraph.a11y_paragraphs_tabs_panel.default
+targetEntityType: paragraph
+bundle: a11y_paragraphs_tabs_panel
+mode: default
+content:
+  field_a11y_para_tabs_tab_content:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_a11y_para_tabs_tab_title:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

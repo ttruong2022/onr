@@ -1,0 +1,93 @@
+uuid: 8ef8d2da-ebc1-41ea-8fda-1f0d1135b2e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+  module:
+    - ckeditor
+_core:
+  default_config_hash: AqlPmO16LvJI4D0Ih6u4GFQIzqr5OnLgAUSjcUGWk2g
+format: basic_html
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Italic
+            - Underline
+            - JustifyLeft
+            - JustifyCenter
+            - JustifyRight
+            - Superscript
+            - Subscript
+            - Strike
+            - RemoveFormat
+            - HorizontalRule
+            - Blockquote
+        -
+          name: Linking
+          items:
+            - DrupalLink
+            - DrupalUnlink
+        -
+          name: Lists
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Tools
+          items:
+            - Maximize
+            - ShowBlocks
+            - Source
+            - Styles
+  plugins:
+    drupallink:
+      linkit_enabled: true
+      linkit_profile: default
+    language:
+      language_list: un
+    stylescombo:
+      styles: "ul.arrow-list|Arrow List\r\nul.horizontal-list|Horizontal List\r\nul.three-col-list|3 Column List\r\na.usa-button|USWDS Button\r\na.usa-button.transparent|Transparent USWDS Button\r\ndiv.box|Blue Box\r\ndiv.box.yellow-box|Yellow Box"
+    templates:
+      template_path: ''
+      replace_content: 0
+    uswds_grid:
+      available_columns:
+        1: '1'
+        2: '2'
+        3: '3'
+        4: '4'
+        5: '5'
+        6: '6'
+        7: '7'
+        8: '8'
+        9: '9'
+        10: '10'
+        11: '11'
+        12: '12'
+      available_breakpoints:
+        card: card
+        card-lg: card-lg
+        mobile: mobile
+        mobile-lg: mobile-lg
+        tablet: tablet
+        tablet-lg: tablet-lg
+        desktop: desktop
+        desktop-lg: desktop-lg
+        widescreen: widescreen
+    uswds_table:
+      override_table: 1
+image_upload:
+  status: true
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

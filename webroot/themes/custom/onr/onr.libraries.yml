@@ -1,0 +1,129 @@
+global:
+  version: 1.0.0
+  css:
+    theme:
+      libraries/aos-master/dist/aos.css: {}
+      css/uswds_base.min.css: { }
+      css/main.min.css: { }
+  js:
+    assets/js/uswds.min.js: {}
+    assets/js/uswds-init.min.js: {}
+    js/overrides/base/anchor-scrolldown.min.js: {}
+    js/main-navigation/desktop-main.min.js: {}
+    js/overrides/base/aos.min.js: {}
+    libraries/aos-master/dist/aos.js: { weight: -3, minified: true }
+  dependencies:
+    - core/drupal
+
+articles:
+  css:
+    theme:
+      css/04-layout/articles/articles-content-type.min.css: { }
+      css/02-element/about-onr-block/about-onr.min.css: { }
+
+basic-block:
+  css:
+    theme:
+      css/03-component/basic-block/basic-block.min.css: { }
+
+contact-block:
+  css:
+    theme:
+      css/03-component/contact-block/contact-block.min.css: { }
+
+featured-images:
+  css:
+    theme:
+      css/03-component/featured-images/featured-images.min.css: { }
+
+homepage:
+  css:
+    theme:
+      css/04-layout/homepage/homepage.min.css: { }
+
+hero-banner:
+  css:
+    theme:
+      css/03-component/hero-banner/hero-banner.min.css: { }
+
+info-blocks:
+  css:
+    theme:
+      css/03-component/info-blocks/info-blocks.min.css: { }
+
+landing-page:
+  css:
+    theme:
+      css/04-layout/landing-pages/landing-page.min.css: { }
+
+location-block:
+  css:
+    theme:
+      css/04-layout/location-block/location-block.min.css: { }
+#  js:
+#    js/location-block/location-block-resize.min.js: { }
+
+folder-blocks:
+  css:
+    theme:
+      css/03-component/folder-blocks/folder-blocks.min.css: { }
+
+magazine-block:
+  css:
+    theme:
+      css/03-component/magazine-block/magazine-block.min.css: { }
+
+magazine-current-issues:
+  css:
+    theme:
+      css/03-component/magazine-current-issue/current-issue.min.css: { }
+
+news_releases:
+  css:
+    theme:
+      css/04-layout/news-releases/news-releases.min.css: { }
+
+opportunities-item:
+  css:
+    theme:
+      css/04-layout/opportunity-item/opportunities-item.min.css: { }
+
+person:
+  css:
+    theme:
+      css/04-layout/person/person.min.css: { }
+
+search:
+  css:
+    theme:
+      css/04-layout/search/search.min.css: { }
+
+sitemap:
+  css:
+    theme:
+      css/01-core/overrides/sitemap/sitemap.min.css: { }
+
+tabs:
+  css:
+    theme:
+      css/03-component/a11y-tabs/tabs.min.css: { }
+
+technology-area:
+  css:
+    theme:
+      css/04-layout/technology-area/technology-area.min.css: { }
+
+timeline:
+  css:
+    theme:
+      css/04-layout/timeline/timeline.min.css: { }
+
+person-block:
+  css:
+    theme:
+      css/03-component/person-block/person-block.min.css: { }
+
+primary-menu:
+  css:
+    theme:
+      css/03-component/primary-menu/primary-menu.min.css: { }

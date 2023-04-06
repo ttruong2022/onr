@@ -1,0 +1,25 @@
+uuid: 2eb3608a-75d7-4900-a4c4-7d817d446efe
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 1noCXlegCr5HFehQRF1ViXy1jhU1jZ_sNN99a8Sj5jo
+id: front
+label: 'Front page'
+tags:
+  abstract: 'The Office of Naval Research coordinates, executes and promotes the science and technology programs of the United States Navy and Marine Corps.'
+  canonical_url: '[site:url]'
+  description: '[node:summary]'
+  shortlink: '[site:url]'
+  title: '[site:name]'
+  og_description: 'The Office of Naval Research coordinates, executes and promotes the science and technology programs of the United States Navy and Marine Corps.'
+  og_title: '[site:name]'
+  og_type: Website
+  og_url: '[site:url]'
+  twitter_cards_description: 'The Office of Naval Research coordinates, executes and promotes the science and technology programs of the United States Navy and Marine Corps.'
+  twitter_cards_image: /themes/custom/onr/logo.png
+  twitter_cards_image_alt: 'Office of Naval Research Logo'
+  twitter_cards_image_height: '438'
+  twitter_cards_image_width: '200'
+  twitter_cards_page_url: '[site:url]'
+  twitter_cards_title: '[site:name]'

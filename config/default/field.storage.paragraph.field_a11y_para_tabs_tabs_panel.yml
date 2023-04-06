@@ -1,0 +1,22 @@
+uuid: bead20ef-b085-4adc-bdd3-f15f5d89e9a2
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - paragraphs
+_core:
+  default_config_hash: 6baiU9UDeMkXyes8662F2hO8uI0Rg2thDZWOdqOKf4E
+id: paragraph.field_a11y_para_tabs_tabs_panel
+field_name: field_a11y_para_tabs_tabs_panel
+entity_type: paragraph
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,61 @@
+uuid: a14d479c-15bc-4b99-86d5-5beb690f8fc3
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.background
+    - field.field.media.image.field_group
+    - field.field.media.image.field_icon
+    - field.field.media.image.field_location_icon
+    - field.field.media.image.field_media_image
+    - field.field.media.image.field_override_mad_module
+    - image.style.wide
+    - media.type.image
+  module:
+    - bg_image_formatter
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: B1a2aBHmUulUZN6HrxITEH1tSResuVjXMBEv1lUBtOo
+id: media.image.background
+targetEntityType: media
+bundle: image
+mode: background
+content:
+  field_media_image:
+    type: bg_image_formatter
+    label: hidden
+    settings:
+      image_style: wide
+      css_settings:
+        bg_image_selector: .usa-hero
+        bg_image_z_index: auto
+        bg_image_color: '#FFFFFF'
+        bg_image_x: center
+        bg_image_y: center
+        bg_image_attachment: scroll
+        bg_image_repeat: no-repeat
+        bg_image_background_size: cover
+        bg_image_media_query: all
+        bg_image_important: 1
+        bg_image_background_size_ie8: 1
+        bg_image_path_format: relative
+        bg_image_gradient: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  content_moderation_control: true
+  created: true
+  field_group: true
+  field_icon: true
+  field_location_icon: true
+  field_override_mad_module: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

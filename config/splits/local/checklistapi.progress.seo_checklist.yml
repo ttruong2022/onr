@@ -1,0 +1,104 @@
+progress:
+  '#changed': 1637199158
+  '#changed_by': '1'
+  '#completed_items': 33
+  '#items':
+    install_and_enable_seo_checklist_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    install_and_enable_admin_toolbar_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    install_composer_command_line_tool:
+      '#completed': 1637194771
+      '#uid': '1'
+    install_drush_command_line_tool:
+      '#completed': 1637197831
+      '#uid': '1'
+    show_cli_commands:
+      '#completed': 1637197831
+      '#uid': '1'
+    enable_clean_urls:
+      '#completed': 1637194726
+      '#uid': '1'
+    install_and_enable_redirect_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    configure_the_redirect_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    install_and_enable_pathauto_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    configure_pathauto_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    create_pathauto_patterns:
+      '#completed': 1637194726
+      '#uid': '1'
+    install_and_enable_file_field_paths_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    configure_file_field_paths_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    install_and_enable_metatag_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    install_and_enable_schema_metatag:
+      '#completed': 1637196817
+      '#uid': '1'
+    set_metatags_for_your_site:
+      '#completed': 1637196817
+      '#uid': '1'
+    install_and_enable_easy_breadcrumbs_module:
+      '#completed': 1637198175
+      '#uid': '1'
+    configure_easy_breadcrumbs_module:
+      '#completed': 1637198175
+      '#uid': '1'
+    turn_on_create_new_revisions_for_all_content:
+      '#completed': 1637196544
+      '#uid': '1'
+    install_and_enable_diff_module:
+      '#completed': 1637196374
+      '#uid': '1'
+    configure_the_diff_module:
+      '#completed': 1637196544
+      '#uid': '1'
+    install_and_enable_scheduler_module:
+      '#completed': 1637196374
+      '#uid': '1'
+    configure_the_scheduler_module:
+      '#completed': 1637196544
+      '#uid': '1'
+    install_and_enable_security_review_module:
+      '#completed': 1637194726
+      '#uid': '1'
+    configure_security_review_module:
+      '#completed': 1637196844
+      '#uid': '1'
+    install_and_enable_honeypot_module:
+      '#completed': 1637199158
+      '#uid': '1'
+    configure_honeypot_module:
+      '#completed': 1637199158
+      '#uid': '1'
+    make_sure_website_is_responsive:
+      '#completed': 1637198696
+      '#uid': '1'
+    read_drupal_8_seo_by_ben_finklea:
+      '#completed': 1637194747
+      '#uid': '1'
+    use_and_link_to_our_online_drupal_seo_guide:
+      '#completed': 1637194747
+      '#uid': '1'
+    sign_up_for_a_drupal_org_account_if_you_dont_already_have_one:
+      '#completed': 1637194747
+      '#uid': '1'
+    if_the_seo_checklist_module_helped_you_please_help_get_the_word_out:
+      '#completed': 1637194747
+      '#uid': '1'
+    report_a_bug_or_recommend_changes_to_the_seo_checklist_module:
+      '#completed': 1637194747
+      '#uid': '1'

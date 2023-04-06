@@ -1,0 +1,108 @@
+@import '../../01-core/variables';
+
+.block-views-blocklocation-blocks-block-1,
+.block-views-blocklocation-blocks-block-2 {
+  h2 {
+    border-bottom: 2px solid $onr-orange;
+    padding-bottom: 1rem;
+  }
+
+  .location-block {
+    height: auto;
+
+    @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+      //display: flex;
+      //flex-flow: column wrap;
+      column-count: 1;
+
+      @media screen and (min-width: $uswds-mobile-lg-breakpoint) and (max-width: $uswds-tablet-breakpoint) {
+        column-count: 2;
+      }
+
+      @media screen and (min-width: $uswds-tablet-breakpoint) {
+        column-count: 3;
+      }
+    }
+
+    //&:before,
+    //&:after {
+    //  flex-basis: 100%;
+    //  order: 3;
+    //  width: 0;
+    //  content: '';
+    //}
+
+    //@media screen and (min-width: $uswds-mobile-lg-breakpoint) and (max-width: $uswds-tablet-breakpoint) {
+    //  &:before,
+    //  &:after {
+    //    order: 2;
+    //  }
+    //}
+
+    > .views-row {
+      margin: 0.5rem 0;
+      padding: 0.5rem 0;
+      width: 100%;
+      break-inside: avoid;
+      page-break-inside: avoid;
+
+      //&:nth-child(3n+1) {
+      //  order: 1;
+      //}
+      //
+      //&:nth-child(3n+2) {
+      //  order: 2;
+      //}
+      //
+      //&:nth-child(3n) {
+      //  order: 3;
+      //}
+
+      // Tablet
+      //@media screen and (min-width: $uswds-mobile-lg-breakpoint) and (max-width: $uswds-tablet-breakpoint) {
+      //  width: 50%;
+      //
+      //  &:nth-child(2n) {
+      //    order: 1;
+      //  }
+      //
+      //  &:nth-child(2n+1) {
+      //    order: 2;
+      //  }
+      //}
+      //
+      //@media screen and (min-width: $uswds-tablet-breakpoint) {
+      //  width: 32%;
+      //}
+
+      > div {
+        margin: 0 auto;
+        width: 80%;
+      }
+
+      .header {
+
+        .field-location-category {
+          display: inline-block;
+          max-width: 25px;
+        }
+
+        h3 {
+          display: inline-block;
+        }
+      }
+
+      .items {
+        .field__items {
+          .field__item {
+            padding: 0.5rem;
+
+            p {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

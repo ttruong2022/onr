@@ -1,0 +1,6 @@
+name: 'ONR Article Code'
+type: module
+description: 'Custom code for ONR Articles.'
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Custom

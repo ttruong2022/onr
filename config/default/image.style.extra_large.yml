@@ -1,0 +1,15 @@
+uuid: 5fc6fef7-9694-4b3d-8b19-48c5a776b2d3
+langcode: en
+status: true
+dependencies: {  }
+name: extra_large
+label: 'Extra Large (700X700)'
+effects:
+  fc44ec5f-d6c0-47d1-807f-aa20f7b3bc53:
+    uuid: fc44ec5f-d6c0-47d1-807f-aa20f7b3bc53
+    id: image_scale
+    weight: 1
+    data:
+      width: 700
+      height: 700
+      upscale: false

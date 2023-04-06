@@ -1,0 +1,454 @@
+{
+    "name": "drupal/recommended-project",
+    "description": "Project template for Drupal 8 projects with a relocated document root",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/div",
+                "version": "4.10.1",
+                "type": "drupal-library",
+                "extra": {
+                    "installer-name": "ckeditor/plugins/div"
+                },
+                "dist": {
+                    "url": "https://download.ckeditor.com/div/releases/div_4.10.1.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/iframe",
+                "version": "4.17.1",
+                "dist": {
+                    "url": "https://download.ckeditor.com/iframe/releases/iframe_4.17.1.zip",
+                    "type": "zip"
+                },
+                "type": "drupal-library"
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/templates",
+                "version": "4.17.0",
+                "dist": {
+                    "url": "https://download.ckeditor.com/templates/releases/templates_4.17.1.zip",
+                    "type": "zip"
+                },
+                "type": "drupal-library"
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/link",
+                "version": "4.16.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://download.ckeditor.com/link/releases/link_4.16.0.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/fakeobjects",
+                "version": "4.16.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://download.ckeditor.com/fakeobjects/releases/fakeobjects_4.16.0.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "dinbror/blazy",
+                "version": "1.8.2",
+                "dist": {
+                    "url": "https://github.com/dinbror/blazy/archive/refs/tags/1.8.2.zip",
+                    "type": "zip"
+                },
+                "type": "drupal-library"
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "feimosi/baguettebox.js",
+                "version": "1.11.1",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/feimosi/baguetteBox.js/releases/download/v1.11.1/baguetteBox.js.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "furf/jquery-ui-touch-punch",
+                "version": "1.0.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/furf/jquery-ui-touch-punch/archive/refs/heads/master.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "matthiasott/a11y-accordion-tabs",
+                "version": "1.0.2",
+                "dist": {
+                    "url": "https://github.com/matthiasott/a11y-accordion-tabs/archive/refs/tags/v1.0.2.zip",
+                    "type": "zip"
+                },
+                "type": "drupal-library"
+            }
+        }
+    ],
+    "require": {
+        "ext-dom": "*",
+        "ext-fileinfo": "*",
+        "ext-libxml": "*",
+        "acquia/blt": "^12.0",
+        "ckeditor/div": "^4.10",
+        "ckeditor/fakeobjects": "*",
+        "ckeditor/iframe": "^4.17.0",
+        "ckeditor/link": "*",
+        "ckeditor/templates": "^4.17.0",
+        "composer/installers": "^1.9",
+        "consolidation/robo": "^3.0",
+        "cweagans/composer-patches": "^1.6",
+        "dinbror/blazy": "^1.8",
+        "drupal/a11y_paragraphs_tabs": "^1.11",
+        "drupal/address": "^1.10",
+        "drupal/admin_toolbar": "^3.1",
+        "drupal/amazing_multiselect": "^2.2",
+        "drupal/anchor_link": "^1.9",
+        "drupal/autologout": "^1.3",
+        "drupal/autosave_form": "^1.3",
+        "drupal/back_to_top": "^2.0",
+        "drupal/baguettebox": "^1.2",
+        "drupal/better_exposed_filters": "^5.0",
+        "drupal/bg_image_formatter": "^1.15",
+        "drupal/blazy": "^2.11",
+        "drupal/block_classes": "^1.0",
+        "drupal/block_content_permissions": "^1.10",
+        "drupal/block_field": "^1.0@RC",
+        "drupal/block_inactive_users": "^1.6",
+        "drupal/block_permissions": "^1.2",
+        "drupal/ckeditor_div_manager": "^2.0",
+        "drupal/ckeditor_iframe": "^2.1",
+        "drupal/clamav": "^2.0",
+        "drupal/coffee": "^1.2",
+        "drupal/components": "^3.0@beta",
+        "drupal/config_ignore": "^3.0@beta",
+        "drupal/config_split": "^2.0@beta",
+        "drupal/content_moderation_notifications": "^3.3",
+        "drupal/core-composer-scaffold": "^9.0.0",
+        "drupal/core-project-message": "^9",
+        "drupal/core-recommended": "^9.3",
+        "drupal/cshs": "^3.5",
+        "drupal/diff": "^1.0",
+        "drupal/easy_breadcrumb": "^2.0",
+        "drupal/easy_responsive_images": "^1.1",
+        "drupal/editor_advanced_link": "^2.0",
+        "drupal/editoria11y": "^1.0",
+        "drupal/elogger": "^1.1",
+        "drupal/entity_reference_purger": "^1.0@beta",
+        "drupal/entity_usage": "^2.0@beta",
+        "drupal/environment_indicator": "^4.0",
+        "drupal/extlink": "^1.6",
+        "drupal/facets": "^2.0",
+        "drupal/facets_block": "^1.4",
+        "drupal/facets_custom_label": "^1.2",
+        "drupal/field_limiter": "^1.1",
+        "drupal/filefield_paths": "^1.0@beta",
+        "drupal/flood_settings": "^1.0@RC",
+        "drupal/focal_point": "^1.5",
+        "drupal/force_password_change": "^2.0@beta",
+        "drupal/gin": "^3.0@alpha",
+        "drupal/google_analytics": "^4.0",
+        "drupal/honeypot": "^2.0",
+        "drupal/hreflang": "^1.7",
+        "drupal/layout_builder_blocks": "^1.0",
+        "drupal/layout_builder_restrictions": "^2.10",
+        "drupal/layout_builder_save_and_edit": "^1.0",
+        "drupal/linkchecker": "^1.0@beta",
+        "drupal/linkit": "^6.0@beta",
+        "drupal/linkit_media_library": "^1.0",
+        "drupal/mailsystem": "^4.3",
+        "drupal/media_alias_display": "^1.0",
+        "drupal/media_entity_download": "^2.1",
+        "drupal/media_file_delete": "^1.1",
+        "drupal/media_revisions_ui": "3.x-dev@dev",
+        "drupal/menu_block": "^1.7",
+        "drupal/metatag": "^1.16",
+        "drupal/moderation_dashboard": "^2.0@alpha",
+        "drupal/node_access_rebuild_progressive": "^2.0",
+        "drupal/paragraph_blocks": "^3.0",
+        "drupal/password_policy": "^3.1",
+        "drupal/pathauto": "^1.8",
+        "drupal/publication_date": "^2.0@beta",
+        "drupal/quick_node_clone": "^1.14",
+        "drupal/rabbit_hole": "^1.0@beta",
+        "drupal/redirect": "^1.6",
+        "drupal/redirect_metrics": "^1.0@RC",
+        "drupal/redis": "^1.5",
+        "drupal/s3fs": "^3.0@beta",
+        "drupal/scheduler": "^1.4",
+        "drupal/scheduler_content_moderation_integration": "^1.3",
+        "drupal/schema_metatag": "^2.3",
+        "drupal/search404": "^2.0",
+        "drupal/search_api_attachments": "^9.0",
+        "drupal/search_api_best_bets": "^1.2",
+        "drupal/search_api_exclude_entity": "^1.3",
+        "drupal/search_api_solr": "^4.2",
+        "drupal/search_api_sorts": "^1.0",
+        "drupal/security_review": "^1.0@alpha",
+        "drupal/seo_checklist": "^5.1",
+        "drupal/session_limit": "^2.0@beta",
+        "drupal/simple_sitemap": "^4.0",
+        "drupal/simple_timeline": "^1.2",
+        "drupal/sitemap": "^2.0@beta",
+        "drupal/smart_trim": "^1.3",
+        "drupal/stage_file_proxy": "^1.1",
+        "drupal/structure_sync": "^2.0",
+        "drupal/super_login": "^1.7",
+        "drupal/svg_image": "^1.15",
+        "drupal/twig_tweak": "^3.1",
+        "drupal/ultimate_cron": "^2.0@alpha",
+        "drupal/uswds_base": "^2.13@alpha",
+        "drupal/uswds_blb_configuration": "^1.0@beta",
+        "drupal/uswds_ckeditor_integration": "^1.0@beta",
+        "drupal/uswds_paragraph_components": "^2.2",
+        "drupal/views_bulk_operations": "^4.0",
+        "drupal/views_custom_cache_tag": "^1.2",
+        "drupal/workbench_access": "1.x-dev@dev",
+        "drush/drush": "11.0.5 as 10.6.2",
+        "feimosi/baguettebox.js": "^1.11",
+        "furf/jquery-ui-touch-punch": "^1.0",
+        "matthiasott/a11y-accordion-tabs": "^1.0",
+        "wikimedia/composer-merge-plugin": "^2.0.0"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "drupal/core-dev": "^9.2",
+        "drupal/devel": "^4.1",
+        "kint-php/kint": "^4.1",
+        "mglaman/drupal-check": "^1.2",
+        "mglaman/phpstan-drupal": "^1.0",
+        "php-parallel-lint/php-console-highlighter": "^0.4.0",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "phpspec/prophecy-phpunit": "^2",
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "webroot"
+            },
+            "file-mapping": {
+                "[web-root]/sites/development.services.yml": false,
+                "[project-root]/.gitattributes": false
+            }
+        },
+        "installer-paths": {
+            "webroot/core": ["type:drupal-core"],
+            "webroot/libraries/{$name}": ["type:drupal-library"],
+            "webroot/modules/contrib/{$name}": ["type:drupal-module"],
+            "webroot/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "webroot/themes/contrib/{$name}": ["type:drupal-theme"],
+            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
+            "webroot/modules/custom/{$name}": ["type:drupal-custom-module"],
+            "webroot/themes/custom/{$name}": ["type:drupal-custom-theme"]
+        },
+        "patches": {
+            "ckeditor/link": {
+                "Remove Doubleclick feature for linkit": "patches/libraries/ckeditor.link/ckeditor-link-plugin-remove-doubleclick.patch"
+            },
+            "matthiasott/a11y-accordion-tabs": {
+                "Remove -1 tabindex": "patches/libraries/a11y-accordion-tabs/remove-tabindex.patch"
+            },
+            "drupal/a11y_paragraphs_tabs": {
+                "version 1.0.2 of matthiasott/a11y-accordion-tabs breaks all functionality": "https://git.drupalcode.org/project/a11y_paragraphs_tabs/-/merge_requests/1.diff",
+                "Panel tabs rendering HTML": "https://www.drupal.org/files/issues/2022-03-08/a11y_paragraphs_tabs-html-in-title-3268361-2.patch"
+            },
+            "drupal/baguettebox": {
+                "BaguetteBox library Not found": "https://www.drupal.org/files/issues/2022-01-31/baguettebox-library-not-loading-3248758-7.patch",
+                "BaguetteBox library status": "https://www.drupal.org/files/issues/2022-02-02/baguettebox-missing-library-requirement-3248758-17.patch",
+                "Slideshow not working in ckeditor": "https://www.drupal.org/files/issues/2022-01-31/baguettebox-slideshow-not-working-3261644-2.patch"
+            },
+            "drupal/bootstrap_layout_builder": {
+                "Custom PRAC patch of issue 3211104": "patches/bootstrap_layout_builder/prac-bootstrap_layout_builder-3211104_21.patch"
+            },
+            "drupal/bootstrap_styles": {
+                "Advanced AOS effect options": "https://www.drupal.org/files/issues/2021-08-03/bootstrap_styles-aos_advanced-3181917-19.patch",
+                "Wrap background media inside container": "https://www.drupal.org/files/issues/2021-09-24/bootstrap_styles-media-classes-3239189-2.patch",
+                "Background video not resizing": "https://www.drupal.org/files/issues/2021-09-27/bootstrap_styles-background-media-resize-3239546-2.patch",
+                "Uninstall media library reset": "patches/bootstrap_styles/bootstrap_styles-remove-media-library-reset.patch"
+            },
+            "drupal/content_moderation_notifications": {
+                "Custom Patch to use media + node email": "patches/content_moderation_notification/content_moderation_notification-media-node-email.patch"
+            },
+            "drupal/core": {
+                "Add block classes for bundle and view mode": "https://www.drupal.org/files/issues/2021-10-19/2830725-23.patch",
+                "Layout builder fails to assign inline block access dependencies for the overrides section storage on entities with pending revisions": "https://git.drupalcode.org/project/drupal/-/merge_requests/1106.diff",
+                "Cloned entities don't retain their Inline Block usage": "https://www.drupal.org/files/issues/2021-07-15/drupal-3062819-16.patch",
+                "Reverting entity revisions that contain custom blocks erroneously triggers EntityChangedConstraint": "https://www.drupal.org/files/issues/2021-04-06/3053881-3049332-45.patch",
+                "Argument default about revision id from url": "https://www.drupal.org/files/issues/2021-12-29/3093800-18.patch",
+                "[PP-1] Drupal.ajax does not guarantee that \"add new JS file to page\" commands have finished before calling said JS": "https://www.drupal.org/files/issues/2022-01-25/1988968-268.patch",
+                "Broken \"Allowed Tags\" updating: after all values for an attribute are allowed, it should not be overridden to allow only certain attribute values": "https://www.drupal.org/files/issues/2022-02-24/drupal-ignore-wildcard-classes-2710427-21.patch",
+                "Layout builder filter leaves blank space": "https://www.drupal.org/files/issues/2021-07-09/3223048-layout-builder-filtering-3.patch",
+                "Extend the $skip_protocol_filtering list of attributes to use Tailwind CSS classes with prefix \":\"": "https://www.drupal.org/files/issues/2022-02-25/3252587-6.patch",
+                "After enabling Require Summary on a field I can’t create a new entity or disable Require Summary.": "https://www.drupal.org/files/issues/2022-02-25/3115978_46.patch",
+                "New contextual links are not available after a module is installed": "https://www.drupal.org/files/issues/2021-10-27/2773591-43.patch",
+                "Implement a generic revision UI": "https://www.drupal.org/files/issues/2021-11-12/2350939-202.patch",
+                "Taxonomy Index for unpublished entities": "https://www.drupal.org/files/issues/2022-02-10/962664-180.patch",
+                "Add Views EntityReference filter to be available for all entity reference fields": "https://www.drupal.org/files/issues/2021-12-02/2429699-453-9.3.x.patch",
+                "Provide menu link with disable option [Node Add Form]": "https://www.drupal.org/files/issues/2022-02-09/3075230-35.patch",
+                "Media Mappings breaking revisions": "https://www.drupal.org/files/issues/2022-05-28/3271688-55.patch",
+                "Limit allowed text": "https://www.drupal.org/files/issues/2022-05-13/784672-231.patch"
+            },
+            "drupal/easy_responsive_images": {
+                "Update js": "patches/easy_responsive_images/easy_responsive_images-js-update.patch",
+                "Focal scale and crop not creating images": "https://www.drupal.org/files/issues/2022-01-18/easy_responsive_images-check-file-3246464-5.patch"
+            },
+            "drupal/elogger": {
+                "Offset issue in module file - syslog integration": "https://git.drupalcode.org/project/elogger/-/merge_requests/6.diff",
+                "Offset issue in module file - syslog integration 2": "https://git.drupalcode.org/project/elogger/-/merge_requests/8.diff"
+            },
+            "drupal/entity_usage": {
+                "Track reusable Custom Block referenced by Layout Builder": "https://www.drupal.org/files/issues/2020-03-13/track-reusable-custom-block-layout-builder-3119521-2.patch",
+                "Getting the base fields is not supported for entity type Block.": "https://www.drupal.org/files/issues/2019-12-24/3101451-3.patch"
+            },
+            "drupal/facets": {
+                "Display facets when there are no search results": "https://www.drupal.org/files/issues/2019-02-08/display_facets_when_minimum_count_0_and_no_search_results-2993101-11.patch",
+                "ListItemProcessor error when using aggregated field": "https://www.drupal.org/files/issues/2022-01-20/facets-n3220140-5.patch",
+                "Facet process to merge node types": "https://www.drupal.org/files/issues/2021-05-05/facet_processor_merge_node_types-3133309-1.patch"
+            },
+            "drupal/focal_point": {
+                "Allow SVG uploads in widget (svg_image compatibility)": "https://www.drupal.org/files/issues/2021-10-27/svg_support-3122722-13.patch"
+            },
+            "drupal/gin": {
+                "Layout Builder page template showing shortcuts + sticky bar": "https://www.drupal.org/files/issues/2022-02-22/gin-layout-builder-3266001-2.patch"
+            },
+            "drupal/linkchecker": {
+                "Provide 'Check' button for running link checker , also allow linkchecker to work in a non-standard environment, provide host and port substitution": "https://www.drupal.org/files/issues/2022-05-09/3213210-22.patch"
+            },
+            "drupal/linkit_media_library": {
+                "URL Alias isn't used": "https://www.drupal.org/files/issues/2022-05-05/linkit_media_library-3279125.2.patch"
+            },
+            "drupal/linkit": {
+                "Add better support for linking to anchors": "https://www.drupal.org/files/issues/2021-10-15/3022261_linkit_add-better-support-for-linking-to-anchors_22.patch",
+                "Add a basic matcher for anchors": "https://git.drupalcode.org/project/linkit/-/merge_requests/3.diff"
+            },
+            "drupal/maxlength": {
+                "3119810 - Convert pre_render callbacks functions to trusted methods": "https://www.drupal.org/files/issues/2020-04-10/maxlength-pre-render-3119810-3.patch"
+            },
+            "drupal/media_entity_download": {
+                "Make link title editable / add token support / more options": "https://www.drupal.org/files/issues/2022-03-25/3059830-make-link-title-15.patch"
+            },
+            "drupal/paragraphs": {
+                "Paragraphs do not render: access check for \"view\" fail when using layout builder + custom blocks & content revisions because the incorrect parent revision ID is being passed in ParagraphAccessControlHandler::checkAccess()": "https://www.drupal.org/files/issues/2020-07-08/access-controll-issue-3090200-22.patch"
+            },
+            "drupal/paragraph_blocks": {
+                "Block names are confusing when editing default layouts": "https://www.drupal.org/files/issues/2020-09-11/3170139-always-show-field-name-v2.patch",
+                "Re-ordering paragraphs with admin titles on node edit screen changes order in page layout.": "https://www.drupal.org/files/issues/2021-05-07/3099424-24.patch"
+            },
+            "drupal/password_policy": {
+                "Module to provide configurable mail body and subject content for reset and pending password emails.": "https://www.drupal.org/files/issues/2021-11-12/3240363-21.patch"
+            },
+            "drupal/quick_node_clone": {
+                "Content moderation's moderation state control isn't displayed in the right place when cloning": "https://git.drupalcode.org/project/quick_node_clone/-/merge_requests/4.diff",
+                "Nested paragraph support": "https://www.drupal.org/files/issues/2020-11-18/quick_node_clone-3183249-2.patch"
+            },
+            "drupal/redis": {
+                "TTL handling broken, always permanent": "https://www.drupal.org/files/issues/2020-10-30/3179757-4.patch",
+                "Replace remaining REQUEST_TIME usage": "https://www.drupal.org/files/issues/2020-03-04/updated-3117429-5.patch",
+                "Silently fail": "https://www.drupal.org/files/issues/2022-01-27/redis-3102739-14.patch"
+            },
+            "drupal/search_api": {
+                "Out of memory error when used with views, metatag and memcache modules": "https://www.drupal.org/files/issues/2022-01-13/search_api-metatag-out-of-memory-3258375-2.patch"
+            },
+            "drupal/search404": {
+                "Improve Search with a custom path": "https://www.drupal.org/files/issues/2022-02-08/search404-custom-path-3089600-16.patch",
+                "Failed to start the session because headers have already been sent": "https://www.drupal.org/files/issues/2020-12-08/fix-php-error-on-redirect-3087929-6.patch"
+            },
+            "drupal/security_review": {
+                "False Negative for Writeable .htaccess on NGINX": "https://www.drupal.org/files/issues/2020-05-16/htaccess-nginx-false-negative-2404219-18.patch"
+            },
+            "drupal/smart_trim": {
+                "Javascript appearing when HTML is being stripped": "https://git.drupalcode.org/project/smart_trim/-/merge_requests/7.diff"
+            },
+            "drupal/structure_sync": {
+                "Entity IDs inconsistent across exports and imports": "https://www.drupal.org/files/issues/2019-11-20/structure-sync-taxonomy-id-not-preserved-3032480-9.patch"
+            },
+            "drupal/uswds_base": {
+                "Menu links not working with <nolink>": "https://git.drupalcode.org/project/uswds_base/-/merge_requests/19.diff"
+            },
+            "drupal/uswds_ckeditor_integration": {
+                "Fix Gridv2": "https://git.drupalcode.org/project/uswds_ckeditor_integration/-/merge_requests/32.diff"
+            },
+            "drupal/workbench_access": {
+                "Tests are failing in Drupal >= 9.2": "https://www.drupal.org/files/issues/2022-01-11/3257903-wba-d93.patch",
+                "Circular dependency injecting workbench_access.user_section_storage into a service decorator": "https://www.drupal.org/files/issues/2022-01-11/3257706-circular-11.patch"
+            }
+        },
+        "merge-plugin": {
+            "include": [
+                "webroot/modules/contrib/anchor_link/composer.libraries.json"
+            ],
+            "recurse": true,
+            "replace": true,
+            "ignore-duplicates": false,
+            "merge-dev": true,
+            "merge-extra": false,
+            "merge-extra-deep": false,
+            "merge-scripts": false
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.0",
+            "ext-gd": "1"
+        },
+        "sort-packages": true,
+        "process-timeout": 0,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "wikimedia/composer-merge-plugin": true,
+            "acquia/blt": true
+        }
+    }
+}

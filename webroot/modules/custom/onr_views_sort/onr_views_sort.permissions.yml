@@ -1,0 +1,3 @@
+administer onr_views_sort:
+  title: 'Administer settings for ONR Views Sort'
+  description: 'Gives access to settings forms'

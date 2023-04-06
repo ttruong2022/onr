@@ -1,0 +1,51 @@
+@import '../../01-core/variables';
+
+.views-exposed-form {
+  .input-container {
+    display: flex;
+    position: relative;
+
+    & > * {
+      margin: 0;
+    }
+
+    &.keyword-search-button-group {
+      button {
+        background: $onr-blue;
+        cursor: pointer;
+        padding: 0;
+        width: 20%;
+      }
+
+      .usa-button-search {
+        display: flex;
+        position: absolute;
+        right: 0;
+        justify-content: center;
+        border: 0;
+        border-radius: 0;
+        max-width: 40px;
+        height: 100%;
+      }
+
+      .usa-search__submit-icon {
+        display: inline-block;
+        position: absolute;
+        top: 20%;
+        max-width: 30px;
+        filter: invert(100%);
+
+        @media (min-width: 30em) {
+          display: inline-block;
+        }
+      }
+    }
+
+    &:after {
+      display: table;
+      clear: both;
+      content: '';
+    }
+  }
+}
+

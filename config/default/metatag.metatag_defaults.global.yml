@@ -1,0 +1,47 @@
+uuid: acbaf4fd-e3cc-4f6c-bd18-ae0db7f4483a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: sL588ui1E_8-2c_UupwyYxcqX2OVyMFp3HTLbbFqvPc
+id: global
+label: Global
+tags:
+  title: '[current-page:title] | [site:name]'
+  canonical_url: '[current-page:url]'
+  rights: 'This is an official U.S. Navy Website.'
+  content_language: en
+  shortlink: '[current-page:url:unaliased]'
+  dcterms_title: '[current-page:title]'
+  dcterms_rights: 'This is an official U.S. Navy Website.'
+  theme_color: '#fffff'
+  og_postal_code: '22217'
+  og_image_height: '580'
+  og_fax_number: 703-696-5940
+  og_url: '[current-page:url:absolute]'
+  og_image_width: '1000'
+  og_image_type: image/png
+  og_latitude: 38.8808°N
+  og_country_name: USA
+  og_site_name: 'Office of Naval Research'
+  og_image: /themes/custom/onr/images/onr-logo-fb.png
+  og_locale: en_US
+  og_type: Webpage
+  og_email: onrpublicaffairs@navy.mil
+  og_region: VA
+  og_title: '[current-page:title]'
+  og_description: '[node:summary]'
+  og_locality: Arlington
+  og_street_address: '875 N Randolph St'
+  og_image_alt: 'Office of Naval Research Science and Technology'
+  og_longitude: 77.1086°W
+  og_phone_number: 703-696-5031
+  twitter_cards_image: /themes/custom/onr/images/onr-logo-twitter.png
+  twitter_cards_creator_id: '74400041'
+  twitter_cards_title: '[current-page:title]'
+  twitter_cards_page_url: '[current-page:url:absolute]'
+  twitter_cards_type: summary
+  twitter_cards_image_width: '400'
+  twitter_cards_image_alt: 'Office of Naval Research Science and Technology'
+  twitter_cards_site: '@USNavyResearch'
+  twitter_cards_image_height: '183'

@@ -1,0 +1,26 @@
+uuid: afc80b74-9e71-4bdf-bc8c-fda6fc419d94
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_modal
+    - field.field.block_content.uswds_modal.field_uswds_component
+  module:
+    - entity_reference_revisions
+id: block_content.uswds_modal.default
+targetEntityType: block_content
+bundle: uswds_modal
+mode: default
+content:
+  field_uswds_component:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

@@ -1,0 +1,10 @@
+uuid: f2df3af2-4c63-4c1f-8814-3ad631775642
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.ar_9x16
+label: 'AR: 9X16'
+targetEntityType: media
+cache: true

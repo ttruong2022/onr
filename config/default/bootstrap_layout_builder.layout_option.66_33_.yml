@@ -1,0 +1,19 @@
+uuid: 94411ff9-00e1-48c9-9a25-ce6fa8b0f431
+langcode: en
+status: true
+dependencies: {  }
+id: '66_33_'
+layout_id: blb_col_2
+label: '66% 33%'
+structure: '8 4'
+breakpoints:
+  desktop: desktop
+  tablet: tablet
+  mobile: mobile
+  widescreen: 0
+  desktop_large: 0
+  tablet_large: 0
+  mobile_large: 0
+  card_large: 0
+  card: 0
+weight: 0

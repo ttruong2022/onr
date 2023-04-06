@@ -1,0 +1,22 @@
+uuid: 6c80f18b-2aba-4985-9b8b-e70dc08068cf
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - onr
+_core:
+  default_config_hash: sVlZC7AA4fiB8fNGnOF9LaX9t70U3brGWjY-bigHFCE
+id: onr_content
+theme: onr
+region: content
+weight: -4
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

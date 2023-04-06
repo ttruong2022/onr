@@ -1,0 +1,12 @@
+diff --git a/bootstrap_styles.info.yml b/bootstrap_styles.info.yml
+index c1dfcfe..dd20e7d 100644
+--- a/bootstrap_styles.info.yml
++++ b/bootstrap_styles.info.yml
+@@ -8,7 +8,6 @@ configure: bootstrap_styles.settings
+ dependencies:
+   - drupal:layout_builder
+   - media_library_form_element:media_library_form_element
+-  - media_library_theme_reset:media_library_theme_reset
+ 
+ # Information added by Drupal.org packaging script on 2021-01-14
+ version: '1.0.3'

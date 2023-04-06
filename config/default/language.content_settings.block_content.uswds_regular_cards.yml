@@ -1,0 +1,11 @@
+uuid: ca36a585-b978-44ca-ae2e-b4c9056f9546
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_regular_cards
+id: block_content.uswds_regular_cards
+target_entity_type_id: block_content
+target_bundle: uswds_regular_cards
+default_langcode: site_default
+language_alterable: false

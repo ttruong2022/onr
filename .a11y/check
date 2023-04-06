@@ -1,0 +1,183 @@
+#!/bin/bash
+
+if ! [ -x "$(command -v pa11y-ci)" ]; then
+  echo 'Error: pa11y-ci not found. Install via brew, apt, apk, or check out https://github.com/pa11y/pa11y-ci' >&2
+  exit 1
+fi
+
+MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# all possible options
+ALLSTANDARDS="Section508 WCAG2A WCAG2AA WCAG2AAA"
+ALLRUNNERS="htmlcs axe"
+
+STANDARD="WCAG2AA"
+RUNNER="axe"
+DIR="results"
+PAGES=""
+CONFIG=""
+EXTRAPARAMS=""
+CSV=""
+JSON=false
+HTML=false
+DEBUG=false
+
+
+function usage {
+  echo "Usage:"
+  echo "  check [options] [<paths>]"
+  echo ""
+  echo "Options:"
+  echo "  --config <path>              the path to a JSON or JavaScript config file"
+  echo "  --dir <path>                 Output results into a specific directory"
+  echo "  --csv <path>                 Output results to a named CSV file"
+  echo "  --json                       Output results as JSON"
+  echo "  --debug                      Keeps any log files, config files, and json files from a run"
+  echo "  --runner <string>            \"all\" or a space delimited list including: $ALLRUNNERS"
+  echo "  --standard <string>          \"all\" or a space delimited list including: $ALLSTANDARDS"
+  echo "  --sitemap <url>              the path to a sitemap"
+  echo "  --sitemap-find <pattern>     a pattern to find in sitemaps. Use with --sitemap-replace"
+  echo "  --sitemap-replace <string>   a replacement to apply in sitemaps. Use with --sitemap-find"
+  echo "  --sitemap-exclude <pattern>  a pattern to find in sitemaps and exclude any url that matches"
+  echo "  --threshold <number>         permit this number of errors, warnings, or notices, otherwise fail with exit code 2"
+  echo ""
+  echo "Examples:"
+  echo "    check https://www.onr.navy.mil/about-this-site"
+  echo "    check https://www.onr.navy.mil/about-this-site --csv about.csv"
+  echo "    check --sitemap https://www.onr.navy.mil/sitemap.xml"
+  echo "    check --standard WCAG2AA https://www.onr.navy.mil/about-this-site"
+  echo "    check --standard \"WCAG2A Section508\" https://www.onr.navy.mil/about-this-site"
+  echo "    check --runner axe https://www.onr.navy.mil/about-this-site"
+  echo "    check --standard all --runner all https://www.onr.navy.mil/about-this-site"
+}
+
+while [ $# -gt 0 ]; do
+  if [[ $1 == *"--"* ]]; then
+      param=$(echo "${1/--/}")
+      uparam=$(echo "$param" | tr [a-z] [A-Z])
+      # HELP is special and we should print usage
+      if [ $param = "help" ]; then
+        usage;
+        exit 0;
+      # These paramters are ignored
+      elif [[ $param =~ (version) ]]; then
+        continue;
+      # Custom single paramters saved for later
+      elif [[ $param =~ (json|html|debug) ]]; then
+        declare $uparam=true;
+      # Custom valued paramters saved for later
+      elif [[ $param =~ (standard|runner|config|csv|dir) ]]; then
+        declare $uparam="$2";
+        shift
+      # Any extra params will be passed along to main call
+      else
+        EXTRAPARAMS="$EXTRAPARAMS $1 $2";
+        shift
+      fi
+  else
+    PAGES="$PAGES $1";
+  fi
+  shift
+done
+
+if [ "$DIR" != "" ]; then
+  DIR=${DIR%/}
+else
+  DIR="$MYDIR/results"
+fi
+mkdir -p $DIR
+chmod +rw $DIR
+
+if [ "$CSV" != "" ]; then
+    JSON=true;
+fi
+
+if [ "$STANDARD" = "all" ]; then
+  STANDARD=$ALLSTANDARDS
+fi
+
+if [ "$RUNNER" = "all" ]; then
+  RUNNER=$ALLRUNNERS
+fi
+
+TMPNAME=$(date +"%s")-$(($RANDOM % 999))
+if [ "$CSV" != "" ]; then
+  TMPNAME=$CSV
+  CSVFILE=$DIR/$TMPNAME
+  echo -n > $CSVFILE
+  echo -n > $CSVFILE-summary.json
+elif [ "$JSON" = true ]; then
+  CSVFILE=
+else
+  CSVFILE=
+fi
+
+LOGFILE=$DIR/$TMPNAME.log
+echo -n > $LOGFILE
+
+echo "# "$(date) >> $LOGFILE
+echo "# CONFIG = $CONFIG" >> $LOGFILE
+echo "# STANDARD = $STANDARD" >> $LOGFILE
+echo "# RUNNER = $RUNNER" >> $LOGFILE
+echo "# PAGES = $PAGES" >> $LOGFILE
+echo "# EXTRAPARAMS = $EXTRAPARAMS" >> $LOGFILE
+echo "# JSON = $JSON" >> $LOGFILE
+echo "# HTML = $HTML" >> $LOGFILE
+echo "# CSV = $CSV" >> $LOGFILE
+echo "# DIR = $DIR" >> $LOGFILE
+
+for STD in $STANDARD; do
+
+  echo "" >> $LOGFILE
+
+  CONFIGFILE=$DIR/$TMPNAME-$STD.config
+  if [ "$CONFIG" != "" ]; then
+    cp $CONFIG $CONFIGFILE
+  else
+    cp $MYDIR/pa11yci-config $CONFIGFILE
+  fi
+
+  RUN=$(sed -r 's/ +/","/g' <<< "$RUNNER")
+
+  # insert standard and runner into config file for just this execution
+  sed -e '3s/.*/    "standard": "'$STD'",/' $CONFIGFILE > $CONFIGFILE.sed && mv $CONFIGFILE.sed $CONFIGFILE
+  sed -e '4s/.*/    "runners": ["'$RUN'"],/' $CONFIGFILE > $CONFIGFILE.sed && mv $CONFIGFILE.sed $CONFIGFILE
+
+  echo "# Standard $STD with runners $RUNNER" >> $LOGFILE
+  if [ "$CSV" != "" ]; then
+    JSONFILE=$DIR/$TMPNAME-$STD.json
+  
+    echo "# CONFIG for $STD = $CONFIGFILE" >> $LOGFILE
+    echo "# JSON for $STD = $JSONFILE" >> $LOGFILE
+
+    echo "./node_modules/pa11y-ci/bin/pa11y-ci.js --config $CONFIGFILE --json $EXTRAPARAMS $PAGES > $JSONFILE" >> $LOGFILE
+    ./node_modules/pa11y-ci/bin/pa11y-ci.js --config $CONFIGFILE --json $EXTRAPARAMS $PAGES > $JSONFILE
+    if [ -f $JSONFILE ]; then
+      if [ $(wc -l < $CSVFILE) -gt 0 ]; then
+        echo "$MYDIR/pa11yciJsonToCsv $JSONFILE $CSVFILE $STD 1" >> $LOGFILE
+        $MYDIR/pa11yciJsonToCsv $JSONFILE $CSVFILE $STD 1
+      else 
+        echo "$MYDIR/pa11yciJsonToCsv $JSONFILE $CSVFILE $STD" >> $LOGFILE
+        $MYDIR/pa11yciJsonToCsv $JSONFILE $CSVFILE $STD
+      fi
+      if [ "$HTML" = true ] && [ $(command -v pa11y-ci-reporter-html) ]; then
+        echo "pa11y-ci-reporter-html -s $JSONFILE -d $DIR" >> $LOGFILE
+        pa11y-ci-reporter-html -s $JSONFILE -d $DIR
+      else 
+        echo "pa11y-ci-reporter-html -s $JSONFILE -d $DIR (NOT-FOUND)" >> $LOGFILE
+        command -v pa11y-ci-reporter-html >> $LOGFILE
+      fi
+    fi
+  elif [ "$JSON" = true ]; then
+    echo "./node_modules/pa11y-ci/bin/pa11y-ci.js --config $CONFIGFILE $EXTRAPARAMS $PAGES --json" >> $LOGFILE
+    ./node_modules/pa11y-ci/bin/pa11y-ci.js --config $CONFIGFILE $EXTRAPARAMS $PAGES --json
+  else
+    echo "./node_modules/pa11y-ci/bin/pa11y-ci.js --config $CONFIGFILE $EXTRAPARAMS $PAGES" >> $LOGFILE
+    ./node_modules/pa11y-ci/bin/pa11y-ci.js --config $CONFIGFILE $EXTRAPARAMS $PAGES
+  fi
+  
+  [ "$DEBUG" = false ] && [ "$CONFIGFILE" != "" ] && [ -f $CONFIGFILE ] && rm $CONFIGFILE;
+  [ "$DEBUG" = false ] && [ "$JSONFILE" != "" ] && [ -f $JSONFILE ] && rm $JSONFILE;
+  [ "$DEBUG" = false ] && [ "$LOGFILE" != "" ] && [ -f $LOGFILE ] && rm $LOGFILE;
+
+done

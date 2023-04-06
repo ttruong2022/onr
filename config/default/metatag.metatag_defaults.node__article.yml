@@ -1,0 +1,24 @@
+uuid: 79423a22-3e29-4c4e-9858-37781582de71
+langcode: en
+status: true
+dependencies: {  }
+id: node__article
+label: 'Content: Article'
+tags:
+  og_image: '[node:field_featured_image:0:entity:field_media_image:large:url]'
+  og_image_width: '[node:field_featured_image:0:entity:field_media_image:large:width]'
+  og_image_height: '[node:field_featured_image:0:entity:field_media_image:large:height]'
+  og_image_alt: '[node:field_featured_image:0:entity:field_media_image:alt]'
+  twitter_cards_image_alt: '[node:field_featured_image:0:entity:field_media_image:alt]'
+  twitter_cards_image: '[node:field_featured_image:0:entity:field_media_image:large:url]'
+  twitter_cards_type: summary
+  twitter_cards_image_height: '[node:field_featured_image:0:entity:field_media_image:large:height]'
+  twitter_cards_image_width: '[node:field_featured_image:0:entity:field_media_image:large:width]'
+  schema_article_headline: '[node:title]'
+  schema_article_date_published: '[node:published:html_datetime]'
+  schema_article_author: 'a:2:{s:5:"@type";s:6:"Person";s:4:"name";s:27:"[node:field_article_author]";}'
+  schema_article_image: 'a:5:{s:5:"@type";s:11:"ImageObject";s:20:"representativeOfPage";s:4:"True";s:3:"url";s:64:"[node:field_featured_image:0:entity:field_media_image:large:url]";s:5:"width";s:66:"[node:field_featured_image:0:entity:field_media_image:large:width]";s:6:"height";s:67:"[node:field_featured_image:0:entity:field_media_image:large:height]";}'
+  schema_article_type: Article
+  schema_article_date_modified: '[node:changed:html_datetime]'
+  schema_article_name: '[node:title]'
+  schema_article_description: '[node:summary]'

@@ -1,0 +1,1418 @@
+uuid: 548ea051-4645-41cd-82e4-20e6b3d70235
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.storage.block_content.field_department_list
+    - field.storage.block_content.field_email
+    - field.storage.block_content.field_name
+    - field.storage.block_content.field_title
+    - taxonomy.vocabulary.departments
+  content:
+    - 'taxonomy_term:departments:083aecb3-1a59-4459-aa1c-a05bcb4eb45a'
+    - 'taxonomy_term:departments:17044125-9e42-4569-9be3-76b63edd3fda'
+    - 'taxonomy_term:departments:1c9237b2-d808-43e1-8563-81b4cafd2ada'
+    - 'taxonomy_term:departments:2688881c-809e-4059-8ef9-8827b0c7b196'
+    - 'taxonomy_term:departments:31c570af-831c-4247-bf20-c98237cfc6b7'
+    - 'taxonomy_term:departments:3a950e58-479c-4251-aec5-661731bf1a37'
+    - 'taxonomy_term:departments:45a4100e-8dbb-4dc0-befc-c8a41263cdba'
+    - 'taxonomy_term:departments:537c2ccb-c7b6-42e0-bf35-46f6672358cc'
+    - 'taxonomy_term:departments:6226ce08-b30c-416e-91cd-674e48f05a16'
+    - 'taxonomy_term:departments:8263ce8f-15eb-46a7-9ee0-2413f2859708'
+    - 'taxonomy_term:departments:a277f255-4910-40ef-8387-96564e145943'
+    - 'taxonomy_term:departments:a3ac8547-f17a-4e3b-a40a-dd5ece2d3f79'
+    - 'taxonomy_term:departments:a8b1255c-c73c-4c10-86c0-d9e98d056843'
+    - 'taxonomy_term:departments:add473a9-71c5-4992-9f75-99c598ac0e42'
+    - 'taxonomy_term:departments:c3449e0e-a483-4fcd-962b-a57772a86af3'
+    - 'taxonomy_term:departments:da3c0e77-7cea-4411-a216-be5c2fea7f0f'
+    - 'taxonomy_term:departments:dd8400cb-0b0a-4fe7-a4c5-e62db12f26a5'
+    - 'taxonomy_term:departments:fc36acb7-632e-4dca-a71c-6a41fb0a1d83'
+    - 'taxonomy_term:departments:ffe6f21f-0c73-46b8-bca9-428be85cc9fa'
+  module:
+    - block_content
+    - taxonomy
+    - views_custom_cache_tag
+id: department_all_contacts
+label: 'Department All Contacts'
+module: views
+description: ''
+tag: ''
+base_table: block_content_field_data
+base_field: id
+display:
+  default:
+    id: default
+    display_title: Default
+    display_plugin: default
+    position: 0
+    display_options:
+      title: 'Code 31 All Contacts'
+      fields:
+        field_name:
+          id: field_name
+          table: block_content__field_name
+          field: field_name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Name
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_title:
+          id: field_title
+          table: block_content__field_title
+          field: field_title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Title
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_department_list:
+          id: field_department_list
+          table: block_content__field_department_list
+          field: field_department_list
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Department List'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_email:
+          id: field_email
+          table: block_content__field_email
+          field: field_email
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Email
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: email_mailto
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+      pager:
+        type: none
+        options:
+          offset: 0
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      access:
+        type: none
+        options: {  }
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'block_list:contact_block'
+      empty: {  }
+      sorts:
+        field_name_value:
+          id: field_name_value
+          table: block_content__field_name
+          field: field_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+      arguments: {  }
+      filters:
+        status:
+          id: status
+          table: block_content_field_data
+          field: status
+          entity_type: block_content
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        reusable:
+          id: reusable
+          table: block_content_field_data
+          field: reusable
+          entity_type: block_content
+          entity_field: reusable
+          plugin_id: boolean
+          value: '1'
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: block_content_field_data
+          field: type
+          entity_type: block_content
+          entity_field: type
+          plugin_id: bundle
+          value:
+            contact_block: contact_block
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_department_list_target_id:
+          id: field_department_list_target_id
+          table: block_content__field_department_list
+          field: field_department_list_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            102: 102
+            103: 103
+            104: 104
+            190: 190
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: departments
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+          save_lineage: false
+          force_deepest: false
+          parent: null
+          level_labels: ''
+          hierarchy_depth: 0
+          required_depth: 0
+          none_label: '- Please select -'
+      style:
+        type: table
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          columns:
+            field_name: field_name
+            field_title: field_title
+            field_department_list: field_department_list
+            field_email: field_email
+          default: field_name
+          info:
+            field_name:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_title:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_department_list:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_email:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          override: true
+          sticky: false
+          summary: ''
+          empty_table: false
+          caption: ''
+          description: ''
+      row:
+        type: 'entity:block_content'
+      query:
+        type: views_query
+        options:
+          query_comment: ''
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_tags: {  }
+      relationships: {  }
+      header: {  }
+      footer: {  }
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - user
+      tags:
+        - 'config:field.storage.block_content.field_department_list'
+        - 'config:field.storage.block_content.field_email'
+        - 'config:field.storage.block_content.field_name'
+        - 'config:field.storage.block_content.field_title'
+  block_1:
+    id: block_1
+    display_title: 'Code 31'
+    display_plugin: block
+    position: 1
+    display_options:
+      filters:
+        status:
+          id: status
+          table: block_content_field_data
+          field: status
+          entity_type: block_content
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        reusable:
+          id: reusable
+          table: block_content_field_data
+          field: reusable
+          entity_type: block_content
+          entity_field: reusable
+          plugin_id: boolean
+          value: '1'
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: block_content_field_data
+          field: type
+          entity_type: block_content
+          entity_field: type
+          plugin_id: bundle
+          value:
+            contact_block: contact_block
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_department_list_target_id:
+          id: field_department_list_target_id
+          table: block_content__field_department_list
+          field: field_department_list_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            98: 98
+            99: 99
+            100: 100
+            101: 101
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: departments
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+          save_lineage: false
+          force_deepest: false
+          parent: null
+          level_labels: ''
+          hierarchy_depth: 0
+          required_depth: 0
+          none_label: '- Please select -'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders:
+        simple_sitemap_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+      block_description: 'Code 31'
+      block_category: 'All Contacts'
+      allow:
+        items_per_page: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - user
+      tags:
+        - 'config:field.storage.block_content.field_department_list'
+        - 'config:field.storage.block_content.field_email'
+        - 'config:field.storage.block_content.field_name'
+        - 'config:field.storage.block_content.field_title'
+  block_2:
+    id: block_2
+    display_title: 'Code 32'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Code 32 All Contacts'
+      defaults:
+        title: false
+      display_description: ''
+      display_extenders:
+        simple_sitemap_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+      block_description: 'Code 32'
+      block_category: 'All Contacts'
+      allow:
+        items_per_page: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - user
+      tags:
+        - 'config:field.storage.block_content.field_department_list'
+        - 'config:field.storage.block_content.field_email'
+        - 'config:field.storage.block_content.field_name'
+        - 'config:field.storage.block_content.field_title'
+  block_3:
+    id: block_3
+    display_title: 'Code 33'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Code 33 All Contacts'
+      filters:
+        status:
+          id: status
+          table: block_content_field_data
+          field: status
+          entity_type: block_content
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        reusable:
+          id: reusable
+          table: block_content_field_data
+          field: reusable
+          entity_type: block_content
+          entity_field: reusable
+          plugin_id: boolean
+          value: '1'
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: block_content_field_data
+          field: type
+          entity_type: block_content
+          entity_field: type
+          plugin_id: bundle
+          value:
+            contact_block: contact_block
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_department_list_target_id:
+          id: field_department_list_target_id
+          table: block_content__field_department_list
+          field: field_department_list_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            105: 105
+            106: 106
+            107: 107
+            108: 108
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: departments
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+          save_lineage: false
+          force_deepest: false
+          parent: null
+          level_labels: ''
+          hierarchy_depth: 0
+          required_depth: 0
+          none_label: '- Please select -'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders:
+        simple_sitemap_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+      block_description: 'Code 33'
+      block_category: 'All Contacts'
+      allow:
+        items_per_page: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - user
+      tags:
+        - 'config:field.storage.block_content.field_department_list'
+        - 'config:field.storage.block_content.field_email'
+        - 'config:field.storage.block_content.field_name'
+        - 'config:field.storage.block_content.field_title'
+  block_4:
+    id: block_4
+    display_title: 'Code 34'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Code 34 All Contacts'
+      filters:
+        status:
+          id: status
+          table: block_content_field_data
+          field: status
+          entity_type: block_content
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        reusable:
+          id: reusable
+          table: block_content_field_data
+          field: reusable
+          entity_type: block_content
+          entity_field: reusable
+          plugin_id: boolean
+          value: '1'
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: block_content_field_data
+          field: type
+          entity_type: block_content
+          entity_field: type
+          plugin_id: bundle
+          value:
+            contact_block: contact_block
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_department_list_target_id:
+          id: field_department_list_target_id
+          table: block_content__field_department_list
+          field: field_department_list_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            109: 109
+            110: 110
+            111: 111
+            112: 112
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: departments
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+          save_lineage: false
+          force_deepest: false
+          parent: null
+          level_labels: ''
+          hierarchy_depth: 0
+          required_depth: 0
+          none_label: '- Please select -'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders:
+        simple_sitemap_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+      block_description: 'Code 34'
+      block_category: 'All Contacts'
+      allow:
+        items_per_page: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - user
+      tags:
+        - 'config:field.storage.block_content.field_department_list'
+        - 'config:field.storage.block_content.field_email'
+        - 'config:field.storage.block_content.field_name'
+        - 'config:field.storage.block_content.field_title'
+  block_5:
+    id: block_5
+    display_title: 'Code 35'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Code 35 All Contacts'
+      filters:
+        status:
+          id: status
+          table: block_content_field_data
+          field: status
+          entity_type: block_content
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        reusable:
+          id: reusable
+          table: block_content_field_data
+          field: reusable
+          entity_type: block_content
+          entity_field: reusable
+          plugin_id: boolean
+          value: '1'
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: block_content_field_data
+          field: type
+          entity_type: block_content
+          entity_field: type
+          plugin_id: bundle
+          value:
+            contact_block: contact_block
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_department_list_target_id:
+          id: field_department_list_target_id
+          table: block_content__field_department_list
+          field: field_department_list_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            113: 113
+            114: 114
+            115: 115
+            116: 116
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: departments
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+          save_lineage: false
+          force_deepest: false
+          parent: null
+          level_labels: ''
+          hierarchy_depth: 0
+          required_depth: 0
+          none_label: '- Please select -'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders:
+        simple_sitemap_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+      block_description: 'Code 35'
+      block_category: 'All Contacts'
+      allow:
+        items_per_page: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - user
+      tags:
+        - 'config:field.storage.block_content.field_department_list'
+        - 'config:field.storage.block_content.field_email'
+        - 'config:field.storage.block_content.field_name'
+        - 'config:field.storage.block_content.field_title'
+  block_6:
+    id: block_6
+    display_title: All
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'All Contacts'
+      fields:
+        field_name:
+          id: field_name
+          table: block_content__field_name
+          field: field_name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Name
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_title:
+          id: field_title
+          table: block_content__field_title
+          field: field_title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Title
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_department_list:
+          id: field_department_list
+          table: block_content__field_department_list
+          field: field_department_list
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'Department List'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_email:
+          id: field_email
+          table: block_content__field_email
+          field: field_email
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Email
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: email_mailto
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+      filters:
+        status:
+          id: status
+          table: block_content_field_data
+          field: status
+          entity_type: block_content
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        reusable:
+          id: reusable
+          table: block_content_field_data
+          field: reusable
+          entity_type: block_content
+          entity_field: reusable
+          plugin_id: boolean
+          value: '1'
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: block_content_field_data
+          field: type
+          entity_type: block_content
+          entity_field: type
+          plugin_id: bundle
+          value:
+            contact_block: contact_block
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_program_contact_value:
+          id: field_program_contact_value
+          table: block_content__field_program_contact
+          field: field_program_contact_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders:
+        simple_sitemap_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+      block_description: All
+      block_category: 'All Contacts'
+      allow:
+        items_per_page: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+      tags:
+        - 'config:field.storage.block_content.field_department_list'
+        - 'config:field.storage.block_content.field_email'
+        - 'config:field.storage.block_content.field_name'
+        - 'config:field.storage.block_content.field_title'

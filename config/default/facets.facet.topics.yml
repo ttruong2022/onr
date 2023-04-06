@@ -1,0 +1,90 @@
+uuid: cece5f4d-e683-4fd1-8f0b-e9e88b3752c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.index.onr
+    - views.view.site_search
+  module:
+    - search_api
+id: topics
+name: Topics
+weight: 0
+min_count: 1
+url_alias: topics_agg
+facet_source_id: 'search_api:views_page__site_search__page_1'
+field_identifier: topics
+query_operator: or
+hard_limit: 0
+exclude: false
+use_hierarchy: false
+keep_hierarchy_parents_active: false
+hierarchy:
+  type: taxonomy
+  config: {  }
+expand_hierarchy: false
+enable_parent_when_child_gets_disabled: true
+widget:
+  type: checkbox
+  config:
+    show_numbers: true
+    soft_limit: 5
+    show_reset_link: false
+    reset_text: 'Show all'
+    hide_reset_when_no_selection: false
+    soft_limit_settings:
+      show_less_label: 'Show less'
+      show_more_label: 'Show more'
+empty_behavior:
+  behavior: none
+only_visible_when_facet_source_is_visible: true
+show_only_one_result: false
+show_title: false
+processor_configs:
+  active_widget_order:
+    processor_id: active_widget_order
+    weights:
+      sort: 20
+    settings:
+      sort: ASC
+  count_widget_order:
+    processor_id: count_widget_order
+    weights:
+      sort: 30
+    settings:
+      sort: DESC
+  display_value_widget_order:
+    processor_id: display_value_widget_order
+    weights:
+      sort: 40
+    settings:
+      sort: ASC
+  exclude_specified_items:
+    processor_id: exclude_specified_items
+    weights:
+      build: 50
+    settings:
+      exclude: "Programs,\r\nONR Global,\r\nCode 31,\r\nCode 32,\r\nCode 33,\r\nCode 34,\r\nCode 35,\r\nCode 36,\r\nDivision-311,\r\nDivision-312,\r\nDivision-313,\r\nDivision-321,\r\nDivision-322,\r\nCode 32 - Partnerships,\r\nDivision-331,\r\nDivision-332,\r\nDivision-333,\r\nDivision-341,\r\nDivision-342,\r\nDivision-351,\r\nDivision-352"
+      regex: false
+      invert: false
+  hide_non_narrowing_result_processor:
+    processor_id: hide_non_narrowing_result_processor
+    weights:
+      build: 40
+    settings: {  }
+  hierarchy_processor:
+    processor_id: hierarchy_processor
+    weights:
+      build: 100
+    settings: {  }
+  translate_entity_aggregated_fields:
+    processor_id: translate_entity_aggregated_fields
+    weights:
+      build: 5
+    settings: {  }
+  url_processor_handler:
+    processor_id: url_processor_handler
+    weights:
+      pre_query: 50
+      build: 15
+    settings: {  }

@@ -1,0 +1,23 @@
+@import '../../01-core/variables';
+
+.block-headersublinks {
+  @extend %hide-on-mobile;
+  display: flex;
+  width: max-content;
+  text-transform: uppercase;
+  justify-self: end;
+
+  @include mq-min-nonmobile {
+    align-items: center;
+    padding-bottom: 1.5rem;
+
+    &, 
+    .user-logged-in & {
+      display: flex;
+    }
+  }
+
+  ul {
+    @extend %inline-piped-list;
+  }
+}

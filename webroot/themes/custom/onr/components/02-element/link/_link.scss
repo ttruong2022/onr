@@ -1,0 +1,21 @@
+a {
+  &.ext {
+    padding-right: 1rem;
+
+    svg {
+      &.ext {
+        transform: translateX(1.25rem);
+        margin-left: -16px;
+        width: 1rem;
+      }
+    }
+  }
+}
+
+.list-view {
+  .views-row {
+    [href] {
+      display: inline-block;
+    }
+  }
+}

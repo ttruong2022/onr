@@ -1,0 +1,25 @@
+uuid: 095a771b-b4a0-4719-9c8b-b156816cd037
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:ee5b0381-81a1-44b3-bb72-ab1575198cc4'
+  module:
+    - block_content
+  theme:
+    - onr
+id: footerlocation
+theme: onr
+region: footer
+weight: 0
+provider: null
+plugin: 'block_content:ee5b0381-81a1-44b3-bb72-ab1575198cc4'
+settings:
+  id: 'block_content:ee5b0381-81a1-44b3-bb72-ab1575198cc4'
+  label: 'Footer Location'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

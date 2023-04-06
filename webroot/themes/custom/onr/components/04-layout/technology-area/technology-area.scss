@@ -1,0 +1,79 @@
+@import '../../01-core/variables';
+
+.technology-area {
+
+  header {
+    margin: 2rem 0;
+  }
+
+  .a-z-container {
+    margin: 1.5rem 0;
+    text-align: center;
+
+    a {
+      margin: 0 0.5rem;
+      text-decoration: none;
+      line-height: 32px;
+      font-size: $large;
+    }
+  }
+
+  .grid-container {
+    border-top: 2px solid $orange;
+
+    h2 {
+      margin: 1.5rem 0;
+      line-height: 2.5rem;
+      font-size: $h1;
+    }
+
+    ul {
+      margin-bottom: 30px;
+      padding-inline-start: 17px;
+
+      li {
+        margin: 10px 20px 10px 0; // mitigate "fat-finger" problems on mobile
+
+        a {
+          display: inline-flex;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: $uswds-tablet-lg-breakpoint) {
+
+    .a-z-container {
+      margin: 2rem 0;
+
+      a {
+        line-height: inherit;
+      }
+    }
+
+    .grid-container {
+      display: flex;
+
+      h2 {
+        flex: 0 0 33.33%;
+      }
+
+      .content {
+        flex: 0 0 66.67%;
+
+        ul {
+          columns: 2;
+          -webkit-columns: 2;
+          -moz-columns: 2;
+
+          li {
+            &:first-child {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

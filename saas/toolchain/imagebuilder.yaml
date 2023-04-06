@@ -1,0 +1,690 @@
+Description: >
+
+  This template deploys an S3 Bucket for cloudformation stack templates, an ECR repository, a CodeCommit for artifacts storage,
+  a CodePipeline to respond to CodeCommit and a CodeBuild to build the images for ECR.
+
+Parameters:
+
+  ToolchainStack:
+    Description: Toolchain stack containing resources to import
+    Type: String
+
+  DomainName:
+    Description: Domain name
+    Type: String
+    
+  SESSecret:
+    Description: SES Secret Arn
+    Type: String
+
+  BaseTag:
+    Description: Code version and image tag of RHEL to build
+    Type: String
+
+  ImageTag:
+    Description: Code version and image tag of App to build
+    Type: String
+  
+  SolrTag:
+    Description: Code version and image tag of Solr to build
+    Type: String
+
+Resources:
+
+  # Image Builder
+
+  # Create an S3 Bucket for logs.
+  # When deleting the stack, make sure to empty the bucket first.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html
+  ImageBuilderLogBucket:
+    Type: AWS::S3::Bucket
+    # If you want to delete the stack, but keep the bucket, set the DelectionPolicy to Retain.
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html
+    # DeletionPolicy: Retain
+
+  # By default, AWS Services do not have permission to perform actions on your instances. This grants
+  # AWS Systems Manager (SSM) and EC2 Image Builder the necessary permissions to build an image.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
+  # https://docs.aws.amazon.com/imagebuilder/latest/userguide/image-builder-setting-up.html
+  InstanceRole:
+    Type: AWS::IAM::Role
+    Metadata:
+      Comment: Role to be used by instance during image build.
+    Properties:
+      ManagedPolicyArns:
+        - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/EC2InstanceProfileForImageBuilder
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+        Version: '2012-10-17'
+      Path: /executionServiceEC2Role/
+
+  # Policy to allow the instance to write to the S3 bucket (via instance role / instance profile).
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html
+  InstanceRoleLoggingPolicy:
+    Type: AWS::IAM::Policy
+    Metadata:
+      Comment: Allows the instance to access CodeCommit and save log files to an S3 bucket.
+    Properties:
+      PolicyName: ImageBuilderLogBucketPolicy
+      Roles:
+        - Ref: InstanceRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - s3:PutObject
+            Effect: Allow
+            Resource:
+              - Fn::Sub:
+                  - arn:${AWS::Partition}:s3:::${BUCKET}/*
+                  - BUCKET:
+                      Ref: ImageBuilderLogBucket
+          - Action:
+              - "codecommit:GitPull"
+            Resource:
+              - !ImportValue
+                  Fn::Sub: "${ToolchainStack}-CodeCommitRepoArn"
+            Effect: Allow
+          - Action:
+              - "secretsmanager:GetResourcePolicy"
+              - "secretsmanager:GetSecretValue"
+              - "secretsmanager:DescribeSecret"
+              - "secretsmanager:ListSecretVersionIds"
+            Resource:
+              - !Ref SESSecret
+            Effect: Allow
+          - Action:
+              - "secretsmanager:ListSecrets"
+            Resource:
+              - "*"
+            Effect: Allow
+
+  # To pass the InstanceRole to an EC2 instance, we need an InstanceProfile.
+  # This profile will be used during the image build process.
+  # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /executionServiceEC2Role/
+      Roles:
+        - Ref: InstanceRole
+
+  PackagesComponent:
+    Type: AWS::ImageBuilder::Component
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: 'Base Required Packages'
+      Platform: 'Linux'
+      Version: !Ref BaseTag
+      Description: 'Required base repositories and packages'
+      ChangeDescription: "New build ${CurrentBuild}"
+      SupportedOsVersions: ["Red Hat Enterprise Linux 8"]
+      Data: !Sub |
+        name: OS Prep - InlineData
+        description: This is the OS prep component
+        schemaVersion: 1.0
+        phases:
+          - name: build
+            steps:
+              - name: install-stig
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8
+                    - dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+                    - dnf install -y openscap-utils scap-security-guide python2 unzip git policycoreutils-python-utils
+                    - dnf install -y clamav clamav-update
+                    - pip2 install awscli git-remote-codecommit
+                    - mkdir -p /tmp/code
+                    - git clone codecommit::us-east-1://web -b ${BaseTag} /tmp/code
+                    - unzip /tmp/code/saas/services/base/stig/rhel8-stig-20220228.zip -d /usr/share/xml/scap/ssg/content
+                    - oscap xccdf eval --remediate --profile xccdf_org.ssgproject.content_profile_stig /usr/share/xml/scap/ssg/content/rhel8-stig-latest-master/ssg-rhel8-ds.xml
+                    - chmod +x /tmp/code/saas/services/base/scripts/stig.sh
+                    - /tmp/code/saas/services/base/scripts/stig.sh
+              - name: install-packages
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - dnf install -y nano
+                    - dnf install -y postfix
+                    - dnf install -y cyrus-sasl-plain
+                    - dnf install -y mailx
+                    - curl -L -o /tmp/amazon-cloudwatch-agent.rpm https://s3.${AWS::Region}.amazonaws.com/amazoncloudwatch-agent-${AWS::Region}/redhat/amd64/latest/amazon-cloudwatch-agent.rpm
+                    - rpm -U /tmp/amazon-cloudwatch-agent.rpm
+              - name: install-cfn-bootstrap
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - mkdir -p /opt/aws/bin
+                    - curl -L -o /tmp/aws-cfn-bootstrap-latest.tar.gz https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+                    - python2 -m easy_install --script-dir /opt/aws/bin /tmp/aws-cfn-bootstrap-latest.tar.gz
+              - name: install-sendmail
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - chmod +x /tmp/code/saas/services/base/scripts/ses.sh
+                    - /tmp/code/saas/services/base/scripts/ses.sh "${AWS::Region}" "${SESSecret}"
+                    - firewall-cmd --permanent --zone=restricted --add-port=587/tcp
+                    - firewall-cmd --reload
+                    - systemctl enable postfix
+              - name: partition
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - chmod +x /tmp/code/saas/services/base/scripts/partition.sh
+                    - /tmp/code/saas/services/base/scripts/partition.sh
+                    - rm -rf /tmp/code
+              - name: print-volumes
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - lsblk
+                    - blkid
+                    - cat /etc/fstab
+
+  WebComponent:
+    Type: AWS::ImageBuilder::Component
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: 'Web Service'
+      Platform: 'Linux'
+      Version: !Ref ImageTag
+      Description: 'PHP 8 and Nginx'
+      ChangeDescription: "New build ${CurrentBuild}"
+      SupportedOsVersions: ["Red Hat Enterprise Linux 8"]
+      Data: !Sub |
+        name: OS Prep - InlineData
+        description: This is the OS prep component
+        schemaVersion: 1.0
+        phases:
+          - name: build
+            steps:
+              - name: install-packages
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - rpm --import https://rpms.remirepo.net/RPM-GPG-KEY-remi2018
+                    - dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+                    - dnf module enable php:remi-8.0 -y
+                    - dnf install -y php php-{cli,common,fpm,mysqlnd,json,redis,opcache,xml,mbstring,gd,curl}
+                    - dnf install -y mariadb
+                    - dnf install -y redis
+                    - dnf install -y clamd
+                    - firewall-cmd --permanent --zone=restricted --add-service=https
+                    - firewall-cmd --permanent --zone=restricted --add-service=redis
+                    - firewall-cmd --permanent --zone=restricted --add-port=8983/tcp
+                    - firewall-cmd --reload
+                    - curl -L -o /etc/ssl/certs/rds.pem https://truststore.pki.rds.amazonaws.com/us-east-1/us-east-1-bundle.pem
+                    - chown apache:apache /etc/ssl/certs/rds.pem
+                    - chmod 600 /etc/ssl/certs/rds.pem
+              - name: install-nginx
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - dnf install -y nginx
+                    - openssl req -newkey rsa:4096 -nodes -keyout /etc/pki/tls/private/web.key -x509 -days 3650 -out /etc/pki/tls/certs/web.crt -subj "/C=US/ST=Virginia/L=Vienna/O=Mobomo/OU=Engineering/CN=${DomainName}/emailAddress=webmaster@${DomainName}"
+                    - openssl x509 -in /etc/pki/tls/certs/web.crt -out /etc/pki/tls/certs/web.pem -outform PEM
+                    - setsebool -P httpd_can_network_connect 1
+                    - setsebool -P httpd_can_network_connect_db 1
+                    - mkdir /etc/nginx/conf.location.d
+                    - chmod 755 /etc/nginx/conf.location.d
+                    - mkdir /var/cache/httpd/fastcgi
+                    - systemctl enable nginx
+                    - systemctl start nginx
+              - name: install-code
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - rm -rf /var/www
+                    - mkdir -p /var/www
+                    - restorecon -Rv /var/www
+                    - git clone codecommit::us-east-1://web -b ${ImageTag} /var/www
+              - name: install-tools
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - cp /var/www/saas/services/drupal/scripts/drush-wrapper.sh /usr/sbin/drush
+                    - chmod 700 /usr/sbin/drush
+                    - cp /var/www/saas/services/drupal/bin/redis-cli /bin/redis-cli
+                    - cp /var/www/saas/services/drupal/bin/redis-cli /usr/bin/redis-cli
+                    - cp /var/www/saas/services/drupal/scripts/flush-drupal-cache.sh /usr/sbin/flush-drupal-cache
+                    - chmod 700 /usr/sbin/flush-drupal-cache
+                    - cp /var/www/saas/services/drupal/scripts/flush-redis-cache.sh /usr/sbin/flush-redis-cache
+                    - chmod 700 /usr/sbin/flush-redis-cache
+                    - cp /var/www/saas/services/drupal/scripts/flush-nginx-cache.sh /usr/sbin/flush-nginx-cache
+                    - chmod 700 /usr/sbin/flush-nginx-cache
+              - name: install-config
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - rm -rf /etc/nginx/nginx.conf
+                    - cp /var/www/saas/services/drupal/config/nginx.conf /etc/nginx/nginx.conf
+                    - cp /var/www/saas/services/drupal/config/50-drupal.conf /etc/rsyslog.d/50-drupal.conf
+                    - rm -rf /etc/php.ini
+                    - cp /var/www/saas/services/drupal/config/php.ini /etc/php.ini
+                    - cp /var/www/saas/services/drupal/config/php-cli.ini /etc/php-cli.ini
+              - name: selinux
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - sudo groupadd www-data
+                    - sudo usermod -a -G www-data apache
+                    - sudo usermod -a -G www-data nginx
+                    - chown -R root:www-data /var/www
+                    - chmod -R 750 /var/www
+                    - mkdir -p /var/www/storage/php/twig
+                    - mkdir -p /var/www/storage/tmp
+                    - mkdir -p /var/www/private-files
+                    - mkdir -p /var/www/webroot/sites/default/files
+                    - chcon -R -t httpd_sys_rw_content_t /var/www/storage
+                    - chcon -R -t httpd_sys_rw_content_t /var/www/private-files
+                    - chcon -R -t httpd_sys_rw_content_t /var/www/webroot/sites/default/files
+                    - chown apache:apache /var/www/webroot/sites/default/settings.php
+                    - chown apache:apache /var/www/webroot/sites/default/settings.local.php
+                    - chown -R apache:apache /var/www/storage
+                    - chown -R apache:apache /var/www/private-files
+                    - chown -R apache:apache /var/www/webroot/sites/default/files
+                    - chown -R nginx:nginx /var/cache/httpd
+                    - chmod 0640 /var/www/storage/php/twig
+                    - chmod 0750 /var/www/storage/tmp
+                    - chmod 0400 /var/www/webroot/sites/default/settings.php
+                    - chmod 0400 /var/www/webroot/sites/default/settings.local.php
+                    - setsebool -P httpd_can_sendmail 1
+                    - chmod +x /var/www/saas/services/drupal/scripts/fapolicy.sh
+                    - /var/www/saas/services/drupal/scripts/fapolicy.sh
+              - name: install-motd
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - mkdir -p /etc/motd.d
+                    - cp /var/www/saas/services/base/config/motd /etc/motd.d/version.motd
+              - name: cleanup
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - rm -rf /var/www/saas
+                    - rm -rf /var/www/.git
+  
+  SolrComponent:
+    Type: AWS::ImageBuilder::Component
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: 'Solr Service'
+      Platform: 'Linux'
+      Version: !Ref SolrTag
+      Description: 'Apache Solr'
+      ChangeDescription: "New build ${CurrentBuild}"
+      SupportedOsVersions: ["Red Hat Enterprise Linux 8"]
+      Data: !Sub |
+        name: OS Prep - InlineData
+        description: This is the OS prep component
+        schemaVersion: 1.0
+        phases:
+          - name: build
+            steps:
+              - name: install-solr
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - dnf install -y lsof
+                    - dnf install -y java-1.8.0-openjdk-headless
+                    - curl -L -o /tmp/solr-8.11.1.tgz https://dlcdn.apache.org/lucene/solr/8.11.1/solr-8.11.1.tgz
+                    - tar -zxvf /tmp/solr-8.11.1.tgz solr-8.11.1/bin/install_solr_service.sh --strip-components=2
+                    - mkdir -p /var/www
+                    - git clone codecommit::us-east-1://web -b ${SolrTag} /var/www
+                    - chmod +x /var/www/saas/services/solr/scripts/fapolicy.sh
+                    - /var/www/saas/services/solr/scripts/fapolicy.sh
+                    - chmod +x /var/www/saas/services/solr/scripts/limits.sh
+                    - /var/www/saas/services/solr/scripts/limits.sh
+                    - bash ./install_solr_service.sh /tmp/solr-8.11.1.tgz
+                    - chcon -t initrc_exec_t /etc/init.d/solr
+                    - firewall-cmd --permanent --zone=restricted --add-port=8983/tcp
+                    - firewall-cmd --reload
+                    - systemctl daemon-reload
+                    - service solr stop
+                    - chmod +x /var/www/saas/services/solr/scripts/stig.sh
+                    - /var/www/saas/services/solr/scripts/stig.sh
+                    - systemctl enable solr
+                    - systemctl restart solr
+              - name: copy-config
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - mkdir -p /var/solr/config
+                    - chown solr:solr /var/solr/config
+                    - mv /var/www/saas/services/solr/config/solr/* /var/solr/config
+                    - sudo --user solr /opt/solr/bin/solr create -c search -d /var/solr/config -n search
+                    - rm -rf /var/www
+              - name: cleanup
+                action: ExecuteBash
+                inputs:
+                  commands:
+                    - rm -rf ./install_solr_service.sh
+                    - rm -rf /tmp/solr-8.11.1.tgz
+
+  # Specifies the infrastructure within which to build and test your image.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html
+  RHELStigImageInfrastructureConfiguration:
+    Type: AWS::ImageBuilder::InfrastructureConfiguration
+    Properties:
+      Name: RHEL-with-STIG-Infrastructure-Configuration
+      InstanceProfileName:
+        Ref: InstanceProfile
+      # Specify an S3 bucket and EC2 Image Builder will save logs to the bucket.
+      Logging:
+        S3Logs:
+          S3BucketName:
+            Ref: ImageBuilderLogBucket
+      KeyPair: "Steven's Pubkey"
+      TerminateInstanceOnFailure: false
+          # S3KeyPrefix: 'my-imagebuilder-bucket-prefix'
+      # If you would like to keep the instance running after a failed build, set TerminateInstanceOnFailure to false.
+      # TerminateInstanceOnFailure: false
+      # If you do not have a default VPC or want to use a different VPC, you must specify the subnet ID to use
+      # SubnetId: 'subnet-id'
+
+  # The CloudWatch LogGroup for the image build logs is provided to ensure the LogGroup is cleaned up if the stack is deleted.
+  RHELStigImageLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      LogGroupName: /aws/imagebuilder/RHEL-with-STIG
+      RetentionInDays: 3
+
+  # Recipe which references the latest (x.x.x) version of the Amazon Linux 2 AMI).
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-imagerecipe.html
+  RHELStigImageRecipe:
+    Type: AWS::ImageBuilder::ImageRecipe
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: RHEL-with-STIG
+      Version: !Ref BaseTag
+      # ${AWS::Partition} returns the partition where you are running the CloudFormation template. For standard AWS regions, the
+      # partition is aws. For resources elsewhere, the partition is aws-partitionname. For example, China (Beijing and Ningxia)
+      # regions use aws-cn and AWS GovCloud (US) regions are aws-us-gov.
+      # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html
+      # https://github.com/aws/amazon-ssm-agent/releases/tag/3.1.821.0
+      ParentImage:
+        Fn::Sub: arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:image/red-hat-enterprise-linux-8-x86/2022.2.1
+      BlockDeviceMappings:
+        - DeviceName: "/dev/sda1"
+          Ebs:
+            DeleteOnTermination: true
+            VolumeType: "gp2"
+            VolumeSize: 10
+            Encrypted: true
+            KmsKeyId: !ImportValue
+              Fn::Sub: "${ToolchainStack}-ImageEncryptionKey"
+        - DeviceName: "/dev/sdf"
+          Ebs:
+            DeleteOnTermination: true
+            VolumeType: "gp2"
+            VolumeSize: 10
+            Encrypted: true
+            KmsKeyId: !ImportValue
+              Fn::Sub: "${ToolchainStack}-ImageEncryptionKey"
+      WorkingDirectory: /root
+      Components:
+        - ComponentArn:
+            Fn::Sub: arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/update-linux/1.0.2
+        - ComponentArn: !Ref PackagesComponent
+      AdditionalInstanceConfiguration:
+        UserDataOverride:
+          Fn::Base64:
+            Fn::Sub: |
+              #!/bin/bash
+              echo -e "\n[Service]\nTimeoutStartSec=600" >> /usr/lib/systemd/system/sshd.service
+              systemctl daemon-reload
+              yum install -y https://s3.${AWS::Region}.amazonaws.com/amazon-ssm-${AWS::Region}/3.1.821.0/linux_amd64/amazon-ssm-agent.rpm
+
+  # The Image resource will show complete in CloudFormation once your image is done building. Use this resource later in your
+  # stack to reference the image within other resources.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html
+  RHELStigImage:
+    Type: AWS::ImageBuilder::Image
+    UpdateReplacePolicy: Retain
+    Properties:
+      ImageRecipeArn:
+        Ref: RHELStigImageRecipe
+      InfrastructureConfigurationArn:
+        Ref: RHELStigImageInfrastructureConfiguration
+
+  # Create an SSM Parameter Store entry with our resulting ImageId.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html
+  RHELStigImageParameter:
+    Type: AWS::SSM::Parameter
+    UpdateReplacePolicy: Retain
+    Properties:
+      Description: Image Id for RHEL 8 with STIG applied
+      Name: !Sub /test/images/RHELStigImage/${BaseTag}
+      Type: String
+      Value:
+        Fn::GetAtt: [RHELStigImage, ImageId]
+        
+  LatestRHELStigImageParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Image Id for RHEL 8 with STIG applied
+      Name: /test/images/RHELStigImage/latest
+      Type: String
+      Value:
+        Fn::GetAtt: [RHELStigImage, ImageId]
+      
+  # Specifies the infrastructure within which to build and test your image.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html
+  DrupalImageInfrastructureConfiguration:
+    Type: AWS::ImageBuilder::InfrastructureConfiguration
+    Properties:
+      Name: Drupal-Infrastructure-Configuration
+      InstanceProfileName:
+        Ref: InstanceProfile
+      # Specify an S3 bucket and EC2 Image Builder will save logs to the bucket.
+      Logging:
+        S3Logs:
+          S3BucketName:
+            Ref: ImageBuilderLogBucket
+      KeyPair: "Steven's Pubkey"
+      TerminateInstanceOnFailure: false
+          # S3KeyPrefix: 'my-imagebuilder-bucket-prefix'
+      # If you would like to keep the instance running after a failed build, set TerminateInstanceOnFailure to false.
+      # TerminateInstanceOnFailure: false
+      # If you do not have a default VPC or want to use a different VPC, you must specify the subnet ID to use
+      # SubnetId: 'subnet-id'
+
+  # The CloudWatch LogGroup for the image build logs is provided to ensure the LogGroup is cleaned up if the stack is deleted.
+  DrupalImageLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      LogGroupName: /aws/imagebuilder/Drupal
+      RetentionInDays: 3
+
+  # Recipe which references the latest (x.x.x) version of the Amazon Linux 2 AMI).
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-imagerecipe.html
+  DrupalImageRecipe:
+    Type: AWS::ImageBuilder::ImageRecipe
+    DependsOn: RHELStigImage
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: Drupal
+      Version: !Ref ImageTag
+      # ${AWS::Partition} returns the partition where you are running the CloudFormation template. For standard AWS regions, the
+      # partition is aws. For resources elsewhere, the partition is aws-partitionname. For example, China (Beijing and Ningxia)
+      # regions use aws-cn and AWS GovCloud (US) regions are aws-us-gov.
+      # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html
+      ParentImage:
+        Fn::GetAtt: [RHELStigImage, ImageId]
+      WorkingDirectory: /root
+      Components:
+        - ComponentArn: !Ref WebComponent
+      AdditionalInstanceConfiguration:
+        UserDataOverride:
+          Fn::Base64:
+            Fn::Sub: |
+              #!/bin/bash
+              mount -o remount,size=4G /tmp
+        
+  # The Image resource will show complete in CloudFormation once your image is done building. Use this resource later in your
+  # stack to reference the image within other resources.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html
+  DrupalImage:
+    Type: AWS::ImageBuilder::Image
+    UpdateReplacePolicy: Retain
+    Properties:
+      ImageRecipeArn:
+        Ref: DrupalImageRecipe
+      InfrastructureConfigurationArn:
+        Ref: DrupalImageInfrastructureConfiguration
+
+  # Create an SSM Parameter Store entry with our resulting ImageId.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html
+  DrupalImageParameter:
+    Type: AWS::SSM::Parameter
+    UpdateReplacePolicy: Retain
+    Properties:
+      Description: Image Id for Drupal services
+      Name: !Sub /test/images/DrupalImage/${ImageTag}
+      Type: String
+      Value:
+        Fn::GetAtt: [DrupalImage, ImageId]
+
+  # Create an SSM Parameter Store entry with our resulting ImageId.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html
+  LatestDrupalImageParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Image Id for Drupal services
+      Name: !Sub /test/images/DrupalImage/latest
+      Type: String
+      Value:
+        Fn::GetAtt: [DrupalImage, ImageId]
+
+    # Specifies the infrastructure within which to build and test your image.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-infrastructureconfiguration.html
+  SolrImageInfrastructureConfiguration:
+    Type: AWS::ImageBuilder::InfrastructureConfiguration
+    Properties:
+      Name: Solr-Infrastructure-Configuration
+      InstanceProfileName:
+        Ref: InstanceProfile
+      # Specify an S3 bucket and EC2 Image Builder will save logs to the bucket.
+      Logging:
+        S3Logs:
+          S3BucketName:
+            Ref: ImageBuilderLogBucket
+      KeyPair: "Steven's Pubkey"
+      TerminateInstanceOnFailure: false
+          # S3KeyPrefix: 'my-imagebuilder-bucket-prefix'
+      # If you would like to keep the instance running after a failed build, set TerminateInstanceOnFailure to false.
+      # TerminateInstanceOnFailure: false
+      # If you do not have a default VPC or want to use a different VPC, you must specify the subnet ID to use
+      # SubnetId: 'subnet-id'
+
+  # The CloudWatch LogGroup for the image build logs is provided to ensure the LogGroup is cleaned up if the stack is deleted.
+  SolrImageLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      LogGroupName: /aws/imagebuilder/Solr
+      RetentionInDays: 3
+
+  # Recipe which references the latest (x.x.x) version of the Amazon Linux 2 AMI).
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-imagerecipe.html
+  SolrImageRecipe:
+    Type: AWS::ImageBuilder::ImageRecipe
+    DependsOn: RHELStigImage
+    UpdateReplacePolicy: Retain
+    Properties:
+      Name: Solr
+      Version: !Ref SolrTag
+      # ${AWS::Partition} returns the partition where you are running the CloudFormation template. For standard AWS regions, the
+      # partition is aws. For resources elsewhere, the partition is aws-partitionname. For example, China (Beijing and Ningxia)
+      # regions use aws-cn and AWS GovCloud (US) regions are aws-us-gov.
+      # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html
+      ParentImage:
+        Fn::GetAtt: [RHELStigImage, ImageId]
+      WorkingDirectory: /root
+      Components:
+        - ComponentArn: !Ref SolrComponent
+      AdditionalInstanceConfiguration:
+        UserDataOverride:
+          Fn::Base64:
+            Fn::Sub: |
+              #!/bin/bash
+              mount -o remount,size=4G /tmp
+        
+  # The Image resource will show complete in CloudFormation once your image is done building. Use this resource later in your
+  # stack to reference the image within other resources.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-imagebuilder-image.html
+  SolrImage:
+    Type: AWS::ImageBuilder::Image
+    UpdateReplacePolicy: Retain
+    Properties:
+      ImageRecipeArn:
+        Ref: SolrImageRecipe
+      InfrastructureConfigurationArn:
+        Ref: SolrImageInfrastructureConfiguration
+
+  # Create an SSM Parameter Store entry with our resulting ImageId.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html
+  SolrImageParameter:
+    Type: AWS::SSM::Parameter
+    UpdateReplacePolicy: Retain
+    Properties:
+      Description: Image Id for Solr services
+      Name: !Sub /test/images/SolrImage/${SolrTag}
+      Type: String
+      Value:
+        Fn::GetAtt: [SolrImage, ImageId]
+
+  # Create an SSM Parameter Store entry with our resulting ImageId.
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html
+  LatestSolrImageParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Image Id for Solr services
+      Name: !Sub /test/images/SolrImage/latest
+      Type: String
+      Value:
+        Fn::GetAtt: [SolrImage, ImageId]
+
+  # DistributionConfiguration:
+  #   Type: 'AWS::ImageBuilder::DistributionConfiguration'
+  #   Properties:
+  #     Name: 'distribution-configuration-name'
+  #     Description: 'description'
+  #     Distributions:
+  #       - Region: 'us-east-1'
+  #         AmiDistributionConfiguration:
+  #           Name: 'drupal distribution {{ imagebuilder:buildDate }}'
+  #           Description: 'description'
+  #           AmiTags:
+  #             AmiTagKey: 'drupal'
+  #           LaunchPermissionConfiguration:
+  #             UserIds:
+  #               - !Sub '${AWS::AccountId}'
+  
+  # ImagePipelineAllParameters:
+  #   Type: AWS::ImageBuilder::ImagePipeline
+  #   Properties:
+  #     Name: image-pipeline-name
+  #     ImageRecipeArn: !Ref RHELStigImageRecipe
+  #     InfrastructureConfigurationArn: !Ref RHELStigImageInfrastructureConfiguration
+  #     DistributionConfigurationArn: !Ref DistributionConfiguration
+  #     ImageTestsConfiguration:
+  #       ImageTestsEnabled: false
+  #       TimeoutMinutes: 90
+  #     Schedule:
+  #       ScheduleExpression: 'cron(0 0 * * ? *)'
+  #       PipelineExecutionStartCondition: 'EXPRESSION_MATCH_ONLY'
+  #     Status: 'DISABLED'

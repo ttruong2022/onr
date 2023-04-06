@@ -1,0 +1,14 @@
+uuid: 880b2b37-fbe6-4edf-b0d7-59a240432eee
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.cms_manager
+  module:
+    - user
+id: user_add_role_action.cms_manager
+label: 'Add the CMS Manager role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: cms_manager

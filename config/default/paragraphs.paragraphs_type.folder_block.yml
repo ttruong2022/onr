@@ -1,0 +1,10 @@
+uuid: bbdae9cd-8e5e-4cfd-95b9-01bd5bd268d2
+langcode: en
+status: true
+dependencies: {  }
+id: folder_block
+label: 'Folder Block'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

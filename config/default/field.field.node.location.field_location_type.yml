@@ -1,0 +1,21 @@
+uuid: a50e452a-50b8-44fc-88d2-0e205bf5290a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_location_type
+    - node.type.location
+  module:
+    - options
+id: node.location.field_location_type
+field_name: field_location_type
+entity_type: node
+bundle: location
+label: 'Location Type'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

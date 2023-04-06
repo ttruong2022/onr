@@ -1,0 +1,10 @@
+uuid: 40bda5ff-2c52-4c5a-910c-b88a7b7478a7
+langcode: en
+status: true
+dependencies: {  }
+id: folder_group
+label: 'Folder Group'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

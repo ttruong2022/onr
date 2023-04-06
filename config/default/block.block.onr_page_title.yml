@@ -1,0 +1,26 @@
+uuid: bec1e81d-e6ad-4047-bad6-dfa188f6f630
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - onr
+_core:
+  default_config_hash: od4QuKSXRDawkludQ4t0cCbM4xVf9Yg5zGhQLof3vGo
+id: onr_page_title
+theme: onr
+region: content
+weight: -8
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /search

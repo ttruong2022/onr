@@ -1,0 +1,70 @@
+uuid: 86bb9554-177b-4a79-880a-8a913a26d36a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.baguettebox
+    - field.field.media.image.field_group
+    - field.field.media.image.field_icon
+    - field.field.media.image.field_location_icon
+    - field.field.media.image.field_media_image
+    - field.field.media.image.field_override_mad_module
+    - image.style.extra_large
+    - media.type.image
+  module:
+    - baguettebox
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: B1a2aBHmUulUZN6HrxITEH1tSResuVjXMBEv1lUBtOo
+id: media.image.baguettebox
+targetEntityType: media
+bundle: image
+mode: baguettebox
+content:
+  field_media_image:
+    type: baguettebox
+    label: visually_hidden
+    settings:
+      image_style: extra_large
+      baguette_image_style: ''
+      baguette_image_style_responsive:
+        -
+          width: null
+          image_style: ''
+        -
+          width: null
+          image_style: ''
+        -
+          width: null
+          image_style: ''
+        -
+          width: null
+          image_style: ''
+        -
+          width: null
+          image_style: ''
+      animation: slideIn
+      captions_source: image_alt
+      buttons: true
+      fullscreen: false
+      hide_scrollbars: false
+      inline: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  content_moderation_control: true
+  created: true
+  field_group: true
+  field_icon: true
+  field_location_icon: true
+  field_override_mad_module: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

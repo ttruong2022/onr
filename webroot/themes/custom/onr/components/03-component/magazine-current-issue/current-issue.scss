@@ -1,0 +1,50 @@
+@import '../../01-core/variables';
+
+.block-views-blockfuture-force-block-2 {
+  background-color: $onr-lightgrey;
+  padding-top: 1rem;
+
+  // Desktop
+  @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+    padding: 1.5rem 5rem 4rem;
+  }
+
+  h2 {
+    padding-left: 2rem;
+
+    // Desktop
+    @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+      padding-left: 0;
+    }
+  }
+
+  .right-column {
+    padding-left: 2rem;
+  }
+
+  .content {
+    .image {
+      img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 3/4;
+      }
+    }
+
+    h3 {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      color: $black;
+
+      // Desktop
+      @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+        margin-top: 0;
+        margin-bottom: 2.5rem;
+      }
+    }
+
+    .usa-button {
+      text-transform: uppercase;
+    }
+  }
+}

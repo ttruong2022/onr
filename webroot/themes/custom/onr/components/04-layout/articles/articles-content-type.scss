@@ -1,0 +1,57 @@
+@import '../../01-core/variables';
+
+.page-node-type-article {
+  /* Make it appear like 8 column */
+  // Desktop/Tablet view
+  .usa-layout-docs__main {
+    flex: 0 1 auto;
+    margin: 0 auto;
+    width: 83.33333%;
+
+    @include mq-min-nonmobile {      
+      width: 66.66667%;
+    }
+  }
+
+  .articles__featured-images {
+    display: inline-block;
+    position: relative;
+
+    > .field__items {
+      padding: 0;
+
+      > .field__item {
+
+        &:not(:first-child) {
+          display: none;
+        }
+
+        img {
+          max-height: 300px;
+          aspect-ratio: 3/2;
+
+          // Desktop/Tablet view
+          @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+            max-height: 100%;
+          }
+        }
+      }
+    }
+
+    > svg {
+      position: absolute;
+      right: 0;
+      bottom: 0.25rem;
+    }
+  }
+
+  .published-on-date {
+    padding-top: 1rem;
+    font-weight: bold;
+  }
+
+  .article-authored-by {
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+  }
+}

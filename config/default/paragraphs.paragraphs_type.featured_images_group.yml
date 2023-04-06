@@ -1,0 +1,10 @@
+uuid: db985691-1dcf-466c-9faa-0517192a327f
+langcode: en
+status: true
+dependencies: {  }
+id: featured_images_group
+label: 'Featured Images Group'
+icon_uuid: null
+icon_default: null
+description: 'Custom solution for ONR to create featured images.  Leveraging USWDS Cards (Regular)'
+behavior_plugins: {  }

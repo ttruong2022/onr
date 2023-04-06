@@ -1,0 +1,10 @@
+uuid: b4a05372-fee6-494e-9026-68d116ed1ffa
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.block_without_body
+label: 'Block without body'
+targetEntityType: node
+cache: true

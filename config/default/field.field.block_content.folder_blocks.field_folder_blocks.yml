@@ -1,0 +1,91 @@
+uuid: 920360e1-0eda-4aa4-84ea-e34d87f7b36c
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.folder_blocks
+    - field.storage.block_content.field_folder_blocks
+    - paragraphs.paragraphs_type.folder_block
+  module:
+    - entity_reference_revisions
+id: block_content.folder_blocks.field_folder_blocks
+field_name: field_folder_blocks
+entity_type: block_content
+bundle: folder_blocks
+label: 'Folder Blocks'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      folder_block: folder_block
+    negate: 0
+    target_bundles_drag_drop:
+      folder_block:
+        weight: 22
+        enabled: true
+      info_block:
+        weight: 23
+        enabled: false
+      text_field:
+        weight: 24
+        enabled: false
+      uswds_2_column_breakpoints:
+        weight: 26
+        enabled: false
+      uswds_2_columns:
+        weight: 25
+        enabled: false
+      uswds_3_column_breakpoints:
+        weight: 28
+        enabled: false
+      uswds_3_columns:
+        weight: 27
+        enabled: false
+      uswds_accordion:
+        weight: 29
+        enabled: false
+      uswds_accordion_section:
+        weight: 30
+        enabled: false
+      uswds_alert:
+        weight: 31
+        enabled: false
+      uswds_card_breakpoints:
+        weight: 33
+        enabled: false
+      uswds_card_group_flag:
+        weight: 34
+        enabled: false
+      uswds_card_group_regular:
+        weight: 35
+        enabled: false
+      uswds_card_regular:
+        weight: 36
+        enabled: false
+      uswds_cards_flag:
+        weight: 32
+        enabled: false
+      uswds_modal:
+        weight: 37
+        enabled: false
+      uswds_process_item:
+        weight: 38
+        enabled: false
+      uswds_process_list:
+        weight: 39
+        enabled: false
+      uswds_step_indicator_item:
+        weight: 40
+        enabled: false
+      uswds_step_indicator_list:
+        weight: 41
+        enabled: false
+      uswds_summary_box:
+        weight: 42
+        enabled: false
+field_type: entity_reference_revisions

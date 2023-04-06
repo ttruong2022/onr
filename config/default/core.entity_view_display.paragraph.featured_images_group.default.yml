@@ -1,0 +1,25 @@
+uuid: 5870ef7c-7742-4cb6-b30b-057d3ef32323
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_images_group.field_featured_images
+    - paragraphs.paragraphs_type.featured_images_group
+  module:
+    - entity_reference_revisions
+id: paragraph.featured_images_group.default
+targetEntityType: paragraph
+bundle: featured_images_group
+mode: default
+content:
+  field_featured_images:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

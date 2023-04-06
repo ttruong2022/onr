@@ -1,0 +1,49 @@
+@import '../../01-core/variables';
+
+.list-view {
+  .views-row {
+    border-top: 0;
+    padding-bottom: 2rem;
+
+    ~ .views-row {
+      border-top: 2px solid $onr-lightgrey;
+      padding: 2rem 0;
+    }
+
+
+    a {
+      text-decoration: none;
+      word-break: break-word;
+    }
+  }
+
+  .views-exposed-form {
+    padding-bottom: 2rem;
+
+    .form-actions {
+      padding-top: 1rem;
+    }
+
+    // Tablet/Desktop
+    @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+      display: flex;
+      margin-bottom: 1rem;
+      max-width: unset;
+
+      > div {
+        flex: 1;
+        align-self: flex-end;
+        margin: 0;
+        padding: 0 1rem;
+
+        &:first-child {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  .published-on-date {
+    font-size: $small;
+  }
+}

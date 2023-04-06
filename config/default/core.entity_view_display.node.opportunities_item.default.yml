@@ -1,0 +1,87 @@
+uuid: 445afed8-ac9a-477b-b31e-2a051de698c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.opportunities_item.body
+    - field.field.node.opportunities_item.field_files
+    - field.field.node.opportunities_item.field_full_proposals
+    - field.field.node.opportunities_item.field_funding_numbers
+    - field.field.node.opportunities_item.field_group
+    - field.field.node.opportunities_item.field_highlight
+    - field.field.node.opportunities_item.field_opportunity_type
+    - field.field.node.opportunities_item.field_search_api_best_bets
+    - field.field.node.opportunities_item.field_search_api_exclude_entity
+    - field.field.node.opportunities_item.field_tags
+    - field.field.node.opportunities_item.field_white_papers
+    - node.type.opportunities_item
+  module:
+    - datetime
+    - text
+    - user
+id: node.opportunities_item.default
+targetEntityType: node
+bundle: opportunities_item
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_files:
+    type: entity_reference_entity_id
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_full_proposals:
+    type: datetime_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: funding_opportunity
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_funding_numbers:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_white_papers:
+    type: datetime_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: funding_opportunity
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  published_at:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  content_moderation_control: true
+  field_group: true
+  field_highlight: true
+  field_opportunity_type: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  langcode: true
+  links: true
+  search_api_excerpt: true

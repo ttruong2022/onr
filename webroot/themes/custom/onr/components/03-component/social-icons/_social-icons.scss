@@ -1,0 +1,51 @@
+@import '../../01-core/variables';
+
+.usa-footer__social-links {
+
+  @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+    max-width: 50%;
+  }
+
+  @media screen and (max-width: $uswds-mobile-lg-breakpoint) {
+    .grid-row {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .grid-col-auto {
+    flex: 0 32%;
+    margin-bottom: 5%;
+  }
+
+  .usa-social-link {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #005ea2;
+    background-size: 40px 40px;
+
+    &:hover {
+      background-color: #1a4480;
+    }
+
+    &.facebook {
+      background-color: #3b5998;
+    }
+
+    &.twitter {
+      background-color: #55acee;
+    }
+
+    &.youtube {
+      background-color: #ff0000;
+    }
+
+    &.instagram {
+      background: radial-gradient(circle farthest-corner at 32% 106%, rgb(255, 225, 125) 0%, rgb(255, 205, 105) 10%, rgb(250, 145, 55) 28%, rgb(235, 65, 65) 42%, transparent 82%), linear-gradient(135deg, rgb(35, 75, 215) 12%, rgb(195, 60, 190) 58%);
+    }
+
+    &.linkedin {
+      background-color: #007bb5;
+    }
+  }
+}

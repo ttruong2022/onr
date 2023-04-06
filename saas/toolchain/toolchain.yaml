@@ -1,0 +1,425 @@
+Description: >
+
+  This template deploys an S3 Bucket for cloudformation stack templates, an ECR repository, a CodeCommit for artifacts storage,
+  a CodePipeline to respond to CodeCommit and a CodeBuild to build the images for ECR.
+
+Parameters:
+  TemplateBucket:
+    Description: S3 bucket containing cloudformation templates
+    Type: String
+    
+  DomainName:
+    Description: Base domain name
+    Type: String
+
+Resources:
+
+  # OSLinkedRole:
+  #   Type: 'AWS::IAM::ServiceLinkedRole'
+  #   Properties:
+  #     AWSServiceName: es.amazonaws.com
+  #     Description: 'Role for OS to access resources in the VPC'
+
+  # ECRRepository:
+  #   Type: AWS::ECR::Repository
+  #   DeletionPolicy: Retain
+  #   Properties:
+  #     RepositoryName: web
+  #     RepositoryPolicyText:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Sid: CodeBuildAccess
+  #           Effect: Allow
+  #           Principal:
+  #             Service:
+  #               - codebuild.amazonaws.com
+  #           Action:
+  #             -  ecr:BatchGetImage
+  #             -  ecr:BatchCheckLayerAvailability
+  #             -  ecr:CompleteLayerUpload
+  #             -  ecr:GetDownloadUrlForLayer
+  #             -  ecr:InitiateLayerUpload
+  #             -  ecr:PutImage
+  #             -  ecr:UploadLayerPart
+
+  SESUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Sub ${AWS::StackName}-ses-user
+      Policies:
+        - PolicyName: !Sub ${AWS::StackName}-ses-user-policy
+          PolicyDocument: !Sub |
+            {
+              "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ses:SendEmail",
+                        "SES:SendRawEmail"
+                    ],
+                    "Resource": [
+                        "${SESDomain}"
+                    ],
+                    "Condition": {
+                      "StringLike":{
+                        "ses:FromAddress":"webmaster@${DomainName}"
+                      }
+                    }
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ses:SendEmail",
+                        "SES:SendRawEmail"
+                    ],
+                    "Resource": [
+                        "${SESDomain}"
+                    ],
+                    "Condition": {
+                      "StringLike":{
+                        "ses:FromAddress":"root@${DomainName}"
+                      }
+                    }
+                }
+              ]
+            }
+  
+  SESUserCredentials:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      Status: Active
+      UserName: !Ref SESUser
+
+  # https://github.com/medmunds/aws-cfn-ses-domain
+  CfnSESResources:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/providers/ses/aws-cfn-ses-domain-0.3.cf.yaml"
+      Parameters:
+        LambdaCodeS3Bucket: !Ref TemplateBucket
+        LambdaCodeS3Key: infrastructure/providers/ses/aws-cfn-ses-domain-0.3.lambda.zip
+  
+  SESDomain:
+    Type: Custom::SES_Domain
+    Properties:
+      ServiceToken: !GetAtt CfnSESResources.Outputs.CustomDomainIdentityArn
+      Domain: !Ref DomainName
+
+  SESEmailIdentity:
+    Type: Custom::SES_EmailIdentity
+    Properties:
+      ServiceToken: !GetAtt CfnSESResources.Outputs.CustomEmailIdentityArn
+      EmailAddress: !Sub "webmaster@${DomainName}"
+  
+  Route53RecordsForSES:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Sub ${DomainName}.
+      # The Route53RecordSets attribute specifies all DNS records needed:
+      RecordSets: !GetAtt SESDomain.Route53RecordSets
+
+  CodeCommitRepo:
+    Type: AWS::CodeCommit::Repository
+    DeletionPolicy: Retain
+    Properties:
+      RepositoryName: web
+
+  # CodeBuildProject:
+  #   Type: AWS::CodeBuild::Project
+  #   DependsOn:
+  #     - CodeBuildRole
+  #   Properties:
+  #     Name: !Sub '${AWS::StackName}-CodeBuild'
+  #     ServiceRole: !Ref CodeBuildRole
+  #     Artifacts:
+  #       Type: NO_ARTIFACTS
+  #     Source:
+  #       Type: CODECOMMIT
+  #       Location: !GetAtt CodeCommitRepo.CloneUrlHttp
+  #       BuildSpec: buildspec.yml
+  #     Description: Description
+  #     Environment:
+  #       ComputeType: small
+  #       Image: aws/codebuild/standard:4.0
+  #       Type: LINUX_CONTAINER
+  
+  # CodeBuildRole:
+  #   Type: AWS::IAM::Role
+  #   Description: Creating service role in IAM for AWS CodeBuild
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Statement:
+  #       - Action: sts:AssumeRole
+  #         Effect: Allow
+  #         Principal:
+  #           Service: codebuild.amazonaws.com
+  #     Policies:
+  #       - PolicyName: !Sub "${AWS::StackName}-CodeBuild-policy"
+  #         PolicyDocument:
+  #           Statement:
+  #             - Effect: Allow
+  #               Resource:
+  #                 - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}-CodeBuild*"
+  #               Action:
+  #                 - 'logs:CreateLogGroup'
+  #                 - 'logs:CreateLogStream'
+  #                 - 'logs:PutLogEvents'
+  #             - Effect: 'Allow'
+  #               Resource:
+  #                 - !GetAtt CodeCommitRepo.Arn
+  #               Action:
+  #                 - 'codecommit:CancelUploadArchive'
+  #                 - 'codecommit:GetBranch'
+  #                 - 'codecommit:GetCommit'
+  #                 - 'codecommit:GetUploadArchiveStatus'
+  #                 - 'codecommit:UploadArchive'
+  #     Path: /
+  #     RoleName: !Sub "${AWS::StackName}-CodeBuild"
+
+  SMTPPasswordLambdaExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                Resource: "arn:aws:logs:*:*:*"
+  
+  SMTPPasswordLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    DeletionPolicy: Delete
+    Properties:
+      Code:
+        ZipFile: |
+          import hmac
+          import hashlib
+          import base64
+          import argparse
+          import os
+          import cfnresponse # this needs to be imported for replying to CloudFormation
+          
+          SMTP_REGIONS = [
+              'us-east-2',       # US East (Ohio)
+              'us-east-1',       # US East (N. Virginia)
+              'us-west-2',       # US West (Oregon)
+              'ap-south-1',      # Asia Pacific (Mumbai)
+              'ap-northeast-2',  # Asia Pacific (Seoul)
+              'ap-southeast-1',  # Asia Pacific (Singapore)
+              'ap-southeast-2',  # Asia Pacific (Sydney)
+              'ap-northeast-1',  # Asia Pacific (Tokyo)
+              'ca-central-1',    # Canada (Central)
+              'eu-central-1',    # Europe (Frankfurt)
+              'eu-west-1',       # Europe (Ireland)
+              'eu-west-2',       # Europe (London)
+              'sa-east-1',       # South America (Sao Paulo)
+              'us-gov-west-1',   # AWS GovCloud (US)
+          ]
+          
+          # These values are required to calculate the signature. Do not change them.
+          DATE = "11111111"
+          SERVICE = "ses"
+          MESSAGE = "SendRawEmail"
+          TERMINAL = "aws4_request"
+          VERSION = 0x04
+          
+          def sign(key, msg):
+              return hmac.new(key, msg.encode('utf-8'), hashlib.sha256).digest()
+          
+          def calculate_key(secret_access_key, region):
+              if region not in SMTP_REGIONS:
+                  raise ValueError(f"The {region} Region doesn't have an SMTP endpoint.")
+          
+              signature = sign(("AWS4" + secret_access_key).encode('utf-8'), DATE)
+              signature = sign(signature, region)
+              signature = sign(signature, SERVICE)
+              signature = sign(signature, TERMINAL)
+              signature = sign(signature, MESSAGE)
+              signature_and_version = bytes([VERSION]) + signature
+              smtp_password = base64.b64encode(signature_and_version)
+              return smtp_password.decode('utf-8')
+          
+          def handler(event, context):
+              print (event)
+              region = event['ResourceProperties']['Region']
+              secret_access_key = event['ResourceProperties']['SecretAccessKey']
+              responseData = {}
+              responseData['SMTPPassword'] = calculate_key(secret_access_key, region)
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+      Handler: index.handler
+      Role: !GetAtt SMTPPasswordLambdaExecutionRole.Arn
+      Runtime: python3.6
+      MemorySize: 128
+      Timeout: 30
+
+  SMTPPasswordInvocation:
+    Type: Custom::SMTPPassword
+    Properties:
+      ServiceToken: !GetAtt SMTPPasswordLambdaFunction.Arn
+      Region: !Ref "AWS::Region"
+      SecretAccessKey: !GetAtt SESUserCredentials.SecretAccessKey
+
+  SESSecretKey:
+    Type: AWS::KMS::Key
+    Properties:
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "Allow access through AWS Secrets Manager for all principals in the account that are authorized to use AWS Secrets Manager"
+            Effect: "Allow"
+            Principal:
+              AWS: "*"
+            Action:
+              - "kms:Decrypt"
+              - "kms:ReEncrypt*"
+              - "kms:GenerateDataKey*"
+              - "kms:CreateGrant"
+              - "kms:DescribeKey"
+            Resource: "*"
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub secretsmanager.${AWS::Region}.amazonaws.com
+                kms:CallerAccount: !Sub ${AWS::AccountId}
+          - Sid: "Allow direct access to key metadata to the account"
+            Effect: "Allow"
+            Principal:
+              AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+            Action:
+              - "kms:*"
+            Resource: "*"
+
+  SESSecret:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      KmsKeyId: !Ref SESSecretKey
+      Description: The SES secrets
+      SecretString: !Sub '{"SESUserKeyID":"${SESUserCredentials}","SESUserSecretKey":"${SESUserCredentials.SecretAccessKey}","SESUserPassword":"${SMTPPasswordInvocation.SMTPPassword}"}'
+
+  ImageEncryptionKey:
+    Type: AWS::KMS::Key
+    Properties:
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "Allow access through EC2 for all principals in the account that are authorized to use EC2"
+            Effect: "Allow"
+            Principal:
+              AWS: "*"
+            Action:
+              - "kms:Encrypt"
+              - "kms:Decrypt"
+              - "kms:ReEncrypt*"
+              - "kms:GenerateDataKey*"
+              - "kms:CreateGrant"
+              - "kms:ListGrants"
+              - "kms:DescribeKey"
+            Resource: "*"
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub ec2.${AWS::Region}.amazonaws.com
+                kms:CallerAccount: !Sub ${AWS::AccountId}
+          - Sid: "Allow direct access to key metadata to the account"
+            Effect: "Allow"
+            Principal:
+              AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+            Action:
+              - "kms:*"
+            Resource: "*"
+
+  CronDocument:
+    Type: AWS::SSM::Document
+    Properties:
+      DocumentType: Command
+      Name: 'RunCron'
+      Content:
+        schemaVersion: '2.2'
+        description: 'Run drush cron.'
+        mainSteps:
+        - action: aws:runShellScript
+          name: runCommands
+          inputs:
+            timeoutSeconds: '600'
+            runCommand:
+            - 'export HOME=/root;drush cron'
+
+  pyMySQLLambdaLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      CompatibleRuntimes:
+        - python3.6
+      Content:
+        S3Bucket: !Ref TemplateBucket
+        S3Key: infrastructure/lambda/layers/pymysql.layer.zip
+      Description: My layer
+      LayerName: pymsql
+
+Outputs:
+
+  # RepositoryUri:
+  #   Description: "The ECR Repository URI"
+  #   Value: !GetAtt ECRRepository.RepositoryUri
+  #   Export:
+  #     Name: !Sub '${AWS::StackName}-RepositoryUri'
+      
+  CodeCommitRepoArn:
+    Description: "The CodeCommit Repository Arn"
+    Value: !GetAtt CodeCommitRepo.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-CodeCommitRepoArn'
+      
+  SESSecret:
+    Value: !Ref SESSecret
+    Description: SES Secret
+    Export:
+      Name: !Sub '${AWS::StackName}-SESSecret'
+
+  SESUserKeyID:
+    Description: "AWS Access Key ID to a user with SES access"
+    Value: !Join [ '', [ '{{resolve:secretsmanager:', !Ref SESSecret, ':SecretString:SESUserKeyID}}' ] ]
+    Export:
+      Name: !Sub '${AWS::StackName}-SESUserKeyID'
+
+  SESUserSecretKey:
+    Description: "AWS Secret Key to a user with SES access"
+    Value: !Join [ '', [ '{{resolve:secretsmanager:', !Ref SESSecret, ':SecretString:SESUserSecretKey}}' ] ]
+    Export:
+      Name: !Sub '${AWS::StackName}-SESUserSecretKey'
+
+  SMTPPassword:
+    Description: "SMTP Passsword to SES"
+    Value: !Join [ '', [ '{{resolve:secretsmanager:', !Ref SESSecret, ':SecretString:SESUserPassword}}' ] ]
+    Export:
+      Name: !Sub '${AWS::StackName}-SMTPPassword'
+      
+  ImageEncryptionKey:
+    Description: "The image encryption key Arn"
+    Value: !Ref ImageEncryptionKey
+    Export:
+      Name: !Sub '${AWS::StackName}-ImageEncryptionKey'
+      
+  CronDocument:
+    Description: "The SSM document that runs cron"
+    Value: !Ref CronDocument
+    Export:
+      Name: !Sub '${AWS::StackName}-CronDocument'
+
+  pyMySQLLambdaLayer:
+    Description: "The pyMySQL python3 package layer"
+    Value: !Ref pyMySQLLambdaLayer
+    Export:
+      Name: !Sub '${AWS::StackName}-pyMySQLLambdaLayer'

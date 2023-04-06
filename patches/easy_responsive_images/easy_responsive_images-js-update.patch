@@ -1,0 +1,13 @@
+diff --git a/js/resizer.js b/js/resizer.js
+index 525d3bc..69a0508 100644
+--- a/js/resizer.js
++++ b/js/resizer.js
+@@ -25,7 +25,7 @@
+             // If the selected image is already bigger than the available width,
+             // we do not update the image.
+             if (attrWidth && attrWidth > availableWidth) {
+-              return;
++              // return;
+             }
+ 
+             // Find the best matching source based on actual image space.

@@ -1,0 +1,11 @@
+uuid: 728b348b-e6ce-438f-b088-ecaa1bb2ed2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_step_indicator
+id: block_content.uswds_step_indicator
+target_entity_type_id: block_content
+target_bundle: uswds_step_indicator
+default_langcode: site_default
+language_alterable: false

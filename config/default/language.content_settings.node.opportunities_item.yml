@@ -1,0 +1,11 @@
+uuid: 95a319ae-ed14-43f6-81e9-efbe3ed37230
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.opportunities_item
+id: node.opportunities_item
+target_entity_type_id: node
+target_bundle: opportunities_item
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,33 @@
+uuid: 275493d0-cb81-47d4-9f2d-3f84597af137
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_group
+    - node.type.timeline_item
+    - taxonomy.vocabulary.groups
+  content:
+    - 'taxonomy_term:groups:2bd8f8ee-7f7e-42c7-b025-45fa7c8ddde8'
+id: node.timeline_item.field_group
+field_name: field_group
+entity_type: node
+bundle: timeline_item
+label: Group
+description: 'Select the "group" of users that can edit this piece of content.  Example users of group CSC can only edit content belonging to CSC.'
+required: true
+translatable: true
+default_value:
+  -
+    target_uuid: 2bd8f8ee-7f7e-42c7-b025-45fa7c8ddde8
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      groups: groups
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

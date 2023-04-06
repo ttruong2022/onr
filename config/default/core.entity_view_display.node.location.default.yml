@@ -1,0 +1,39 @@
+uuid: 4dd8714f-7761-4cdb-b348-8425b4ed95aa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.location.field_address
+    - field.field.node.location.field_group
+    - field.field.node.location.field_location_category
+    - field.field.node.location.field_location_type
+    - field.field.node.location.field_text
+    - node.type.location
+  module:
+    - text
+    - user
+id: node.location.default
+targetEntityType: node
+bundle: location
+mode: default
+content:
+  field_text:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_address: true
+  field_group: true
+  field_location_category: true
+  field_location_type: true
+  langcode: true
+  published_at: true
+  search_api_excerpt: true

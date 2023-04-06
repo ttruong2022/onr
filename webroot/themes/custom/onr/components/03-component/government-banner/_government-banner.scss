@@ -1,0 +1,39 @@
+@import '../../01-core/variables';
+
+.usa-banner__mobile {
+  @extend %show-on-mobile;
+}
+
+.usa-banner__desktop {
+  @extend %hide-on-mobile;
+  max-width: $uswds-desktop-lg-breakpoint;
+
+  @include mq-min-width('desktop-lg') {
+    @include mh-auto;
+  }
+
+  .usa-banner-inner {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 3px;
+    padding-bottom: 5px;
+
+    @include mq-min-nonphone {
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
+
+    @include mq-min-nonmobile {
+      padding-right: 2rem;
+      padding-left: 2rem;
+    }
+  }
+
+  .usa-banner__inner {
+    padding-left: 0;
+
+    @include mq-min-width('desktop') {
+      padding-left: 0;
+    }
+  }
+}

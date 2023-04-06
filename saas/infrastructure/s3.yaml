@@ -1,0 +1,175 @@
+Description: >
+  This template deploys an S3 bucket used for ELB logging and the Drupal application's fileserv.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+Resources:
+
+  # S3EncryptionKey:
+  #   Type: AWS::KMS::Key
+  #   Properties:
+  #     KeyPolicy:
+  #       Version: "2012-10-17"
+  #       Statement:
+  #         - Sid: "Allow access through AWS Secrets Manager for all principals in the account that are authorized to use AWS Secrets Manager"
+  #           Effect: "Allow"
+  #           Principal:
+  #             AWS: "*"
+  #           Action:
+  #             - "kms:Decrypt"
+  #             - "kms:ReEncrypt*"
+  #             - "kms:GenerateDataKey*"
+  #             - "kms:CreateGrant"
+  #             - "kms:DescribeKey"
+  #           Resource: "*"
+  #           Condition:
+  #             StringEquals:
+  #               kms:ViaService: !Sub s3.${AWS::Region}.amazonaws.com
+  #               kms:CallerAccount: !Sub ${AWS::AccountId}
+  #         - Sid: "Allow direct access to key metadata to the account"
+  #           Effect: "Allow"
+  #           Principal:
+  #             AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+  #           Action:
+  #             - "kms:*"
+  #           Resource: "*"
+
+  LogBucket:
+    Type: AWS::S3::Bucket
+
+  # Grant access for the load balancer to write the logs
+  # For the magic number 127311923021, refer to https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
+  LogBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref LogBucket
+      PolicyDocument: !Sub |
+        {
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "arn:${AWS::Partition}:iam::127311923021:root"
+              },
+              "Action": "s3:PutObject",
+              "Resource": "arn:${AWS::Partition}:s3:::${LogBucket}/ELB_access/AWSLogs/${AWS::AccountId}/*"
+            },
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "delivery.logs.amazonaws.com"
+              },
+              "Action": "s3:PutObject",
+              "Resource": "arn:${AWS::Partition}:s3:::${LogBucket}/ELB_access/AWSLogs/${AWS::AccountId}/*",
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-acl": "bucket-owner-full-control"
+                  
+                }
+              }
+            },
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "arn:${AWS::Partition}:iam::127311923021:root"
+              },
+              "Action": "s3:PutObject",
+              "Resource": "arn:${AWS::Partition}:s3:::${LogBucket}/PrivateELB_access/AWSLogs/${AWS::AccountId}/*"
+            },
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "delivery.logs.amazonaws.com"
+              },
+              "Action": "s3:PutObject",
+              "Resource": "arn:${AWS::Partition}:s3:::${LogBucket}/PrivateELB_access/AWSLogs/${AWS::AccountId}/*",
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-acl": "bucket-owner-full-control"
+                  
+                }
+              }
+            },
+            
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "delivery.logs.amazonaws.com"
+              },
+              "Action": "s3:GetBucketAcl",
+              "Resource": "arn:${AWS::Partition}:s3:::${LogBucket}"
+            },
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "logging.s3.amazonaws.com"
+              },
+              "Action": [
+                "s3:PutObject"
+              ],
+              "Resource": "arn:${AWS::Partition}:s3:::${LogBucket}/AppBucket_access*",
+              "Condition": {
+                "ArnLike": {
+                    "aws:SourceArn": "arn:aws:s3:::${AppBucket}"
+                },
+                "StringEquals": {
+                    "aws:SourceAccount": "${AWS::AccountId}"
+                }
+              }
+            }
+          ]
+        }
+
+  AppBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      LoggingConfiguration:
+        DestinationBucketName: !Ref LogBucket
+        LogFilePrefix: AppBucket_access/
+      # WebsiteConfiguration:
+      #   IndexDocument: index.html
+      #   ErrorDocument: error.html
+      # VersioningConfiguration:
+      #   Status: Enabled
+      # BucketEncryption:
+      #   ServerSideEncryptionConfiguration:
+      #     - BucketKeyEnabled: true
+      #       ServerSideEncryptionByDefault:
+      #         SSEAlgorithm: 'aws:kms'
+      #         KMSMasterKeyID: !Ref S3EncryptionKey
+
+  AppBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref AppBucket
+      PolicyDocument: !Sub |
+        {
+          "Statement": [
+            {
+              "Effect":"Allow",
+              "Principal": "*",
+              "Action": [
+                "s3:GetObject"
+              ],
+              "Resource": [
+                "arn:${AWS::Partition}:s3:::${AppBucket}/Drupal/*"
+              ]
+            }
+          ]
+        }
+
+Outputs:
+  AppBucket:
+    Description: "Application S3 bucket name"
+    Value: !Ref AppBucket
+    
+  LogBucket:
+    Description: "Application Log S3 bucket name"
+    Value: !Ref LogBucket
+    
+  # BucketSiteURL:
+  #   Description: URL to the bucket public endpoint
+  #   Value: !GetAtt AppBucket.WebsiteURL

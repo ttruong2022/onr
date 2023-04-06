@@ -1,0 +1,11 @@
+uuid: 3710b09d-bd67-443b-bd0f-0702646c389d
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_accordion
+id: block_content.uswds_accordion
+target_entity_type_id: block_content
+target_bundle: uswds_accordion
+default_langcode: site_default
+language_alterable: false

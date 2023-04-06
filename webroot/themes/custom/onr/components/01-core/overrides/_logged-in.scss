@@ -1,0 +1,11 @@
+.user-logged-in {
+  padding-top: 6rem !important;
+
+  .usa-nav {
+    &.is-visible {
+      top: 6rem !important;
+    }
+  }
+
+  @import './layout-builder-ui/layout_builder_ui';
+}

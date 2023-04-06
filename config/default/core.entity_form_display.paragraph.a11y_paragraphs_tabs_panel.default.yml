@@ -1,0 +1,49 @@
+uuid: 588e0935-d584-4eae-ac5b-9d3e2b8c4775
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.a11y_paragraphs_tabs_panel.field_a11y_para_tabs_tab_content
+    - field.field.paragraph.a11y_paragraphs_tabs_panel.field_a11y_para_tabs_tab_title
+    - paragraphs.paragraphs_type.a11y_paragraphs_tabs_panel
+  module:
+    - paragraphs
+    - text
+_core:
+  default_config_hash: dh_5pyodAeFWZ5v1PTS7TCmP8IG_2CE8Mor_T3Dd-T8
+id: paragraph.a11y_paragraphs_tabs_panel.default
+targetEntityType: paragraph
+bundle: a11y_paragraphs_tabs_panel
+mode: default
+content:
+  field_a11y_para_tabs_tab_content:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: closed
+      closed_mode: summary
+      autocollapse: all
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_a11y_para_tabs_tab_title:
+    type: text_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

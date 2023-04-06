@@ -1,0 +1,23 @@
+uuid: 20040706-dac3-4391-a045-a56e4d7b6317
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_search_api_exclude_entity
+    - node.type.magazine
+  module:
+    - search_api_exclude_entity
+id: node.magazine.field_search_api_exclude_entity
+field_name: field_search_api_exclude_entity
+entity_type: node
+bundle: magazine
+label: 'Search API Exclude Entity'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: false
+default_value_callback: ''
+settings: {  }
+field_type: search_api_exclude_entity

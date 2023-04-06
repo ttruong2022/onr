@@ -1,0 +1,29 @@
+uuid: 8e24e504-3adf-4979-b905-e7bf857ebe56
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.person
+  module:
+    - linkchecker
+    - text
+third_party_settings:
+  linkchecker:
+    scan: true
+    extractor: html_link_extractor
+id: node.person.body
+field_name: body
+entity_type: node
+bundle: person
+label: Bio
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: true
+  allowed_formats: {  }
+field_type: text_with_summary

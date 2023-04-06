@@ -1,0 +1,29 @@
+uuid: 95fc19b2-0ea6-47c0-96df-3eb31b5ad28b
+langcode: en
+status: true
+dependencies:
+  module:
+    - simple_sitemap_views
+title: 'Default cron handler'
+id: simple_sitemap_views_cron
+weight: 0
+module: simple_sitemap_views
+callback: simple_sitemap_views_cron
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '0+@ * * * *'
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

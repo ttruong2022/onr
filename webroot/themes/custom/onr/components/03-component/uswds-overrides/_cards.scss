@@ -1,0 +1,44 @@
+@import '../../01-core/variables';
+
+// Regular card specific styling
+.paragraph--type--uswds-card-group-regular {
+  .usa-card__container {
+    .usa-card__img {
+      img {
+        aspect-ratio: 16/9;
+      }
+    }
+  }
+}
+
+// Flag specific styling
+.paragraph--type--uswds-card-group-flag {
+  .usa-card__img {
+    flex: 1;
+
+    img {
+      aspect-ratio: unset !important;
+    }
+  }
+}
+
+// Shared styling between flag + regular
+.usa-card__container {
+  .usa-card__header {
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .usa-card__img {
+    background-color: $white;
+
+    .contextual-region {
+      display: block !important;
+    }
+  }
+
+  // Make padding bottom 1rem to match usa-card__header 1rem.
+  .usa-card__body {
+    padding-bottom: 1rem;
+  }
+}

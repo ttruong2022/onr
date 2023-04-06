@@ -1,0 +1,52 @@
+// Styling override for the CKEditor UI
+// -----------------------------------------------------------------------------
+
+@import '../../../01-core/variables';
+
+.cke_editable { // sass-lint:disable-line class-name-format
+  margin: 0 0.5em;
+
+  &:focus {
+    outline: unset !important;
+  }
+
+  // undo some accordion style while in the ckeditor
+  .usa-accordion {
+    .usa-accordion__heading {
+      .usa-accordion__button {
+        background-image: unset !important;
+
+        &:focus {
+          outline: unset !important;
+        }
+      }
+    }
+  }
+
+  * {
+    color: $black !important;
+  }
+}
+
+.cke_panel_block { // sass-lint:disable-line class-name-format
+  .cke_panel_listItem { // sass-lint:disable-line class-name-format
+    a > * {
+      margin: unset;
+      border-bottom: 1px dotted;
+      padding: 3px 5px !important;
+      font-size: 15px !important;
+      font-weight: normal !important;
+    }
+
+    .inline-header {
+      margin: 0;
+      line-height: unset;
+      color: $black;
+
+    }
+  }
+}
+
+.cke_panel_grouptitle { // sass-lint:disable-line class-name-format
+  line-height: normal !important;
+}

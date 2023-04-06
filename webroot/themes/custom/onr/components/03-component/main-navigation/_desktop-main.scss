@@ -1,0 +1,231 @@
+@import '../../01-core/variables';
+
+$nav-font-color: $black;
+
+@include mq-min-nonmobile {
+  .usa-nav {
+    .usa-header--extended & {
+      border-top: 0;
+
+      &__inner {
+        max-width: 75rem;
+      }
+    }
+
+    & &__primary {
+      &-item {
+        & > button,
+        & > a {
+          font-size: $slightly-larger;
+
+          &:hover {
+            color: $onr-dark-blue;
+
+            //Styles for non-dropdown-menu links in main nav
+            &:not(button) {
+              margin-right: 1rem;
+              margin-left: 1rem;
+              border-bottom: 4px solid $onr-dark-blue;
+              padding-right: 0;
+              padding-bottom: 0.5rem;
+              padding-left: 0;
+            }
+          }
+        }
+
+        button {
+          &:hover {
+            span {
+              border-bottom: 4px solid $onr-dark-blue;
+              padding-bottom: 0.5rem;
+            }
+          }
+
+          &[aria-expanded=true] {
+            background-color: transparent;
+
+            span {
+              border-bottom: 5px solid $onr-blue;
+              padding-bottom: 0.5rem;
+
+              //active link arrow icon is not white
+              &::after {
+                background-color: $nav-font-color;
+              }
+            }
+
+            // & + .usa-megamenu {
+            //   display: flex;
+            // }
+          }
+        }
+
+        //turn off default indicator bar
+        .usa-header--extended & {
+          & > .usa-nav__link {
+            &:hover {
+              &::after {
+                content: none;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__submenu {
+      background-color: $onr-dark-blue;
+
+      &.usa-megamenu {
+        .usa-header--extended & {
+          padding-left: 0;
+        }
+
+        &::before,
+        &::after {
+          background-color: $onr-dark-blue;
+        }
+
+        .usa-nav__parent-link {
+          padding-left: 2rem;
+        }
+
+        .usa-megamenu-inner {
+          // column-gap: 2rem;
+          // column-fill: balance-all; //Do not mandate balancing columns
+          // column-count: 4; //Set column number
+          //margin-top: -0.75rem; //Line topmost links up with parent link in left column
+          display: flex;
+          flex-flow: column wrap;
+          align-content: flex-start;
+          padding-left: 2rem;
+
+          .usa-nav__submenu-group {
+            //break-inside: avoid; //Do not allow a column break inside a sublist grouping
+            margin-right: 1rem;
+            width: calc((100% - 3rem)/4); //I don't know why it's 3rem and not 2rem or 5rem
+
+            &:nth-of-type(4n+1) {
+              order: 1;
+            }
+
+            &:nth-of-type(4n+2) {
+              order: 2;
+            }
+
+            &:nth-of-type(4n+3) {
+              order: 3;
+            }
+
+            &:nth-of-type(4n) {
+              order: 4;
+              padding-right: 0;
+            }
+
+            // &:not(.tallest) {
+            //   &:nth-of-type(3n+1) {
+            //     order: 2;
+            //   }
+            //
+            //   &:nth-of-type(3n+2) {
+            //     order: 3;
+            //   }
+            //
+            //   &:nth-of-type(3n) {
+            //     order: 4;
+            //     padding-right: 0;
+            //
+            //     &.break {
+            //       order: 1;
+            //     }
+            //   }
+            // }
+            //
+            // &.tallest {
+            //   order: 1;
+            // }
+
+          }
+
+          .break {
+            flex-basis: 100%;
+            margin: 0;
+            width: 0;
+          }
+        }
+      }
+
+      &-item {
+        &.root-link-navigation {
+          margin-top: 0;
+          margin-bottom: 0.5rem;
+          padding-top: 0;
+        }
+
+        & > h3 {
+          //border-left: 4px solid $megamenu-link-color;
+          //padding: 0.125rem 0.75rem;
+          border-bottom: 1px solid $onr-orange;
+          padding-bottom: 0.25rem;
+          font-family: $header-font;
+          font-size: 1.5rem;
+        }
+
+        .usa-megamenu-inner & {
+          &:not(li) {
+            padding-top: 1rem;
+            letter-spacing: 0.5px;
+
+            a {
+              font-family: $bold-font;
+              font-size: $normal;
+
+              &:hover {
+                letter-spacing: 0.7px;
+              }
+            }
+          }
+        }
+      }
+
+      & &-item {
+        a {
+          color: $megamenu-link-color;
+
+          &:hover {
+            text-decoration: none;
+            color: $white;
+          }
+        }
+      }
+
+      &-list {
+        &:before {
+          display: block;
+          border-top: 3px solid $megamenu-link-color;
+          padding-top: 10px;
+          width: 35px;
+          content: '';
+        }
+
+        li {
+          position: relative;
+
+          &:before {
+            display: block;
+            position: absolute;
+            left: 0.5rem;
+            background-image: url('#{$theme-image-path-onr}/uswds-icons/angle-arrow-right-white.svg');
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-size: 0.375rem;
+            width: 0.5rem;
+            height: 100%;
+            text-indent: -99999px;
+            content: '\2022';
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+uuid: 2a136758-7d61-4f0d-ae5b-5373b450e106
+langcode: en
+status: true
+dependencies: {  }
+id: funding_opportunity
+label: 'Funding Opportunity'
+locked: false
+pattern: 'F d, Y g:i A'

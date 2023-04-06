@@ -1,0 +1,81 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present a media item.
+ *
+ * Available variables:
+ * - media: The media item, with limited access to object properties and
+ *   methods. Only method names starting with "get", "has", or "is" and
+ *   a few common methods such as "id", "label", and "bundle" are available.
+ *   For example:
+ *   - entity.getEntityTypeId() will return the entity type ID.
+ *   - entity.hasField('field_example') returns TRUE if the entity includes
+ *     field_example. (This does not indicate the presence of a value in this
+ *     field.)
+ *   Calling other methods, such as entity.delete(), will result in
+ *   an exception.
+ *   See \Drupal\Core\Entity\EntityInterface for a full list of methods.
+ * - name: Name of the media item.
+ * - content: Media content.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - attributes: HTML attributes for the containing element.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ *
+ * @see template_preprocess_media()
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% if attributes['data-max-width'] %}
+  {% set maxWidth = attributes['data-max-width']|render %}
+{% endif %}
+
+<div{{ attributes }} {% if maxWidth %} style="max-width: {{ maxWidth }}px;" {% endif %}>
+  {{ title_suffix.contextual_links }}
+  {#
+  /**
+   * @file
+   * Default theme implementation to display an image.
+   */
+  #}
+  {{ attach_library('easy_responsive_images/resizer') }}
+
+  {% set file = media.field_media_image.entity %}
+  {% set src = file.uri.value|image_url('responsive_9_16_200w') %}
+  {% set srcset = [] %}
+  {% if file.uri.value|image_url('responsive_9_16_200w') %}
+    {% set srcset = srcset|merge([file.uri.value|image_url('responsive_9_16_200w')|render ~ ' 200w']) %}
+  {% endif %}
+
+  {% if file.uri.value|image_url('responsive_9_16_400w') %}
+    {% set srcset = srcset|merge([file.uri.value|image_url('responsive_9_16_400w')|render ~ ' 400w']) %}
+  {% endif %}
+
+  {% if file.uri.value|image_url('responsive_9_16_600w') %}
+    {% set srcset = srcset|merge([file.uri.value|image_url('responsive_9_16_600w')|render ~ ' 600w']) %}
+  {% endif %}
+
+  {% if file.uri.value|image_url('responsive_9_16_800w') %}
+    {% set srcset = srcset|merge([file.uri.value|image_url('responsive_9_16_800w')|render ~ ' 800w']) %}
+  {% endif %}
+
+  {% if file.uri.value|image_url('responsive_9_16_1000w') %}
+    {% set srcset = srcset|merge([file.uri.value|image_url('responsive_9_16_1000w')|render ~ ' 1000w']) %}
+  {% endif %}
+
+  {% if file.uri.value|image_url('responsive_9_16_1200w') %}
+    {% set srcset = srcset|merge([file.uri.value|image_url('responsive_9_16_1200w')|render ~ ' 1200w']) %}
+  {% endif %}
+
+  {% if file.uri.value|image_url('responsive_9_16_1400w') %}
+    {% set srcset = srcset|merge([file.uri.value|image_url('responsive_9_16_1400w')|render ~ ' 1400w']) %}
+  {% endif %}
+
+  <img src="{{ src }}" data-srcset="{{ srcset|join(',') }}" alt="{{ media.field_media_image.alt }}" loading="lazy" />
+</div>

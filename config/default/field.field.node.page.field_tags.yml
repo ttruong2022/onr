@@ -1,0 +1,35 @@
+uuid: 59938a14-f303-483c-a6c6-3128538d39cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.page
+    - taxonomy.vocabulary.tags
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: true
+    use_queue: false
+id: node.page.field_tags
+field_name: field_tags
+entity_type: node
+bundle: page
+label: Topics
+description: 'Assign multiple topics to this page to be used for search'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

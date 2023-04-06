@@ -1,0 +1,23 @@
+uuid: 2754e75b-5434-46de-b873-33e8a5caf93e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_icon
+    - media.type.image
+id: media.image.field_icon
+field_name: field_icon
+entity_type: media
+bundle: image
+label: 'Info Block Icon'
+description: 'Allow icon to be available to Info Block content type'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

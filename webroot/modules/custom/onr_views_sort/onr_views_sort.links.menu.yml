@@ -1,0 +1,6 @@
+onr_views_sort.settings_form:
+  title: 'ONR Views Sort'
+  route_name: onr_views_sort.settings_form
+  description: 'Administer ONR Custom module for view sorting ignore'
+  parent: system.admin_config_content
+  weight: 99

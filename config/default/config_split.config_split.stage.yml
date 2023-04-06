@@ -1,0 +1,20 @@
+uuid: 3aad154d-df08-475a-b1b9-c5a8ee3ce878
+langcode: en
+status: true
+dependencies: {  }
+id: stage
+label: Stage
+description: ''
+weight: 2
+stackable: false
+storage: folder
+folder: ../config/splits/stage
+module:
+  dblog: 0
+  environment_indicator: 0
+  environment_indicator_ui: 0
+  syslog: 0
+theme: {  }
+complete_list: {  }
+partial_list:
+  - simple_sitemap.settings

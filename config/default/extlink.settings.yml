@@ -1,0 +1,27 @@
+_core:
+  default_config_hash: vOaSYBgSyTzn8_p0MSY8B-ygp9V0Nc6qnX0vy9KYGeo
+extlink_use_external_js_file: false
+extlink_exclude_admin_routes: true
+extlink_target: true
+extlink_target_no_override: false
+extlink_nofollow: false
+extlink_noreferrer: true
+extlink_follow_no_override: false
+extlink_subdomains: true
+extlink_alert: true
+extlink_alert_text: 'You are exiting ONR''s web server. ONR does not endorse, take responsibility for, or exercise control over the linked organization or its views, or contents, nor does it vouch for the accuracy or accessibility of the information contained on the destination server. ONR also cannot authorize the use of copyrighted materials contained in linked websites. Users must request such authorization from the sponsor of the linked website. Thank you for visiting our site. Please click OK to continue.'
+extlink_exclude: ''
+extlink_include: ''
+extlink_class: ext
+extlink_label: '(link is external)'
+extlink_img_class: false
+extlink_css_exclude: ''
+extlink_css_explicit: ''
+extlink_mailto_class: mailto
+extlink_mailto_label: '(link sends email)'
+extlink_use_font_awesome: false
+extlink_font_awesome_classes:
+  links: 'fa fa-external-link'
+  mailto: 'fa fa-envelope-o'
+extlink_icon_placement: '0'
+whitelisted_domains: {  }

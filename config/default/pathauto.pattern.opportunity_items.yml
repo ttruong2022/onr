@@ -1,0 +1,22 @@
+uuid: 0e95f5f0-ef6d-4fdc-99b8-2696ae932cbc
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: opportunity_items
+label: 'Opportunity Items'
+type: 'canonical_entities:node'
+pattern: '/work-with-us/funding-opportunities/[node:title]'
+selection_criteria:
+  de87a409-c60d-4861-839c-835843de7198:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: de87a409-c60d-4861-839c-835843de7198
+    context_mapping:
+      node: node
+    bundles:
+      opportunities_item: opportunities_item
+selection_logic: and
+weight: -5
+relationships: {  }

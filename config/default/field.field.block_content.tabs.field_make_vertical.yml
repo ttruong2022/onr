@@ -1,0 +1,23 @@
+uuid: f2bea995-1161-4b4e-9508-f17451826320
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.tabs
+    - field.storage.block_content.field_make_vertical
+id: block_content.tabs.field_make_vertical
+field_name: field_make_vertical
+entity_type: block_content
+bundle: tabs
+label: 'Make Vertical'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,25 @@
+uuid: 7bcc662e-054e-4750-883a-ebb076fc85d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.a11y_paragraphs_tab_content.field_a11y_para_tabs_text_area
+    - paragraphs.paragraphs_type.a11y_paragraphs_tab_content
+  module:
+    - text
+_core:
+  default_config_hash: ZhLB0Eb0YlSlZwnZu9GKCOE_RTxAhWbu8QlfTLfGhgM
+id: paragraph.a11y_paragraphs_tab_content.default
+targetEntityType: paragraph
+bundle: a11y_paragraphs_tab_content
+mode: default
+content:
+  field_a11y_para_tabs_text_area:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

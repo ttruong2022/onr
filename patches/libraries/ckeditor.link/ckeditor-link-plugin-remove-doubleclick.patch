@@ -1,0 +1,19 @@
+diff --git a/plugin.js b/plugin.js
+index c94198d..b258dcf 100644
+--- a/plugin.js
++++ b/plugin.js
+@@ -104,10 +104,10 @@
+ 
+ 				if ( element && !element.isReadOnly() ) {
+ 					if ( element.is( 'a' ) ) {
+-						evt.data.dialog = ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) ? 'anchor' : 'link';
+-
+-						// Pass the link to be selected along with event data.
+-						evt.data.link = element;
++						// evt.data.dialog = ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) ? 'anchor' : 'link';
++						//
++						// // Pass the link to be selected along with event data.
++						// evt.data.link = element;
+ 					} else if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) ) {
+ 						evt.data.dialog = 'anchor';
+ 					}

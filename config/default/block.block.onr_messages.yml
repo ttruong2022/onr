@@ -1,0 +1,22 @@
+uuid: ca0e4b51-6516-4a63-80e8-0820cf71d458
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - onr
+_core:
+  default_config_hash: CYzgZvH_8hkoLTRVwXUNPJ3TPZ9RZu6wwFqmOQ-jkWA
+id: onr_messages
+theme: onr
+region: highlighted
+weight: -50
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

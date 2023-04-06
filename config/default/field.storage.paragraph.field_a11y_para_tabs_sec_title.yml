@@ -1,0 +1,22 @@
+uuid: 53b2b1ee-f61d-41df-af42-0dd00ae0de22
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - text
+_core:
+  default_config_hash: FrU7Cum54bvEapjwe8BEpvv_czcRR1Hk9lLJG6mZhUU
+id: paragraph.field_a11y_para_tabs_sec_title
+field_name: field_a11y_para_tabs_sec_title
+entity_type: paragraph
+type: text
+settings:
+  max_length: 255
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

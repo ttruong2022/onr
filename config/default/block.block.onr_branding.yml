@@ -1,0 +1,25 @@
+uuid: caa81918-a2be-43de-a243-895d5c3436bb
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - onr
+_core:
+  default_config_hash: ICfGLIpwwNqk0z0TguO4D9JS6egLGIqOKhQYg80RXKY
+id: onr_branding
+theme: onr
+region: header
+weight: -7
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: false
+visibility: {  }

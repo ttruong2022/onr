@@ -1,0 +1,86 @@
+Description: >
+  This template deploys an EFS volume
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  Subnet1:
+    Description: Choose which subnets this Bastion should be deployed to
+    Type: AWS::EC2::Subnet::Id
+
+  SecurityGroups:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: The list of Security Groups in your Virtual Private Cloud (VPC).
+      Make sure select SecurityGroups in the same VPC.
+      
+  AvailabilityZone:
+    Type: String
+    Description: Availability Zone to deploy the EFS to
+  
+Resources:
+ 
+  FileSystemResource:
+    Type: 'AWS::EFS::FileSystem'
+    Properties:
+      AvailabilityZoneName: !Ref AvailabilityZone
+      BackupPolicy:
+        Status: ENABLED
+      Encrypted: true
+      LifecyclePolicies:
+        - TransitionToIA: AFTER_30_DAYS
+      FileSystemTags: 
+        - Key: Environment
+          Value: !Ref EnvironmentName
+      KmsKeyId: !GetAtt 
+        - key
+        - Arn
+
+  key:
+    Type: AWS::KMS::Key
+    Properties:
+      KeyPolicy:
+        Version: 2012-10-17
+        Id: !Sub ${EnvironmentName}-efs-key
+        Statement:
+          - Sid: Allow administration of the key
+            Effect: Allow
+            Principal:
+              AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+            Action:
+              - 'kms:*'
+            Resource: 
+              - '*'
+
+  MountTargetResource1:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref FileSystemResource
+      SubnetId: !Ref Subnet1
+      SecurityGroups: !Ref SecurityGroups
+ 
+  AccessPointResource:
+    Type: 'AWS::EFS::AccessPoint'
+    Properties:
+      FileSystemId: !Ref FileSystemResource
+      PosixUser:
+        Uid: "992"
+        Gid: "989"
+        # SecondaryGids:
+        #   - "1344"
+        #   - "1452"
+      RootDirectory:
+        CreationInfo:
+          OwnerGid: "992"
+          OwnerUid: "989"
+          Permissions: "0750"
+        Path: "/solr"
+        
+Outputs:
+  FileSystemId:
+    Description: The EFS ID
+    Value: !GetAtt FileSystemResource.FileSystemId
+  AccessPointId:
+    Description: The EFS Access Point ID
+    Value: !GetAtt AccessPointResource.AccessPointId

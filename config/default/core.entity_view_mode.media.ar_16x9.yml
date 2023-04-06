@@ -1,0 +1,10 @@
+uuid: b05f82b4-cc0f-4d7a-943e-7b247acff8a6
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.ar_16x9
+label: 'AR: 16X9'
+targetEntityType: media
+cache: true

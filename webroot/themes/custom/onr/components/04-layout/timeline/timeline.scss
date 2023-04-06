@@ -1,0 +1,45 @@
+@mixin set-marker-position($dir) {
+  .timeline-item-wrapper {
+    .timeline-marker {
+      #{$dir}: -5px;
+    }
+  }
+}
+
+ul {
+  &.timeline-list {
+    &.alternate {
+      li {
+        &.timeline-item {
+          &.even {
+            @include set-marker-position(left);
+          }
+
+          &.odd {
+            @include set-marker-position(right);
+
+            img {
+              margin-left: auto;
+            }
+          }
+
+          h2 {
+            padding-bottom: 1.25rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// .timeline-list {
+//   margin-top: 2rem !important;
+//
+//   .timeline-item {
+//     .timeline-marker {
+//       right: -5px !important;
+//     }
+//   }
+// }
+
+@import './timeline-menu';

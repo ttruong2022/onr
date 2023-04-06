@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Contains easy_responsive_images_media_embed.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function easy_responsive_images_media_embed_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.easy_responsive_images_media_embed':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides extra override options to the embedded media.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function easy_responsive_images_media_embed_form_editor_media_dialog_alter(&$form, FormStateInterface &$form_state) {
+
+  if (isset($form_state->getUserInput()['editor_object'])) {
+    $editor_object = $form_state->getUserInput()['editor_object'];
+    $media_embed_element = $editor_object['attributes'];
+  }
+  else {
+    // Retrieve the user input from form state.
+    $media_embed_element = $form_state->get('media_embed_element');
+  }
+
+  $allowed_view_modes = \Drupal::config('easy_responsive_images_media_embed.settings')
+    ->get('easy_responsive_images_media_embed_allowed_view_modes');
+
+  $visible_array = [];
+  if (isset($allowed_view_modes)) {
+    foreach ($allowed_view_modes as $key => $view_mode) {
+      $visible_array[] = ['value' => $key];
+    }
+  }
+
+  $form['dimensions'] = [
+    '#type' => 'fieldset',
+    '#title' => 'Dimensions',
+    '#description' => t('Override image type media dimensions. Leave one parameter empty to scale proportionally.'),
+    '#states' => [
+      'visible' => [
+        'select[name="attributes[data-view-mode]"]' => $visible_array,
+      ],
+    ],
+  ];
+
+  $form['dimensions']['max-width'] = [
+    '#title' => t('Max-Width'),
+    '#type' => 'number',
+    '#step' => '1',
+    '#default_value' => empty($media_embed_element['data-max-width']) ? '' : $media_embed_element['data-max-width'],
+    '#parents' => ['attributes', 'data-max-width'],
+    '#states' => [
+      'visible' => [
+        'select[name="attributes[data-view-mode]"]' => $visible_array,
+      ],
+    ],
+  ];
+}

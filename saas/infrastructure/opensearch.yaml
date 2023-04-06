@@ -1,0 +1,128 @@
+Description: >
+  This template deploys AWS OpenSearch Service
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  EngineVersion:
+    Default: Elasticsearch_7.10
+    Description: User-defined OpenSearch Engine version
+    Type: String
+
+  InstanceType:
+    Default: t3.small.search
+    Description: OpenSearch instance type. Available options < 0.25 an hour
+    Type: String
+    AllowedValues:
+    # https://aws.amazon.com/opensearch-service/pricing/
+    - t2.small.search
+    - t2.medium.search
+    - t3.small.search
+    - t3.medium.search
+    - c4.large.search
+    - c5.large.search
+    - c6g.large.search
+    - c6g.large.search
+    - m4.large.search
+    - m5.large.search
+    - m6g.large.search
+    - r3.large.search
+    - r4.large.search
+    - r5.large.search
+    - r6g.large.search
+    - r6gd.large.search
+
+  Subnets:
+    Description: Choose which subnets this RDS should be deployed to
+    Type: List<AWS::EC2::Subnet::Id>
+
+  OSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Database security group
+
+Resources:
+
+  ESUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Sub ${EnvironmentName}-es-user
+      Policies:
+        - PolicyName: !Sub ${EnvironmentName}-es-user-policy
+          PolicyDocument: !Sub |
+            {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                 "Resource": "${OSDomain.Arn}",
+                 "Action": ["es:*"],
+                 "Effect": "Allow"
+                },
+                {
+                 "Resource": "${OSDomain.Arn}",
+                 "Action": ["es: DeleteElasticsearchDomain",
+                            "es: CreateElasticsearchDomain"],
+                 "Effect": "Deny"
+                }
+              ]
+            }
+  
+  OSUserCredentials:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      Status: Active
+      UserName: !Ref ESUser
+
+  OSDomain:
+    Type: 'AWS::OpenSearchService::Domain'
+    Properties:
+      DomainName:
+        Ref: EnvironmentName
+      EngineVersion: 
+        Ref: EngineVersion
+      ClusterConfig:
+        InstanceCount: 1
+        InstanceType:
+          Ref: InstanceType
+        # InstanceCount: 2
+        # InstanceType:
+        #   Ref: InstanceType
+        # ZoneAwarenessEnabled: true
+        # ZoneAwarenessConfig:
+        #   AvailabilityZoneCount: 2
+      EBSOptions:
+        EBSEnabled: true
+        Iops: 0
+        VolumeSize: 10
+        VolumeType: gp2
+      AccessPolicies:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Deny
+            Principal:
+              AWS: '*'
+            Action: 'es:*'
+            Resource: '*'
+      AdvancedOptions:
+        rest.action.multi.allow_explicit_index: true
+        override_main_response_version: true
+      VPCOptions:
+        # SubnetIds: !Ref Subnets
+        SubnetIds:
+          - !Select [ 0, !Ref Subnets ]
+        SecurityGroupIds:
+          - Ref: OSSecurityGroup
+
+Outputs:
+
+  OSEndpoint:
+    Description: The ElasticSearch endpoint address
+    Value: !GetAtt OSDomain.DomainEndpoint
+
+  OSUserKeyID:
+    Description: "AWS Access Key ID to a user with OpenSearch access"
+    Value: !Ref OSUserCredentials
+
+  OSUserSecretKey:
+    Description: "AWS Secret Key to a user with OpenSearch access"
+    Value: !GetAtt OSUserCredentials.SecretAccessKey 

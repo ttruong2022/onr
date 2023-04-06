@@ -1,0 +1,8 @@
+uuid: 6e1ec2c7-a87a-431b-b845-bcb66b67261f
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_regular_cards
+label: 'USWDS Regular Cards'
+revision: 1
+description: ''

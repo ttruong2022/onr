@@ -1,0 +1,8 @@
+uuid: 14a4ee62-d6e9-4058-bc43-469fe8b26591
+langcode: en
+status: true
+dependencies: {  }
+id: featured_image
+label: 'Featured Image'
+revision: 1
+description: 'Custom solution for ONR to create featured images. Leveraging USWDS Cards (Regular)'

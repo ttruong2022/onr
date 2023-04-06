@@ -1,0 +1,31 @@
+uuid: 313c24a1-f6a5-43c9-adad-7761ef1cd093
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - filter.format.basic_html
+    - paragraphs.paragraphs_type.uswds_summary_box
+  module:
+    - linkchecker
+    - text
+third_party_settings:
+  linkchecker:
+    scan: true
+    extractor: html_link_extractor
+_core:
+  default_config_hash: 6WHiE9Vaqg84vQJqhkzKgOHOgEDgCD7Oo2oiwmXz8p8
+id: paragraph.uswds_summary_box.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: uswds_summary_box
+label: Text
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

@@ -1,0 +1,11 @@
+@import '../../01-core/variables';
+
+.about-onr {
+  margin-top: 2rem;
+  border-top: 2px solid $onr-orange;
+  padding: 1rem 0;
+
+  p {
+    line-height: 1.5rem;
+  }
+}

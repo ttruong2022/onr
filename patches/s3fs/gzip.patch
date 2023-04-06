@@ -1,0 +1,109 @@
+diff --git a/config/install/s3fs.settings.yml b/config/install/s3fs.settings.yml
+index 0ceefe3..2c0a90f 100644
+--- a/config/install/s3fs.settings.yml
++++ b/config/install/s3fs.settings.yml
+@@ -25,6 +25,7 @@ use_cssjs_host: false
+ cssjs_host: ''
+ use_credentials_cache: false
+ credentials_cache_dir: ''
++gzip_mimes: ''
+ keymodule:
+   access_key_name: ''
+   secret_key_name: ''
+diff --git a/config/schema/s3fs.schema.yml b/config/schema/s3fs.schema.yml
+index b123bbd..fc8e98a 100644
+--- a/config/schema/s3fs.schema.yml
++++ b/config/schema/s3fs.schema.yml
+@@ -82,6 +82,9 @@ s3fs.settings:
+     credentials_cache_dir:
+       type: string
+       label: 'Directory to store cached credentials in'
++    gzip_mimes:
++      type: string
++      label: 'MIME types to pre-compress in gzip format'
+     keymodule:
+       type: mapping
+       mapping:
+diff --git a/src/Form/SettingsForm.php b/src/Form/SettingsForm.php
+index 6ecbb3b..ce8ef02 100644
+--- a/src/Form/SettingsForm.php
++++ b/src/Form/SettingsForm.php
+@@ -505,6 +505,17 @@ class SettingsForm extends ConfigFormBase {
+       '#collapsed' => TRUE,
+     ];
+     $file_specific = &$advanced['file_specific'];
++
++    $file_specific['gzip_mimes'] = [
++      '#type' => 'textarea',
++      '#title' => $this->t('Gzip MIME types'),
++      '#default_value' => $config->get('gzip_mimes'),
++      '#rows' => 5,
++      '#description' => $this->t(
++        'A list of mime types that should be uploaded as gzipped and served with Content-Encoding: gzip. One per line.<br>',
++      ),
++    ];
++
+     $file_specific['presigned_urls'] = [
+       '#type' => 'textarea',
+       '#title' => $this->t('Presigned URLs'),
+@@ -631,6 +642,7 @@ class SettingsForm extends ConfigFormBase {
+       ->set('root_folder', trim($values['root_folder'], '\/'))
+       ->set('public_folder', trim($values['public_folder'], '\/'))
+       ->set('private_folder', trim($values['private_folder'], '\/'))
++      ->set('gzip_mimes', $values['gzip_mimes'])
+       ->set('presigned_urls', $values['presigned_urls'])
+       ->set('saveas', $values['saveas'])
+       ->set('torrents', $values['torrents']);
+diff --git a/src/S3fsFileService.php b/src/S3fsFileService.php
+index ca84e9c..e22c717 100644
+--- a/src/S3fsFileService.php
++++ b/src/S3fsFileService.php
+@@ -111,10 +111,28 @@ class S3fsFileService implements FileSystemInterface {
+     $this->configFactory = $configFactory;
+   }
+ 
++  /**
++   *
++   */
++  public function shouldCompress($uri) {
++    $config = $this->configFactory->get('s3fs.settings')->get();
++    if (empty($config['gzip_mimes'])) {
++      return FALSE;
++    }
++    $gzip_mimes =preg_split('/[\r\n]+/', $config['gzip_mimes']);
++    $contentType = $this->mimeGuesser->guessMimeType($uri);
++    return in_array($contentType, $gzip_mimes);
++  }
++
+   /**
+    * {@inheritdoc}
+    */
+   public function moveUploadedFile($filename, $uri) {
++    // Convert file to gzipped.
++    if ($this->shouldCompress($uri)) {
++      file_put_contents($filename, gzcompress(file_get_contents($filename), 9, ZLIB_ENCODING_GZIP));
++    }
++
+     $wrapper = $this->streamWrapperManager->getViaUri($uri);
+     if (is_a($wrapper, 'Drupal\s3fs\StreamWrapper\S3fsStream')) {
+       return $this->putObject($filename, $uri);
+@@ -399,6 +417,9 @@ class S3fsFileService implements FileSystemInterface {
+   public function saveData($data, $destination, $replace = self::EXISTS_RENAME) {
+     // Write the data to a temporary file.
+     $temp_name = $this->tempnam('temporary://', 'file');
++    if ($this->shouldCompress($destination)) {
++      $data = gzcompress($data, 9, ZLIB_ENCODING_GZIP);
++    }
+     if (file_put_contents($temp_name, $data) === FALSE) {
+       $this->logger->error("Temporary file '%temp_name' could not be created.", ['%temp_name' => $temp_name]);
+       throw new FileWriteException("Temporary file '$temp_name' could not be created.");
+@@ -510,6 +531,9 @@ class S3fsFileService implements FileSystemInterface {
+ 
+     if ($scheme !== 'private' && !$uploadAsPrivate) {
+       $uploadParams['ACL'] = 'public-read';
++      if ($this->shouldCompress($key_path)) {
++        $uploadParams['ContentEncoding'] = 'gzip';
++      }
+     }
+ 
+     $this->moduleHandler->alter('s3fs_upload_params', $uploadParams);

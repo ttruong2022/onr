@@ -1,0 +1,22 @@
+uuid: 8cd8656f-ff8a-4c86-a8ad-217d68979b1c
+langcode: en
+status: true
+dependencies:
+  theme:
+    - onr
+_core:
+  default_config_hash: ahWhyfKURL8-uF2zD1yLky7F_-l-9SD-VFuktHzOs5o
+id: onr_local_tasks
+theme: onr
+region: content
+weight: -6
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

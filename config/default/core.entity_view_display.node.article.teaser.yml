@@ -1,0 +1,82 @@
+uuid: 6cc4b74c-2886-4e93-bdde-4586446b2af0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.article.body
+    - field.field.node.article.field_article_author
+    - field.field.node.article.field_featured_image
+    - field.field.node.article.field_group
+    - field.field.node.article.field_metatags
+    - field.field.node.article.field_search_api_best_bets
+    - field.field.node.article.field_search_api_exclude_entity
+    - field.field.node.article.field_tags
+    - field.field.node.article.field_year
+    - node.type.article
+  module:
+    - field_limiter
+    - smart_trim
+    - user
+_core:
+  default_config_hash: 4NcL2hSQZBpJbYtNuh5jC6kyQTcAc1m5bQpTegEWEso
+id: node.article.teaser
+targetEntityType: node
+bundle: article
+mode: teaser
+content:
+  body:
+    type: smart_trim
+    label: hidden
+    settings:
+      trim_length: 300
+      trim_type: chars
+      trim_suffix: ...
+      wrap_output: true
+      wrap_class: trimmed
+      more_link: false
+      more_class: more-link
+      more_text: More
+      summary_handler: trim
+      trim_options:
+        text: true
+        trim_zero: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_article_author:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_featured_image:
+    type: field_limiter
+    label: hidden
+    settings:
+      type: entity_reference_entity_view
+      settings:
+        view_mode: ar_1x1
+      offset: 0
+      limit: 1
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  field_group: true
+  field_metatags: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  field_year: true
+  langcode: true
+  links: true
+  published_at: true
+  search_api_excerpt: true

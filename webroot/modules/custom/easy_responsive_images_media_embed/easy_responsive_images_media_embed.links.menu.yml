@@ -1,0 +1,6 @@
+easy_responsive_images_media_embed.admin_config:
+  title: 'Easy Responsive Image Media Embed'
+  route_name: easy_responsive_images_media_embed.settings
+  parent: system.admin_config_media
+  description: 'Easy Responsive Images Custom Settings.'
+  weight: 10

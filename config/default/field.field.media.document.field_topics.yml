@@ -1,0 +1,35 @@
+uuid: a1b4fb3a-0420-4ab3-a897-d801e0ebcd03
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_topics
+    - media.type.document
+    - taxonomy.vocabulary.tags
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: true
+    use_queue: false
+id: media.document.field_topics
+field_name: field_topics
+entity_type: media
+bundle: document
+label: Topics
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

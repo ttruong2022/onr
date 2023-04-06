@@ -1,0 +1,181 @@
+<footer class="{{ footer_classes }}" role="contentinfo">
+
+	{% if display_footer_primary %}
+	<div class="usa-footer__primary-section">
+
+		<div class="usa-footer__primary-content">
+			{% if footer_style != 'medium' %}
+			<div class="grid-container">
+				{% endif %}
+
+				{% if footer_slim and (footer_phone or footer_email) %}
+					<div class="tablet:grid-col-4">
+						<address class="usa-footer__address">
+							<div class="grid-row grid-gap tablet:grid-gap-0">
+
+								{% if footer_phone %}
+									<div
+											class="grid-col-auto tablet:grid-col-12 desktop:grid-col-auto">
+										<div class="usa-footer-contact_info">
+											<a
+													href="tel:{{ footer_phone }}">{{ footer_phone }}</a>
+										</div>
+									</div>
+								{% endif %}
+
+								{% if footer_email %}
+									<div
+											class="grid-col-auto tablet:grid-col-12 desktop:grid-col-auto">
+										<div class="usa-footer-contact_info">
+											<a
+													href="mailto:{{ footer_email }}">{{ footer_email }}</a>
+										</div>
+									</div>
+								{% endif %}
+							</div>
+						</address>
+					</div>
+				{% endif %}
+
+				{% if footer_style != 'medium' %}
+
+					<div class="grid-row">
+						{% if display_footer_agency %}
+							<div class="usa-footer__logo desktop:grid-col-6 tablet:grid-col-12 tablet:grid-gap-2">
+								{% if footer_agency_url %}
+								<a href="{{ footer_agency_url }}">
+									{% endif %}
+
+									{% if footer_agency_logo %}
+										<img class="usa-footer__logo-img"
+										     src="{{ footer_agency_logo }}"
+										     alt="{{ 'Agency logo'|t }}">
+									{% endif %}
+
+									{% if footer_agency_name %}
+										<h2 class="usa-footer__logo-heading">{{ footer_agency_name }}</h2>
+									{% endif %}
+
+									{% if footer_agency_url %}
+								</a>
+								{% endif %}
+							</div>
+						{% endif %}
+					</div>
+
+					<div class="grid-row grid-gap">
+						<div class="mobile-footer-menu">
+							{{ drupal_menu('footer') }}
+						</div>
+
+						{% if page.footer_menu %}
+							<div class="footer-menu desktop:grid-col-8 tablet:grid-col-9">
+								<div class="grid-row grid-gap">
+									{{ page.footer_menu }}
+								</div>
+							</div>
+						{% endif %}
+
+						{% if not footer_slim %}
+							<div class="footer-contact-info desktop:grid-col-4 tablet:grid-col-3">
+
+								{# Text in the right column with address #}
+								{% if page.footer %}
+									<div class="footer-text">
+										<div class="footer-text--icon">
+										</div>
+										{{ page.footer }}
+									</div>
+								{% endif %}
+
+								{# Social media links #}
+								{% if facebook or twitter or youtube or rss %}
+									<div class="usa-footer__social-links">
+										<strong>{{ 'FOLLOW US'|trans }}</strong>
+										<div class="grid-row">
+											{% if facebook %}
+												<div class="grid-col-auto grid-gap-sm">
+													<a class="usa-social-link facebook"
+													   href="{{ facebook }}">
+														<img class="usa-social-link__icon" src="{{ onr_images }}social-icons/facebook.svg" alt="Facebook icon">
+													</a>
+												</div>
+											{% endif %}
+
+											{% if twitter %}
+												<div class="grid-col-auto">
+													<a class="usa-social-link twitter"
+													   href="{{ twitter }}">
+														<img class="usa-social-link__icon" src="{{ onr_images }}social-icons/twitter.svg" alt="Twitter icon">
+													</a>
+												</div>
+											{% endif %}
+
+											{% if youtube %}
+												<div class="grid-col-auto">
+													<a class="usa-social-link youtube"
+													   href="{{ youtube }}">
+														<img class="usa-social-link__icon" src="{{ onr_images }}social-icons/youtube.svg" alt="YouTube icon">
+													</a>
+												</div>
+											{% endif %}
+
+											<div class="grid-col-auto">
+												<a class="usa-social-link instagram"
+												   href="{{ instagram }}">
+													<img class="usa-social-link__icon" src="{{ onr_images }}social-icons/instagram.svg" alt="Instagram icon">
+												</a>
+											</div>
+
+											<div class="grid-col-auto">
+												<a class="usa-social-link linkedin"
+												   href="https://www.linkedin.com/company/officeofnavalresearch">
+													<img class="usa-social-link__icon" src="{{ onr_images }}social-icons/linkedin.svg" alt="Linkedin icon">
+												</a>
+											</div>
+
+											{% if rss %}
+												<div class="grid-col-auto">
+													<a class="usa-social-link" href="{{ rss }}">
+														<span>RSS</span>
+													</a>
+												</div>
+											{% endif %}
+
+											{% if email %}
+												<div class="grid-col-auto">
+													<a class="usa-social-link"
+													   href="mailto:{{ email }}">
+														<span>{ email }}</span>
+													</a>
+												</div>
+											{% endif %}
+										</div>
+									</div>
+								{% endif %}
+							</div>
+						{% endif %}
+					</div>
+				{% endif %}
+			</div>
+
+		</div>
+		{% endif %}
+
+		{% if display_footer_secondary %}
+			<div class="usa-footer__secondary-section">
+				<div class="grid-container">
+
+					{% if page.footer_secondary %}
+						<div class="grid-row">
+							<div class="grid-col-12">
+								{{ page.footer_secondary }}
+							</div>
+						</div>
+					{% endif %}
+
+				</div>
+			</div>
+		{% endif %}
+
+</footer>

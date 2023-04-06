@@ -1,0 +1,56 @@
+uuid: b523b969-4a46-44e9-a1ea-9b0822229342
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_blocks
+    - paragraphs.paragraphs_type.block
+  module:
+    - block_field
+id: paragraph.block.field_blocks
+field_name: field_blocks
+entity_type: paragraph
+bundle: block
+label: Blocks
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  selection: categories
+  selection_settings:
+    categories:
+      Custom: Custom
+      'Future Force': 'Future Force'
+      Block: '0'
+      'Chaos Tools': '0'
+      'Content fields': '0'
+      'Content moderation state fields': '0'
+      core: '0'
+      'Crop fields': '0'
+      'Custom block fields': '0'
+      'Custom menu link fields': '0'
+      Devel: '0'
+      'Division Programs': '0'
+      'EmbeddedParagraphs fields': '0'
+      'Fake entity type fields': '0'
+      'File fields': '0'
+      Forms: '0'
+      Help: '0'
+      'Inline blocks': '0'
+      'Lists (Views)': '0'
+      'Media fields': '0'
+      Menus: '0'
+      'Moderation Dashboard': '0'
+      'Paragraph fields': '0'
+      'Redirect fields': '0'
+      'Search task fields': '0'
+      'Shortcut link fields': '0'
+      System: '0'
+      'Taxonomy term fields': '0'
+      'URL alias fields': '0'
+      User: '0'
+      'User fields': '0'
+      Views: '0'
+field_type: block_field

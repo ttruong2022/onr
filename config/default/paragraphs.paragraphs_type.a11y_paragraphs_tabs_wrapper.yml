@@ -1,0 +1,12 @@
+uuid: 0cf40a75-238e-4f17-91e5-2ba6e7c88db8
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: fzN86znID-9S-OOiu85pkdTeyi4jKfa1yVPi9x-zd6o
+id: a11y_paragraphs_tabs_wrapper
+label: 'A11Y Paragraphs Tabs Wrapper'
+icon_uuid: null
+icon_default: null
+description: 'Adds a wrapper for the A11Y Paragraphs Tabs Panel paragraph. This in turn creates tabs that comply to Accessibility (A11Y) standards and on mobile it becomes an accordion.'
+behavior_plugins: {  }

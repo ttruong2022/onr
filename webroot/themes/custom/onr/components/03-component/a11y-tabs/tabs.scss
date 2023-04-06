@@ -1,0 +1,127 @@
+@import '../../01-core/variables';
+
+:not(.layout-builder-form) {
+  .make-vertical {
+    .a11y-paragraphs-tabs__wrapper {
+      .tabs-tab-list {
+        display: none;
+
+        @media (min-width: $a11y-tabs-breakpoint) {
+          display: flex;
+
+          .tabs-trigger {
+            display: flex;
+          }
+        }
+      }
+
+
+      @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+        .accordion-tabs {
+          display: flex;
+          flex-direction: row;
+
+          > * {
+            flex: 1;
+          }
+
+          .tabs-tab-list {
+            flex-direction: column;
+            border-right: 4px solid $orange;
+          }
+
+          .tabs-trigger {
+            flex-direction: row;
+            align-items: center;
+            margin: 0;
+            border-radius: 8px 0 0 8px;
+            box-shadow: -2px 2px 4px #dddddd;
+            padding: 1.5rem 2rem;
+            line-height: $large;
+            color: $black;
+            font-size: $large;
+
+            h2 {
+              margin: 0;
+              padding: 0 1rem 0 0;
+              line-height: 3rem;
+              color: $black;
+            }
+
+            &.is-selected {
+              background-color: $orange;
+            }
+          }
+
+          .tabs-panel {
+            .content {
+              &.is-open {
+                border: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.a11y-paragraphs-tabs__wrapper {
+  .tabs-trigger {
+    &.is-selected {
+      border-bottom: unset;
+      background-color: unset;
+    }
+  }
+
+  .tabs-panel {
+    .accordion-trigger,
+    .accordeon-trigger {
+      position: relative;
+      justify-content: start;
+      max-width: 100%;
+      text-align: left;
+
+      &[aria-expanded=true] {
+        background-color: $orange;
+
+        &:after {
+          background-image: url('#{$theme-image-path}/usa-icons/expand_less.svg');
+        }
+      }
+
+      &:after {
+        display: block;
+        position: absolute;
+        right: 1rem;
+        background-image: url('#{$theme-image-path}/usa-icons/expand_more.svg');
+        width: 20px;
+        height: 20px;
+        content: ' ';
+      }
+
+      h2 {
+        margin: 0;
+        padding-right: 10px;
+        color: $black;
+      }
+    }
+
+    .content {
+      &.is-open {
+        border: 1px solid $onr-lightgrey;
+        padding: 1.5rem;
+
+        p {
+          &:first-child {
+            margin-top: 0;
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}

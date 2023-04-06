@@ -1,0 +1,58 @@
+@import '../../01-core/variables';
+
+[class*='block-views-blockleadership-block'] {
+  margin: 2rem 0;
+  background-color: $onr-lightgrey;
+  padding: 2rem;
+
+  h2 {
+    margin-top: 0;
+    text-transform: uppercase;
+  }
+
+  .grid-container {
+    padding: 0;
+
+    .grid-row {
+      grid-row-gap: 2rem;
+
+      &.grid-gap {
+        > * {
+          padding-right: 1.5rem;
+        }
+      }
+
+      .person-block {
+        display: flex;
+
+        .block--image {
+          flex: 1 0 30%;
+
+          img {
+            margin: 0 auto;
+            border-radius: 10%;
+            width: 125px;
+            aspect-ratio: 4/5;
+          }
+        }
+
+        .block--content {
+          flex: 1 0 70%;
+          margin-left: 1rem;
+
+          .title {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            line-height: normal;
+            font-size: $h4;
+            font-weight: bolder;
+
+            a {
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+uuid: dd99b927-6229-4cf7-b8d2-98896951d5a0
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_accordion
+label: 'USWDS Accordion'
+revision: 1
+description: ''

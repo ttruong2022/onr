@@ -1,0 +1,43 @@
+uuid: c8f79aec-de7c-4097-a0d9-f35aa1a8e804
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.media_library
+    - field.field.media.audio.field_group
+    - field.field.media.audio.field_media_audio_file
+    - field.field.media.audio.field_override_mad_module
+    - image.style.thumbnail
+    - media.type.audio
+  module:
+    - svg_image
+_core:
+  default_config_hash: bluLijrv0ELGIq1uFR777kImy6ZH6VLl8mBCOwvuLg4
+id: media.audio.media_library
+targetEntityType: media
+bundle: audio
+mode: media_library
+content:
+  thumbnail:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: thumbnail
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  content_moderation_control: true
+  created: true
+  field_group: true
+  field_media_audio_file: true
+  field_override_mad_module: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  uid: true

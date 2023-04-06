@@ -1,0 +1,63 @@
+@import '../../01-core/variables';
+@import '../list-views/list-view';
+
+.list-view {
+  .views-row {
+    border-top: 0;
+    padding: 1rem 0;
+  }
+}
+
+.teaser-view {
+  .opportunity-item {
+    box-shadow: 0 3px 5px 4px #d8d8d8;
+
+    &.highlight {
+      border: 2px solid $onr-title-blue;
+    }
+
+    p {
+      margin-block-start: 0.75em;
+      margin-block-end: 0.75em;
+    }
+  }
+}
+
+.full-view {
+  .opportunity-item {
+    .files {
+      ul {
+        list-style: none;
+        padding-inline-start: 0;
+
+        li {
+          .field__item {
+            position: relative;
+            width: fit-content;
+
+            &::after {
+              display: inline-block;
+              position: absolute;
+              right: -25px;
+              width: 15px;
+              content: url('#{$theme-image-path}/file-pdf.svg') / 'PDF document';
+            }
+          }
+        }
+      }
+    }
+
+    .date-info {
+      margin-block-start: 10px;
+      margin-block-end: 7px;
+
+      &:first-of-type {
+        margin-top: 35px;
+      }
+
+      &:last-of-type {
+        margin-bottom: 30px;
+      }
+    }
+  }
+}

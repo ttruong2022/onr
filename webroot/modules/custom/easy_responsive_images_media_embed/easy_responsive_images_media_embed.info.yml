@@ -1,0 +1,8 @@
+name: 'Easy Reponsive Images Media Embed'
+type: module
+description: 'Fork of the Media Embed Extras module to provide a max-width to the container of an img.'
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Other
+dependencies:
+  - drupal:media

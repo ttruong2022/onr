@@ -1,0 +1,23 @@
+uuid: cbcf971a-9bfd-4ab2-a5a6-5e1c20bcce90
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_search_api_exclude_entity
+    - node.type.person
+  module:
+    - search_api_exclude_entity
+id: node.person.field_search_api_exclude_entity
+field_name: field_search_api_exclude_entity
+entity_type: node
+bundle: person
+label: 'Search API Exclude Entity'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: false
+default_value_callback: ''
+settings: {  }
+field_type: search_api_exclude_entity

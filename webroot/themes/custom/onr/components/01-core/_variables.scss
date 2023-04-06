@@ -1,0 +1,222 @@
+@import './mixins/links';
+@import './mixins/spacing';
+
+$theme-path: '/themes/custom/onr';
+$theme-image-path-onr: $theme-path + '/images';
+
+// Custom USWDS Settings
+$theme-show-notifications: false;
+$theme-image-path: '/themes/custom/onr/assets/img';
+$theme-font-path: '/themes/custom/onr/assets/fonts';
+
+//$theme-font-type-sans: 'Public Sans Regular';
+
+// Hero
+$theme-hero-image: '#{$theme-image-path-onr}/hero.png';
+
+// Header
+//$theme-header-min-width: 'tablet';
+
+// Breadcrumbs
+$theme-breadcrumb-min-width: 'tablet-lg';
+
+// Cards
+$theme-card-header-typeset: 'body', 'lg', 2;
+
+
+/* USWDS Breakpoints */
+$uswds-card-breakpoint: 160px;
+$uswds-card-lg-breakpoint: 240px;
+$uswds-mobile-breakpoint: 320px;
+$uswds-mobile-lg-breakpoint: 480px;
+$uswds-tablet-breakpoint: 640px;
+$uswds-tablet-lg-breakpoint: 880px; //55em
+$uswds-desktop-breakpoint: 1024px;
+$uswds-desktop-lg-breakpoint: 1200px;
+$uswds-widescreen-breakpoint: 1400px;
+
+/* Custom breakpoint */
+$uswds-desktop-sm-breakpoint: 1088px; // 68em
+
+$a11y-tabs-breakpoint: 48rem;
+$container-max-width: 75rem;
+
+/* Colors */
+$black: #000000;
+$white: #ffffff;
+$orange: #ee6c4d;
+$light-green: #bada55;
+$light-blue: #e9f0f8;
+$light-yellow: #ffe6bc;
+$onr-blue: #1c3cd8;
+$onr-dark-blue: #081454;
+$onr-lightgrey: #f2f4f3;
+$onr-orange: $orange;
+$onr-boxshadow: #333333;
+$onr-title-blue: #0c2087;
+$megamenu-link-color: #e9e9e9;
+
+$onr-colors: (
+  'blue': $onr-blue, 
+  'dark-blue': $onr-dark-blue,
+  'lightgrey': $onr-lightgrey,
+  'light-grey': $onr-lightgrey,
+  'orange': $onr-orange,
+  'boxshadow': $onr-boxshadow,
+  'box-shadow': $onr-boxshadow,
+  'title-blue': $onr-title-blue
+);
+
+/* Fonts */
+$body-font: 'Public Sans Regular', sans-serif;
+$bolder-font: 'Public Sans ExtraBold', sans-serif;
+$semibold-font: 'Public Sans SemiBold', sans-serif;
+$bold-font: 'Public Sans Bold', sans-serif;
+$header-font: 'Google-Abel', sans-serif;
+
+/* Text sizes */
+$small: 0.875rem; //
+$normal: 1rem; // 16px
+$slightly-larger: 1.125rem; // 18px
+$large: 1.25rem; // 20px
+$extra-large: 1.75rem; // 28px
+
+$h1: 3.5rem; // 56px
+$h2: 2.125rem; // 34px
+$h3: 1.75rem; // 28px
+$h4: 1.5rem; // 24px
+$h5: $large; // 20px
+$h6: $large; // 20px
+
+$two-times: 2rem; // 32px
+
+@mixin mq-min-width ($size) {
+  @if $size == 'card' {
+    @media screen and (min-width: $uswds-card-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'card-lg' {
+    @media screen and (min-width: $uswds-card-lg-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'mobile' {
+    @media screen and (min-width: $uswds-mobile-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'mobile-lg' {
+    @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'tablet' {
+    @media screen and (min-width: $uswds-tablet-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'tablet-lg' {
+    @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'desktop' {
+    @media screen and (min-width: $uswds-desktop-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'desktop-lg' {
+    @media screen and (min-width: $uswds-desktop-lg-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'widescreen' {
+    @media screen and (min-width: $uswds-widescreen-breakpoint) {
+      @content;
+    }
+  } @else {
+    @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+      @content;
+    }
+  }
+}
+
+@mixin mq-max-width ($size) {
+  @if $size == 'card' {
+    @media screen and (max-width: $uswds-card-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'card-lg' {
+    @media screen and (max-width: $uswds-card-lg-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'mobile' {
+    @media screen and (max-width: $uswds-mobile-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'mobile-lg' {
+    @media screen and (max-width: $uswds-mobile-lg-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'tablet' {
+    @media screen and (max-width: $uswds-tablet-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'tablet-lg' {
+    @media screen and (max-width: $uswds-tablet-lg-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'desktop' {
+    @media screen and (max-width: $uswds-desktop-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'desktop-lg' {
+    @media screen and (max-width: $uswds-desktop-lg-breakpoint) {
+      @content;
+    }
+  } @else if $size == 'widescreen' {
+    @media screen and (max-width: $uswds-widescreen-breakpoint) {
+      @content;
+    }
+  } @else {
+    @media screen and (max-width: $uswds-tablet-lg-breakpoint) {
+      @content;
+    }
+  }
+}
+
+@mixin mq-min-nonphone {
+  @include mq-min-width('tablet-lg') {
+    @content;
+  }
+}
+
+@mixin mq-min-nonmobile {
+  @include mq-min-width('desktop') { 
+    @content; 
+  }
+}
+
+%show-on-mobile {
+  @include mq-min-nonmobile {
+    display: none;
+  }
+
+  display: inherit;  
+}
+
+%hide-on-mobile {
+  @include mq-min-nonmobile {
+    display: inherit;
+  }
+
+  display: none;
+}
+
+%inline-piped-list {
+  @include link-no-bullets;
+  padding: 0 0.5em;
+
+  li {
+    @include link-separators;
+
+    a {
+      text-decoration: none;
+      color: $black;
+      font-size: $small;
+    }
+  }
+}

@@ -1,0 +1,52 @@
+@import '../../01-core/variables';
+
+.block--type-featured-image,
+.block--featured-image,
+.paragraph--type--featured-images-group {
+  padding-bottom: 1rem;
+
+  .usa-card {
+    margin: 0 !important;
+    padding: 1rem 0;
+
+    .usa-card__container {
+      &:focus-within {
+        outline: 0.25rem solid #2491ff;
+      }
+
+      .usa-card__media {
+        img {
+          max-width: 500px;
+          aspect-ratio: 16/9;
+        }
+      }
+
+      .usa-card__header {
+        order: 0;
+        padding: 1.5rem 1.5rem 1rem;
+
+        .card-link {
+          text-decoration: none;
+
+          &:focus {
+            outline: none;
+          }
+
+          &:after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            content: '';
+          }
+        }
+      }
+
+      .usa-card__body {
+        order: 1;
+        margin-top: -1.5rem;
+      }
+    }
+  }
+}

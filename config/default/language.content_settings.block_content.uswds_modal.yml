@@ -1,0 +1,11 @@
+uuid: adc95026-a21c-4f82-9731-ee9ab883a85b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_modal
+id: block_content.uswds_modal
+target_entity_type_id: block_content
+target_bundle: uswds_modal
+default_langcode: site_default
+language_alterable: false

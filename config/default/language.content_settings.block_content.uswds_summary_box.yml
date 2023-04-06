@@ -1,0 +1,11 @@
+uuid: 9d6aba3d-d423-48a6-8688-09ac02a3d9af
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_summary_box
+id: block_content.uswds_summary_box
+target_entity_type_id: block_content
+target_bundle: uswds_summary_box
+default_langcode: site_default
+language_alterable: false

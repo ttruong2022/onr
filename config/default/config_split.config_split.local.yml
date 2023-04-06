@@ -1,0 +1,24 @@
+uuid: f2ec5df1-40e2-4183-a308-a1268d8a1eb0
+langcode: en
+status: true
+dependencies: {  }
+id: local
+label: Local
+description: ''
+weight: 4
+stackable: false
+storage: folder
+folder: ../config/splits/local
+module:
+  checklistapi: 0
+  dblog: 0
+  devel: 0
+  environment_indicator: 0
+  environment_indicator_ui: 0
+  seo_checklist: 0
+theme: {  }
+complete_list:
+  - checklistapi.progress.seo_checklist
+partial_list:
+  - search_api.server.search
+  - system.performance

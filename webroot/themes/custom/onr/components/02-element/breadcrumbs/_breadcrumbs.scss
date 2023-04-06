@@ -1,0 +1,38 @@
+@import '../../01-core/variables';
+
+.breadcrumb-region {
+  padding-top: 1rem;
+
+  @include mq-min-nonphone {
+    padding-bottom: 1rem;
+  }
+
+  @include mq-min-nonmobile {
+    padding-bottom: 2rem;
+  }
+
+  .usa-breadcrumb {
+    &__list {
+      &-item {
+        font-size: 14px;
+
+        a {
+          &.usa-breadcrumb__link {
+            font-size: 14px;
+
+            @include mq-min-width('mobile') {
+              padding-top: 0;
+              text-decoration: underline;
+            }
+
+            &:before {
+              @include mq-min-width('mobile') {
+                bottom: -0.1em;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,285 @@
+Description: >
+  This template deploys a bastion to the provided VPC and subnets
+  using an Auto Scaling Group. We use ASG to manage rolling deployments, not to actually scale.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  VPC:
+    Description: Choose which VPC this Bastion should be deployed to
+    Type: AWS::EC2::VPC::Id
+
+  Subnets:
+    Description: Choose which subnets this Bastion should be deployed to
+    Type: List<AWS::EC2::Subnet::Id>
+    
+  IngressCidr:
+    Description: IP to allow Bastion connection to
+    Type: String
+    Default: 0.0.0.0/0
+
+  SecurityGroups:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: The list of Security Groups in your Virtual Private Cloud (VPC).
+      Make sure select SecurityGroups in the same VPC.
+
+  EC2AMI:
+    Description: EC2 AMI Parameter
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /test/images/RHELStigImage/latest
+
+  InstanceType:
+    Description: Which instance type should we use to build the ECS cluster?
+    Type: String
+    Default: c5.large
+
+  KeyPair:
+    Description: Amazon EC2 Key Pair
+    Type: AWS::EC2::KeyPair::KeyName
+  
+Resources:
+
+  PublicSSHSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow communication to ElastiCache from web instances
+      VpcId: !Ref VPC
+
+  PublicSSHSecurityGroupIngress:
+    Type: "AWS::EC2::SecurityGroupIngress"
+    DependsOn: PublicSSHSecurityGroup
+    Properties:
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      CidrIp: !Ref IngressCidr
+      GroupId: !GetAtt PublicSSHSecurityGroup.GroupId
+      Description: Allow ingress to SSH from ECS
+
+  #Create SSM parameter Store for CW unified agent configuration on Linux
+  SSMParameterStore:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub 'AmazonCloudWatch-Linux-${AWS::StackName}-bastion'
+      Type: String
+      Value: !Sub |
+        {
+            "logs": {
+                "force_flush_interval": 5,
+                "logs_collected": {
+                    "files": {
+                        "collect_list": [
+                            {
+                                "file_path": "/var/log/messages",
+                                "log_group_name": "${EnvironmentName}-/var/log/messages",
+                                "log_stream_name": "{instance_id}",
+                                "timestamp_format": "%b %d %H:%M:%S"
+                            },
+                            {
+                                "file_path": "/var/log/dmesg",
+                                "log_group_name": "${EnvironmentName}-/var/log/dmesg",
+                                "log_stream_name": "{instance_id}"
+                            },
+                            {
+                                "file_path": "/var/log/secure",
+                                "log_group_name": "${EnvironmentName}-/var/log/secure",
+                                "log_stream_name": "{instance_id}"
+                            },
+                            {
+                                "file_path": "/var/log/maillog",
+                                "log_group_name": "${EnvironmentName}-/var/log/maillog",
+                                "log_stream_name": "{instance_id}"
+                            }
+                        ]
+                    }
+                }
+            },
+            "agent": {
+                "metrics_collection_interval": 60
+            },
+            "metrics": {
+                "append_dimensions": {
+                    "AutoScalingGroupName": "${!aws:AutoScalingGroupName}",
+                    "InstanceId": "${!aws:InstanceId}",
+                    "InstanceType": "${!aws:InstanceType}"
+                },
+                "aggregation_dimensions" : [["AutoScalingGroupName"]],
+                "metrics_collected": {
+                    "disk": {
+                        "measurement": [
+                            {"name": "used_percent", "rename": "DiskUtilization", "unit": "Percent"}
+                        ],
+                        "metrics_collection_interval": 60,
+                        "resources": [
+                            "/"
+                        ]
+                    },
+                    "mem": {
+                        "measurement": [
+                            {"name": "mem_used_percent", "rename": "MemoryUtilization", "unit": "Percent"}
+                        ],
+                        "metrics_collection_interval": 60
+                    }
+                }
+            }
+        }
+      Description: SSM Parameter for AmazonCloudWatch Linux Bastion.
+
+#create IAM role using CloudWatch Agent Server Policy
+  CloudWatchAgentServerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      RoleName: !Sub 'CloudWatchAgentServerRole-${AWS::StackName}-bastion'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMDirectoryServiceAccess
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy
+
+#Create instance profile
+  BastionInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: !Sub 'CloudWatchAgentServerRole-${AWS::StackName}-bastion'
+      Path: /
+      Roles:
+        - !Ref 'CloudWatchAgentServerRole'
+
+#Create launch template
+  BastionLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: !Sub 'AS-CW-Linux-${AWS::StackName}'
+      LaunchTemplateData:
+        IamInstanceProfile:
+          Arn: !GetAtt 'BastionInstanceProfile.Arn'
+        ImageId: !Ref 'EC2AMI'
+        InstanceType: !Ref 'InstanceType'
+        KeyName: !Ref 'KeyPair'
+        MetadataOptions:
+          HttpPutResponseHopLimit: 2
+        NetworkInterfaces:
+          - DeviceIndex: 0
+            AssociatePublicIpAddress: true
+            DeleteOnTermination: true
+            Groups: !Split [",", !Join [",", [!Join [",", !Ref SecurityGroups], !Ref PublicSSHSecurityGroup]]]
+        UserData: !Base64
+          Fn::Sub: |
+            #!/bin/bash
+            # Install the files and packages from the metadata
+            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource BastionLaunchTemplate --configsets All  --region ${AWS::Region}
+            # Signal the status from cfn-init
+            /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource BastionASG --region ${AWS::Region}
+            chmod 0600 /etc/ssh/ssh_host*key
+            sed -i '/Allow root to run any commands anywhere/!b;n;croot    ALL=(ALL)       ALL' /etc/sudoers
+            dnf update -y
+            /sbin/aide --init
+            rm -rf /var/lib/aide/aide.db.gz
+            mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+        TagSpecifications:
+          - ResourceType: 'instance'
+            Tags:
+              - Key: 'Environment'
+                Value: !Ref 'EnvironmentName'
+              - Key: 'Group'
+                Value: 'rhel'
+              - Key: 'Type'
+                Value: 'bastion'
+    Metadata:
+      Comment: Install CloudWatch agent
+      AWS::CloudFormation::Init:
+        configSets:
+          All:
+            - 01-CWAgent
+            - 02-SetupCfnHup
+        01-CWAgent:
+          commands:
+            1-StopCWAgentService:
+              command: /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a stop
+            2-ConfigureCWAgent:
+              command: !Sub |
+                /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c ssm:${SSMParameterStore} -s
+        02-SetupCfnHup:
+          files:
+            /etc/cfn/cfn-hup.conf:
+              content: !Sub |
+                [main]
+                stack=${AWS::StackId}
+                region=${AWS::Region}
+              mode: '000400'
+              owner: root
+              group: root
+            /etc/cfn/hooks.d/cfn-auto-reloader.conf:
+              content: !Sub |
+                [cfn-auto-reloader-hook]
+                triggers=post.update
+                path=Resources.BastionLaunchTemplate.Metadata.AWS::CloudFormation::Init
+                action=/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource BastionLaunchTemplate --configsets All  --region ${AWS::Region}
+                runas=root
+              mode: '000400'
+              owner: root
+              group: root
+            /lib/systemd/system/cfn-hup.service:
+              content: |
+                [Unit]
+                Description=cfn-hup daemon
+                
+                [Service]
+                Type=simple
+                ExecStart=/opt/aws/bin/cfn-hup
+                Restart=always
+                
+                [Install]
+                WantedBy=multi-user.target
+          services:
+            sysvinit:
+              cfn-hup:
+                enabled: true
+                ensureRunning: true
+                files:
+                  - /etc/cfn/cfn-hup.conf
+                  - /etc/cfn/hooks.d/cfn-auto-reloader.conf
+
+#Create ASG using previous created launch template
+  BastionASG:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: !Sub ${EnvironmentName}-bastion
+      VPCZoneIdentifier: !Ref 'Subnets'
+      LaunchTemplate:
+        LaunchTemplateId: !Ref 'BastionLaunchTemplate'
+        Version: !GetAtt 'BastionLaunchTemplate.LatestVersionNumber'
+      MinSize: 1
+      MaxSize: 2
+      DesiredCapacity: 1
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Bastion host
+          PropagateAtLaunch: true
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT15M
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        MinInstancesInService: 1
+        MaxBatchSize: 1
+        PauseTime: PT10M
+        SuspendProcesses:
+          - HealthCheck
+          - ReplaceUnhealthy
+          - AZRebalance
+          - AlarmNotification
+          - ScheduledActions
+        WaitOnResourceSignals: true

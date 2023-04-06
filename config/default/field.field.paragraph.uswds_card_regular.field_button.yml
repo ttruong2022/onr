@@ -1,0 +1,25 @@
+uuid: 5018d5b2-cb18-4128-a56c-2728f7e3e023
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_button
+    - paragraphs.paragraphs_type.uswds_card_regular
+  module:
+    - link
+_core:
+  default_config_hash: lKu1EGp7EouHHYbl_IjhjLxCa4sLBawTwP7Xq8oDYO4
+id: paragraph.uswds_card_regular.field_button
+field_name: field_button
+entity_type: paragraph
+bundle: uswds_card_regular
+label: Button
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

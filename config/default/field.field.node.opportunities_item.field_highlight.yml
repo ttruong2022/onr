@@ -1,0 +1,23 @@
+uuid: 56ca8176-cb06-4c3d-b800-6fa65264b381
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_highlight
+    - node.type.opportunities_item
+id: node.opportunities_item.field_highlight
+field_name: field_highlight
+entity_type: node
+bundle: opportunities_item
+label: Highlight
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

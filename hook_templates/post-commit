@@ -1,0 +1,18 @@
+#!/bin/sh
+
+branch='BRANCH='$(git rev-parse --abbrev-ref HEAD)'\n'
+
+git_info=$(git describe --tags)
+
+arrIN=(${git_info//-/ })
+
+tag='TAG='${arrIN[0]}'\n'
+commit_ahead='COMMITS_AHEAD='${arrIN[1]}'\n'
+commit_id='COMMIT_ID='${arrIN[2]}'\n'
+
+BASEDIR=$(dirname "$0")
+
+output="$branch""$tag""$commit_ahead""$commit_id"
+#echo $output
+# Path is for .git/hooks
+echo  -e "$output" > "$BASEDIR"'/../../git-info.txt'

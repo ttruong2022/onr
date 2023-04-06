@@ -1,0 +1,15 @@
+uuid: 38eb71c6-12d1-46b0-85e7-6f0e91c9f880
+langcode: en
+status: true
+dependencies: {  }
+name: responsive_800w
+label: responsive_800w
+effects:
+  b0644e96-9ca4-4c34-afb1-52361069212d:
+    uuid: b0644e96-9ca4-4c34-afb1-52361069212d
+    id: image_scale
+    weight: null
+    data:
+      width: 800
+      height: null
+      upscale: true

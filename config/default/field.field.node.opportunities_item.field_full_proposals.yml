@@ -1,0 +1,21 @@
+uuid: 27319b0a-8a43-4baa-83e5-90218dfd51a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_full_proposals
+    - node.type.opportunities_item
+  module:
+    - datetime
+id: node.opportunities_item.field_full_proposals
+field_name: field_full_proposals
+entity_type: node
+bundle: opportunities_item
+label: 'Full Proposals Due Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

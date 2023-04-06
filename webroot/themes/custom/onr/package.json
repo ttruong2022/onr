@@ -1,0 +1,52 @@
+{
+  "name": "onr",
+  "version": "1.1.0",
+  "description": "Custom theme for Office of Naval Research using USWDS library",
+  "author": "Stephen Mustgrave",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "init": "npx gulp init",
+    "build": "gulp",
+    "lint": "gulp lint",
+    "lintCi": "gulp lintCi",
+    "imagemin": "gulp imagemin",
+    "watch": "gulp watch",
+    "scss": "gulp compileSass",
+    "js": "gulp compileJs",
+    "compile": "gulp compileAll",
+    "postinstall": "patch-package"
+  },
+  "paths": {
+    "dist": {
+      "css": "./css/",
+      "js": "./js/",
+      "img": "./images/"
+    },
+    "scss": [
+      "./components/**/*.scss"
+    ],
+    "css": [
+      "./css/**/*.css"
+    ],
+    "js": [
+      "./components/**/*.js"
+    ]
+  },
+  "devDependencies": {
+    "@uswds/compile": "^1.0.0-beta.2",
+    "gulp-clean-css": "^4.3.0",
+    "patch-package": "^6.4.7",
+    "sass-lint": "^1.13.1",
+    "uswds": "2.13.2"
+  },
+  "dependencies": {
+    "gulp-eslint": "^6.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass-lint": "^1.4.0",
+    "gulp-svg-sprite": "^1.5.0",
+    "gulp-uglify-es": "^3.0.0",
+    "path": "^0.12.7",
+    "sass": "^1.50.0"
+  }
+}

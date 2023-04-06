@@ -1,0 +1,14 @@
+container_type:
+  weight: '-90'
+  default_value: no-container
+  form_options:
+    grid-container: 'Grid Container'
+    no-container: 'No Container'
+remove_gutters:
+  weight: '-85'
+  default_value: 1
+  form_options:
+    1: 'No Gutters'
+    0: 'With Gutters'
+breakpoints:
+  weight: '-80'

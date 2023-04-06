@@ -1,0 +1,31 @@
+uuid: b3bc99cb-d530-46de-bac5-f8f6703f2631
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_modal_body
+    - filter.format.basic_html
+    - paragraphs.paragraphs_type.uswds_modal
+  module:
+    - linkchecker
+    - text
+third_party_settings:
+  linkchecker:
+    scan: true
+    extractor: html_link_extractor
+_core:
+  default_config_hash: 7k6ishnsJ45jKv7G-EjUXqBa5xRABtSbqfyOhdbSucg
+id: paragraph.uswds_modal.field_modal_body
+field_name: field_modal_body
+entity_type: paragraph
+bundle: uswds_modal
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

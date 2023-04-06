@@ -1,0 +1,10 @@
+uuid: b6fe4267-ff2d-4208-b736-f6f9f7e73d0d
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.search
+label: Search
+targetEntityType: media
+cache: true

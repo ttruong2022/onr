@@ -1,0 +1,14 @@
+uuid: 47018baa-b0d6-4f1f-bfc0-c6c157155bc6
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.groups
+id: taxonomy_vocabulary_groups
+entity_type_id: taxonomy_vocabulary
+entity_id: groups
+action: page_redirect
+allow_override: 1
+redirect: /
+redirect_code: 301
+redirect_fallback_action: access_denied

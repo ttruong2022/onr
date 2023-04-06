@@ -1,0 +1,112 @@
+uuid: b1e77025-b5be-4064-a0cf-262869a6ac59
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.landing_page.body
+    - field.field.node.landing_page.field_components
+    - field.field.node.landing_page.field_full_bleed_bottom
+    - field.field.node.landing_page.field_group
+    - field.field.node.landing_page.field_hero_image
+    - field.field.node.landing_page.field_hero_text
+    - field.field.node.landing_page.field_metatags
+    - field.field.node.landing_page.field_search_api_best_bets
+    - field.field.node.landing_page.field_search_api_exclude_entity
+    - field.field.node.landing_page.field_tags
+    - field.field.node.landing_page.layout_builder__layout
+    - node.type.landing_page
+  module:
+    - layout_builder
+    - layout_builder_restrictions
+    - smart_trim
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+  layout_builder_restrictions:
+    allowed_block_categories: {  }
+    entity_view_mode_restriction:
+      allowed_layouts:
+        - 'bootstrap_layout_builder:blb_col_1'
+        - 'bootstrap_layout_builder:blb_col_2'
+        - 'bootstrap_layout_builder:blb_col_3'
+        - 'bootstrap_layout_builder:blb_col_4'
+      blacklisted_blocks:
+        'Custom blocks':
+          - 'block_content:ee5b0381-81a1-44b3-bb72-ab1575198cc4'
+          - 'block_content:b9bc4463-a1c9-4d4b-9855-207e3fa3b098'
+          - 'block_content:66ccb7c8-1a35-4edf-b284-f499abd55cb5'
+        'Lists (Views)':
+          - 'views_block:hero_banner-block_1'
+          - 'views_block:content_moderation_dashboard_in_review-block_2'
+          - 'views_block:content_moderation_dashboard_in_review-block_1'
+          - 'views_block:content_moderation_dashboard_in_review-block_3'
+          - 'views_block:moderation_dashboard_recent_changes-block_1'
+          - 'views_block:moderation_dashboard_recent_changes-block_2'
+          - 'views_block:moderation_dashboard_recently_created-block_2'
+          - 'views_block:moderation_dashboard_recently_created-block_1'
+          - 'views_block:content_recent-block_1'
+          - 'views_block:who_s_online-who_s_online_block'
+      whitelisted_blocks:
+        'Content fields':
+          - 'field_block:node:landing_page:title'
+      restricted_categories:
+        - 'Accelerated Mobile Pages (AMP)'
+        - 'Chaos Tools'
+        - Devel
+        - Forms
+        - Help
+        - Menus
+        - 'Moderation Dashboard'
+        - System
+        - User
+        - Views
+        - core
+    entity_view_mode_restriction_by_region:
+      allowed_layouts:
+        - 'bootstrap_layout_builder:blb_col_1'
+        - 'bootstrap_layout_builder:blb_col_2'
+        - 'bootstrap_layout_builder:blb_col_3'
+        - 'bootstrap_layout_builder:blb_col_4'
+id: node.landing_page.search_result
+targetEntityType: node
+bundle: landing_page
+mode: search_result
+content:
+  body:
+    type: smart_trim
+    label: hidden
+    settings:
+      trim_length: 300
+      trim_type: chars
+      trim_suffix: ...
+      wrap_output: true
+      wrap_class: trimmed
+      more_link: false
+      more_class: more-link
+      more_text: More
+      summary_handler: full
+      trim_options:
+        text: true
+        trim_zero: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  content_moderation_control: true
+  field_components: true
+  field_full_bleed_bottom: true
+  field_group: true
+  field_hero_image: true
+  field_hero_text: true
+  field_metatags: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  langcode: true
+  layout_builder__layout: true
+  links: true
+  published_at: true
+  search_api_excerpt: true

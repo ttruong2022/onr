@@ -1,0 +1,9 @@
+:not(.breadcrumb-region) {
+  + main {
+    h1 {
+      &:not(.usa-hero__heading) {
+        padding-top: 2rem;
+      }
+    }
+  }
+}

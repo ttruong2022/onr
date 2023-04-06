@@ -1,0 +1,20 @@
+uuid: 4aa5275d-4dde-41bd-8529-b4a0205afc34
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+_core:
+  default_config_hash: 5PTykSgSSgfBbVgdszp6YIAmdbL0vfbJ7Ay__DaBRdQ
+id: paragraph.field_small_counters
+field_name: field_small_counters
+entity_type: paragraph
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

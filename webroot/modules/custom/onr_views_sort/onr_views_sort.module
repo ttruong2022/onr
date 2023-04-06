@@ -1,0 +1,55 @@
+<?php
+
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function onr_views_sort_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  $config = \Drupal::configFactory()->get('onr_views_sort.settings');
+  $replace_views = $config->get('replace_views');
+  $replace_text = $config->get('replace_text');
+
+  if ($replace_views && $replace_text && isset($view->element['#display_id'])) {
+
+    // Add slashes to escape characters
+    $replace_text = "'" . addslashes($replace_text) . "'";
+
+    // view->id() just returns the whole view. To be more granular we want the display also.
+    // Also need a default sort field to be on the view. Without it, we don't know what to sort by.
+    $full_view_name = $view->id() . ':' . $view->element['#display_id'];
+
+    // Check that the current view is in the allowed list and there is an inital sort field to use.
+    if (in_array($full_view_name, $replace_views) && (isset($query->orderby[0]['field']) || $view->exposed_raw_input['sort_by'])) {
+
+      // Check if view has any exposed filters with which could have custom field value.
+      // @phpstan-ignore-next-line
+      $field_name = $view->exposed_raw_input['sort_by'] ?? $query->orderby[0]['field'];
+
+      if (!empty($query->fields)) {
+        $first = reset($query->fields);
+        $field = $first['field'];
+        // Get sort value from view url.
+        $sort = \Drupal::request()->query->get('sort_order') ? \Drupal::request()->query->get('sort_order') : 'ASC';
+      }
+      else {
+        $field = $field_name;
+        // Get sort value from view url.
+        $sort = \Drupal::request()->query->get('sort') ? \Drupal::request()->query->get('sort') : 'ASC';
+      }
+
+      // todo currently doesn't work because drupal strips regex brackets
+      //$query->addOrderBy(NULL,
+      // "IF((REGEXP_SUBSTR($field, '[0-9]+') != ''),
+      //  CAST(REGEXP_SUBSTR($field, '[0-9]+') AS UNSIGNED), 999999999)",
+      // "number_sort"
+      //);
+      $replace = "TRIM(REGEXP_REPLACE($field, $replace_text, ''))";
+
+      unset($query->orderby[0]);
+      // @phpstan-ignore-next-line
+      $query->addOrderBy(NULL, $replace, strtoupper($sort), 'natural_sort');
+    }
+  }
+}

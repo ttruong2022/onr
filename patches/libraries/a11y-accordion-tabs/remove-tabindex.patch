@@ -1,0 +1,13 @@
+diff --git a/a11y-accordion-tabs.js b/a11y-accordion-tabs.js
+index 8294cb8..53fdb17 100644
+--- a/a11y-accordion-tabs.js
++++ b/a11y-accordion-tabs.js
+@@ -212,7 +212,7 @@
+ 
+     this.tabTriggers[index].classList.remove('is-selected');
+     this.tabTriggers[index].setAttribute('aria-selected', false);
+-    this.tabTriggers[index].setAttribute('tabindex', -1);
++   // this.tabTriggers[index].setAttribute('tabindex', -1);
+ 
+     this.accordionTriggers[index].setAttribute('aria-expanded', false);
+ 

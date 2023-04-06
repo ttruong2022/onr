@@ -1,0 +1,9 @@
+uuid: f825562b-86f6-4de6-b42b-f9019583faaa
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: meEMhedo4qnDK9eGk1nAaFg20mYboSe2rgzjRm9J2uc
+id: blb_col_11
+label: 'USWDS 11 Cols'
+number_of_columns: '11'

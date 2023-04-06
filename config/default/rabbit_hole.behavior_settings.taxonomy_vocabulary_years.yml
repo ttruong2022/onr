@@ -1,0 +1,14 @@
+uuid: 094888bf-9cec-41fd-8904-0cf2d9339653
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.years
+id: taxonomy_vocabulary_years
+entity_type_id: taxonomy_vocabulary
+entity_id: years
+action: page_redirect
+allow_override: 1
+redirect: /
+redirect_code: 301
+redirect_fallback_action: access_denied

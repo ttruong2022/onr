@@ -1,0 +1,52 @@
+
+var fs = require('fs');
+var pretty = require('pretty');
+const path = require('path');
+
+var fileName = './.a11y/index.html';
+var stream = fs.createWriteStream(fileName);
+
+stream.once('open', function(fd) {
+  var html = buildHtml();
+
+  stream.end(pretty(html));
+});
+
+function buildHtml(req) {
+  var header = '508 Links';
+  var body = '';
+
+  body += '<h2>Diff Links</h2>' +
+    '<ul>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-diff/index.html')) ? '<a href="/508/508-diff/index.html">Diff Index</a>' : 'Diff Index not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-diff/results.csv')) ? '<a href="/508/508-diff/results.csv">Diff Results CSV</a>' : 'Diff Results CSV not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-diff/results.csv-summary.json')) ? '<a href="/508/508-diff/results.csv-summary.json">Diff CSV Summary JSON</a>' : 'Diff CSC Summary JSON not available') + '</li>' +
+    '</ul>';
+
+  body += '<hr>';
+
+  body += '<h2>Tugboat Links</h2>' +
+    '<ul>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-tugboat/index.html')) ? '<a href="/508/508-tugboat/index.html">Tugboat Index</a>' : 'Tugboat Index not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-tugboat/results.csv')) ? '<a href="/508/508-tugboat/results.csv">Tugboat Results CSV</a>' : 'Tugboat Results CSV not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-tugboat/results.csv-summary.json')) ? '<a href="/508/508-tugboat/results.csv-summary.json">Tugboat CSV Summary JSON</a>' : 'Tugboat CSV Summary JSON not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-tugboat/results.csv.log')) ? '<a href="/508/508-tugboat/results.csv.log">Debug: Logs</a>' : 'Tugboat debug logs not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-tugboat/results.csv-WCAG2AA.config')) ? '<a href="/508/508-tugboat/results.csv-WCAG2AA.config">Debug: Results CSV Config</a>' : 'Tugbuat debug results csv config not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-tugboat/results.csv-WCAG2AA.json')) ? '<a href="/508/508-tugboat/results.csv-WCAG2AA.json">Debug: CSV JSON</a>' : 'Tugboat debug csv json not available') + '</li>' +
+    '</ul>';
+
+  body += '<hr>';
+
+  body += '<h2>Production Links</h2>' +
+    '<ul>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-prod/index.html')) ? '<a href="/508/508-prod/index.html">Production Index</a>' : 'Production Index not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-prod/results.csv')) ? '<a href="/508/508-prod/results.csv">Production Results CSV</a>' : 'Production Results CSV not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-prod/results.csv-summary.json')) ? '<a href="/508/508-prod/results.csv-summary.json">Production CSV Summary JSON</a>' : 'Production CSV Summary JSON not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-prod/results.csv.log')) ? '<a href="/508/508-prod/results.csv.log">Debug: Logs</a>' : 'Production debug logs not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-prod/results.csv-WCAG2AA.config')) ? '<a href="/508/508-prod/results.csv-WCAG2AA.config">Debug: Results CSV Config</a>' : 'Production debug results csv config not available') + '</li>' +
+    '<li>' + (fs.existsSync(path.resolve(__dirname, '../webroot/508/508-prod/results.csv-WCAG2AA.json')) ? '<a href="/508/508-prod/results.csv-WCAG2AA.json">Debug: CSV JSON</a>' : 'Production debug csv json not available') + '</li>' +
+    '</ul>';
+
+  return '<!DOCTYPE html>'
+    + '<html><head>' + header + '</head><body>' + body + '</body></html>';
+}

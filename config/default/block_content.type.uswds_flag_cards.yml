@@ -1,0 +1,8 @@
+uuid: ec051d93-42f4-4df8-a05f-5f73ce4bca3b
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_flag_cards
+label: 'USWDS Flag Cards'
+revision: 1
+description: ''

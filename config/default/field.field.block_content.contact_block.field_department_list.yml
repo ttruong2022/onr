@@ -1,0 +1,29 @@
+uuid: d793b829-9a20-4950-b87b-72ee4fc30964
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.storage.block_content.field_department_list
+    - taxonomy.vocabulary.departments
+id: block_content.contact_block.field_department_list
+field_name: field_department_list
+entity_type: block_content
+bundle: contact_block
+label: Department
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      departments: departments
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

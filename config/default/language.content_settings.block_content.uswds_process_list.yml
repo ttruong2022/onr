@@ -1,0 +1,11 @@
+uuid: 3ae1c5c4-effb-49f4-8f9b-7da6dbef3c92
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_process_list
+id: block_content.uswds_process_list
+target_entity_type_id: block_content
+target_bundle: uswds_process_list
+default_langcode: site_default
+language_alterable: false

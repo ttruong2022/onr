@@ -1,0 +1,25 @@
+uuid: 5eb0684c-5ddf-4ef9-9a36-eba26778138b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_force_action
+    - paragraphs.paragraphs_type.uswds_modal
+_core:
+  default_config_hash: ryMD4BZuhpIa0Ru3jZoGSZO6yh-mI7o261e48gL4tw8
+id: paragraph.uswds_modal.field_force_action
+field_name: field_force_action
+entity_type: paragraph
+bundle: uswds_modal
+label: 'Force Action'
+description: 'Check to remove X button and force user to use yes or no links'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

@@ -1,0 +1,11 @@
+uuid: cc69dfbd-8f78-41eb-9664-e384d9ce42ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.magazine
+id: node.magazine
+target_entity_type_id: node
+target_bundle: magazine
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,8 @@
+uuid: 188ddd79-cb08-4691-96ec-6de9849e2f0c
+langcode: en
+status: true
+dependencies: {  }
+name: Groups
+vid: groups
+description: 'Permission by Term Module'
+weight: 0

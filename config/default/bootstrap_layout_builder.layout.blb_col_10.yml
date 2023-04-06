@@ -1,0 +1,9 @@
+uuid: 2d7d6188-b1cf-41ce-99bd-20fc7985d994
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: VuduAaL8vHO2L2ZY9blUJMMzYi3aNRnG_xTds1Wic1c
+id: blb_col_10
+label: 'USWDS 10 Cols'
+number_of_columns: '10'

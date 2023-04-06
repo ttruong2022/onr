@@ -1,0 +1,3 @@
+[submodule "services/drupal/src/onr"]
+	path = services/drupal/src/onr
+	url = git@github.com:mobomo/onr.git

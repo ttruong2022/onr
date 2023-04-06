@@ -1,0 +1,55 @@
+@import '../../01-core/variables';
+@import '../../02-element/form-fields/keyword-search';
+@import '../../03-component/facets/facets';
+@import '../list-views/list-view';
+
+.path-search {
+  .usa-button {
+    &.form-submit {
+      &:not(.usa-modal__close) {
+        &:not(.usa-button--unstyled) {
+          border-radius: 24px;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .views-exposed-form {
+    h2 {
+      margin-top: 0;
+    }
+
+    .form-actions {
+      > input {
+        &:nth-child(1) {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .content {
+    border-top: 2px solid $orange;
+    padding-top: 2rem;
+  }
+
+  .layout-sidebar-first {
+    display: none;
+
+    // Desktop
+    @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+      display: block;
+    }
+  }
+
+  .mobile-sidebar {
+    display: block;
+    padding-bottom: 2rem;
+
+    // Desktop
+    @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+      display: none;
+    }
+  }
+}

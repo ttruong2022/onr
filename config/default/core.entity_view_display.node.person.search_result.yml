@@ -1,0 +1,60 @@
+uuid: 4dd045a4-60a9-4094-928f-7849cc2b585a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.person.body
+    - field.field.node.person.field_group
+    - field.field.node.person.field_person_roles
+    - field.field.node.person.field_person_type
+    - field.field.node.person.field_photo
+    - field.field.node.person.field_search_api_best_bets
+    - field.field.node.person.field_search_api_exclude_entity
+    - field.field.node.person.field_tags
+    - node.type.person
+  module:
+    - layout_builder
+    - smart_trim
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.person.search_result
+targetEntityType: node
+bundle: person
+mode: search_result
+content:
+  body:
+    type: smart_trim
+    label: hidden
+    settings:
+      trim_length: 300
+      trim_type: chars
+      trim_suffix: ...
+      wrap_output: true
+      wrap_class: trimmed
+      more_link: false
+      more_class: more-link
+      more_text: More
+      summary_handler: full
+      trim_options:
+        text: true
+        trim_zero: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  content_moderation_control: true
+  field_group: true
+  field_person_roles: true
+  field_person_type: true
+  field_photo: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  langcode: true
+  links: true
+  published_at: true
+  search_api_excerpt: true

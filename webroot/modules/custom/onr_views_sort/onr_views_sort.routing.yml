@@ -1,0 +1,7 @@
+onr_views_sort.settings_form:
+  path: '/admin/config/content/onr_views_sort'
+  defaults:
+    _form: '\Drupal\onr_views_sort\Form\Settings'
+    _title: 'Natual Views Sort'
+  requirements:
+    _permission: 'administer onr_views_sort'

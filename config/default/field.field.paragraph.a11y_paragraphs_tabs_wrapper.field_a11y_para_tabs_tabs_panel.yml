@@ -1,0 +1,115 @@
+uuid: c2b0ace4-450e-4a7a-8f18-102d3950d082
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_a11y_para_tabs_tabs_panel
+    - paragraphs.paragraphs_type.a11y_paragraphs_tabs_panel
+    - paragraphs.paragraphs_type.a11y_paragraphs_tabs_wrapper
+  module:
+    - entity_reference_revisions
+    - paragraph_blocks
+third_party_settings:
+  paragraph_blocks:
+    status: 0
+_core:
+  default_config_hash: 4piJi6NKG7YEM7T027zzfX6cM8_XrW9Z0IY3VEk0CUI
+id: paragraph.a11y_paragraphs_tabs_wrapper.field_a11y_para_tabs_tabs_panel
+field_name: field_a11y_para_tabs_tabs_panel
+entity_type: paragraph
+bundle: a11y_paragraphs_tabs_wrapper
+label: 'Tabs Panel'
+description: 'Add Tabs Panel.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      a11y_paragraphs_tabs_panel: a11y_paragraphs_tabs_panel
+    negate: 0
+    target_bundles_drag_drop:
+      a11y_paragraphs_tab_content:
+        weight: 30
+        enabled: false
+      a11y_paragraphs_tabs_panel:
+        weight: 3
+        enabled: true
+      a11y_paragraphs_tabs_wrapper:
+        weight: 4
+        enabled: false
+      block:
+        weight: 31
+        enabled: false
+      featured_image:
+        weight: 32
+        enabled: false
+      featured_images_group:
+        weight: 33
+        enabled: false
+      folder_block:
+        weight: 34
+        enabled: false
+      info_block:
+        weight: 35
+        enabled: false
+      text_field:
+        weight: 36
+        enabled: false
+      uswds_2_column_breakpoints:
+        weight: 38
+        enabled: false
+      uswds_2_columns:
+        weight: 37
+        enabled: false
+      uswds_3_column_breakpoints:
+        weight: 40
+        enabled: false
+      uswds_3_columns:
+        weight: 39
+        enabled: false
+      uswds_accordion:
+        weight: 41
+        enabled: false
+      uswds_accordion_section:
+        weight: 42
+        enabled: false
+      uswds_alert:
+        weight: 43
+        enabled: false
+      uswds_card_breakpoints:
+        weight: 45
+        enabled: false
+      uswds_card_group_flag:
+        weight: 46
+        enabled: false
+      uswds_card_group_regular:
+        weight: 47
+        enabled: false
+      uswds_card_regular:
+        weight: 48
+        enabled: false
+      uswds_cards_flag:
+        weight: 44
+        enabled: false
+      uswds_modal:
+        weight: 49
+        enabled: false
+      uswds_process_item:
+        weight: 50
+        enabled: false
+      uswds_process_list:
+        weight: 51
+        enabled: false
+      uswds_step_indicator_item:
+        weight: 52
+        enabled: false
+      uswds_step_indicator_list:
+        weight: 53
+        enabled: false
+      uswds_summary_box:
+        weight: 54
+        enabled: false
+field_type: entity_reference_revisions

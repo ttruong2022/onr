@@ -1,0 +1,10 @@
+uuid: 7a32a1c9-7688-4b51-958f-13b03b2e3289
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: '-skLTwCndk9p_VpZLRDox98gMlVFdo4MC8-jtZcKFWE'
+name: 'USWDS Classes'
+vid: uswds_classes
+description: ''
+weight: 0

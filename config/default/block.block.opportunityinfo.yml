@@ -1,0 +1,33 @@
+uuid: 09a9d58a-9f7f-4e2e-afbb-be85dbaefab2
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:de402907-6f88-4b79-a9bc-fe928388e4ac'
+  module:
+    - block_content
+    - node
+  theme:
+    - onr
+id: opportunityinfo
+theme: onr
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:de402907-6f88-4b79-a9bc-fe928388e4ac'
+settings:
+  id: 'block_content:de402907-6f88-4b79-a9bc-fe928388e4ac'
+  label: 'Opportunity Info'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      opportunities_item: opportunities_item

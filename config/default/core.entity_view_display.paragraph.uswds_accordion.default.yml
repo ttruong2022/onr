@@ -1,0 +1,59 @@
+uuid: 82c9a1d1-5397-4cad-a2a2-8340d003798a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.uswds_accordion.field_accordion_section
+    - field.field.paragraph.uswds_accordion.field_bordered
+    - field.field.paragraph.uswds_accordion.field_default_open
+    - field.field.paragraph.uswds_accordion.field_multiselect
+    - paragraphs.paragraphs_type.uswds_accordion
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: 2eaHA1jAFBCd1yfk3oYPq5ZOK42fx_Z-48iXJxb65DE
+id: paragraph.uswds_accordion.default
+targetEntityType: paragraph
+bundle: uswds_accordion
+mode: default
+content:
+  field_accordion_section:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_bordered:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_default_open:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_multiselect:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

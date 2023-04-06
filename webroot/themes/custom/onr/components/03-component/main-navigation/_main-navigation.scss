@@ -1,0 +1,34 @@
+@import '../../01-core/variables';
+@import './mobile-main';
+@import './desktop-main';
+
+.sidenav-mobile,
+.social-nav__buttons {
+  @extend %show-on-mobile;
+}
+
+.usa-nav {
+  &__submenu {
+    &-item {      
+      &:not(div) {
+        //Indent the sub-list links
+        //on both mobile and desktop menus
+        padding-left: 0.5rem;
+
+        @include mq-min-nonmobile {
+          padding-left: 1.5rem;
+        }
+      }
+    }
+  }
+
+  .usa-nav__primary-item {
+
+    >
+    button,
+    > a {
+      color: $black;
+      font-weight: normal;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+uuid: 42027dc4-85e9-48ab-9576-10bff5c64f71
+langcode: en
+status: true
+dependencies: {  }
+id: onr_date_full
+label: 'ONR Date Full'
+locked: false
+pattern: 'F d, Y'

@@ -1,0 +1,26 @@
+uuid: f66a4636-84a9-4e76-a358-8e39ee54eee3
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.folder_blocks
+    - field.field.block_content.folder_blocks.field_folder_blocks
+  module:
+    - entity_reference_revisions
+id: block_content.folder_blocks.default
+targetEntityType: block_content
+bundle: folder_blocks
+mode: default
+content:
+  field_folder_blocks:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

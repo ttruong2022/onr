@@ -1,0 +1,51 @@
+uuid: 1eb96f93-504c-4ac7-94f7-e1ba2743f1fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.download
+    - field.field.media.image.field_group
+    - field.field.media.image.field_icon
+    - field.field.media.image.field_location_icon
+    - field.field.media.image.field_media_image
+    - field.field.media.image.field_override_mad_module
+    - media.type.image
+  module:
+    - layout_builder
+    - media_entity_download
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: B1a2aBHmUulUZN6HrxITEH1tSResuVjXMBEv1lUBtOo
+id: media.image.download
+targetEntityType: media
+bundle: image
+mode: download
+content:
+  field_media_image:
+    type: media_entity_download_download_link
+    label: visually_hidden
+    settings:
+      trim_length: null
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+      disposition: attachment
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  content_moderation_control: true
+  created: true
+  field_group: true
+  field_icon: true
+  field_location_icon: true
+  field_override_mad_module: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

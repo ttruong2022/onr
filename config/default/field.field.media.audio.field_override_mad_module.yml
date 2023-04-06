@@ -1,0 +1,21 @@
+uuid: 770eb6e1-8a6b-4b81-86a7-81b845a26a05
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_override_mad_module
+    - media.type.audio
+id: media.audio.field_override_mad_module
+field_name: field_override_mad_module
+entity_type: media
+bundle: audio
+label: 'Override Media Alias Display'
+description: 'Check to have this media entity override the Media Alias Display module.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

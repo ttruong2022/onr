@@ -1,0 +1,193 @@
+Description: >
+  This template deploys an Application Load Balancer that exposes our various ECS services.
+  We create them in a seperate nested template, so it can be referenced by all of the other nested templates.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+    
+  DomainName:
+    Description: Base domain name
+    Type: String
+
+  VPC:
+    Type: AWS::EC2::VPC::Id
+    Description: Choose which VPC the Application Load Balancer should be deployed to
+
+  Subnets:
+    Description: Choose which subnets the Public Application Load Balancer should be deployed to
+    Type: List<AWS::EC2::Subnet::Id>
+  
+  PrivateSubnets:
+    Description: Choose which subnets the Private Application Load Balancer should be deployed to
+    Type: List<AWS::EC2::Subnet::Id>
+
+  SecurityGroup:
+    Description: Select the Security Group to apply to the Application Load Balancer
+    Type: AWS::EC2::SecurityGroup::Id
+  
+  LogBucket:
+    Description: Application Log S3 bucket name
+    Type: String
+
+Resources:
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Ref EnvironmentName
+      Subnets: !Ref Subnets
+      SecurityGroups:
+        - !Ref SecurityGroup
+      LoadBalancerAttributes:
+        - Key: access_logs.s3.enabled
+          Value: true
+        - Key: access_logs.s3.bucket
+          Value: !Ref LogBucket
+        - Key: access_logs.s3.prefix
+          Value: ELB_access
+      Tags:
+        - Key: Name
+          Value: !Ref EnvironmentName
+
+  LoadBalancerCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties: 
+      DomainName: !Sub "${EnvironmentName}.${DomainName}"
+      SubjectAlternativeNames:
+        - !Sub "*.${EnvironmentName}.${DomainName}"
+      ValidationMethod: DNS
+
+  LoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      Certificates:
+        - CertificateArn: !Ref LoadBalancerCertificate
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 443
+      Protocol: HTTPS
+      SslPolicy: ELBSecurityPolicy-FS-1-2-Res-2019-08
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref DefaultTargetGroup
+
+  RedirectLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: "redirect"
+          RedirectConfig:
+            Protocol: "HTTPS"
+            Port: 443
+            Host: "#{host}"
+            Path: "/#{path}"
+            Query: "#{query}"
+            StatusCode: "HTTP_301"
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  PrivateLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub ${EnvironmentName}-private
+      Subnets: !Ref PrivateSubnets
+      Scheme: internal
+      SecurityGroups:
+        - !Ref SecurityGroup
+      LoadBalancerAttributes:
+        - Key: access_logs.s3.enabled
+          Value: true
+        - Key: access_logs.s3.bucket
+          Value: !Ref LogBucket
+        - Key: access_logs.s3.prefix
+          Value: PrivateELB_access
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-private
+  
+  PrivateLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      Certificates:
+        - CertificateArn: !Ref LoadBalancerCertificate
+      LoadBalancerArn: !Ref PrivateLoadBalancer
+      Port: 8983
+      Protocol: HTTPS
+      SslPolicy: ELBSecurityPolicy-FS-1-2-Res-2019-08
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref DefaultPrivateTargetGroup
+  
+  PrivateLoadBalancerListener2:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      Certificates:
+        - CertificateArn: !Ref LoadBalancerCertificate
+      LoadBalancerArn: !Ref PrivateLoadBalancer
+      Port: 443
+      Protocol: HTTPS
+      SslPolicy: ELBSecurityPolicy-FS-1-2-Res-2019-08
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref DefaultPrivateTargetGroup
+
+  # We define a default target group here, as this is a mandatory Parameters
+  # when creating an Application Load Balancer Listener. This is not used, instead
+  # a target group is created per-service in each service template (../services/*)
+  DefaultTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub ${EnvironmentName}-default
+      VpcId: !Ref VPC
+      Port: 443
+      Protocol: HTTPS
+      TargetType: ip
+
+  # a target group is created per-service in each service template (../services/*)
+  DefaultPrivateTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub ${EnvironmentName}-default-private
+      VpcId: !Ref VPC
+      Port: 443
+      Protocol: HTTPS
+      TargetType: ip
+
+Outputs:
+  LoadBalancer:
+    Description: A reference to the Application Load Balancer
+    Value: !Ref LoadBalancer
+
+  LoadBalancerUrl:
+    Description: The URL of the ALB
+    Value: !GetAtt LoadBalancer.DNSName
+  
+  PrivateLoadBalancerUrl:
+    Description: The URL of the Private ALB
+    Value: !GetAtt PrivateLoadBalancer.DNSName
+
+  Listener:
+    Description: A reference to a port 443 listener
+    Value: !Ref LoadBalancerListener
+  
+  PrivateListener:
+    Description: A reference to a private port 8983 listener
+    Value: !Ref PrivateLoadBalancerListener
+  
+  PrivateListener2:
+    Description: A reference to a private port 443 listener
+    Value: !Ref PrivateLoadBalancerListener2
+  
+  LoadBalancerZoneID:
+    Description: The ID of the Amazon Route 53 hosted zone associated with the load balancer.
+    Value: !GetAtt LoadBalancer.CanonicalHostedZoneID
+  
+  PrivateLoadBalancerZoneID:
+    Description: The ID of the Amazon Route 53 hosted zone associated with the private load balancer.
+    Value: !GetAtt PrivateLoadBalancer.CanonicalHostedZoneID
+
+  LoadBalancerCertificate:
+    Description: The Load Balancer ACM Certificate Arn
+    Value: !Ref LoadBalancerCertificate

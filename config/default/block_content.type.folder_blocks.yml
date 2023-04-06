@@ -1,0 +1,8 @@
+uuid: cebe1b57-c881-48f5-b617-94dff663b8e2
+langcode: en
+status: true
+dependencies: {  }
+id: folder_blocks
+label: 'Folder Blocks'
+revision: 1
+description: "Block containing unlimited number of \"Folder Block\".\t\r\n"

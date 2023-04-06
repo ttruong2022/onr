@@ -1,0 +1,33 @@
+uuid: 3a2e99f0-2b87-4e19-b78c-a41e0cf435bd
+langcode: en
+status: true
+dependencies:
+  module:
+    - facets_block
+    - system
+  theme:
+    - onr
+id: facetsblock
+theme: onr
+region: sidebar_first
+weight: 0
+provider: null
+plugin: facets_block
+settings:
+  id: facets_block
+  label: Filters
+  label_display: '0'
+  provider: facets_block
+  show_title: true
+  exclude_empty_facets: true
+  hide_empty_block: true
+  facets_to_include:
+    'facet_block:type': 'facet_block:type'
+    'facet_block:topics': 'facet_block:topics'
+    'facet_block:programs': '0'
+  add_js_classes: true
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /search

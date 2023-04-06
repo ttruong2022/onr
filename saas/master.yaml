@@ -1,0 +1,265 @@
+Description: >
+
+  This template deploys a VPC, with a pair of public and private subnets spread 
+  across two Availabilty Zones. It deploys an Internet Gateway, with a default 
+  route on the public subnets. It deploys a pair of NAT Gateways (one in each AZ), 
+  and default routes for them in the private subnets.
+
+  It then deploys a highly available ECS cluster using an AutoScaling Group, with 
+  ECS hosts distributed across multiple Availability Zones.
+  
+  It deploys S3 used for both the Drupal application and ELB logging, and an RDS for Drupal.
+
+  Finally, it deploys a Drupal ECS service from an image published in 
+  Amazon EC2 Container Registry (Amazon ECR), which contains environment variables linking to the RDS and S3 instances.
+
+Parameters:
+  ToolchainStack:
+    Description: Toolchain stack containing resources to import
+    Type: String
+
+  TemplateBucket:
+    Description: S3 bucket containing cloudformation templates
+    Type: String
+
+  DomainName:
+    Description: Base domain name
+    Type: String
+
+  # AppVersion:
+  #   Description: Git tag to pull
+  #   Type: String
+
+  ImageTag:
+    Description: AMI Image Tag to deploy
+    Type: String
+
+  SolrTag:
+    Description: AMI Image Tag to deploy
+    Type: String
+
+  BaseTag:
+    Description: AMI Image Tag to deploy
+    Type: String
+
+Resources:
+  VPC:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/vpc.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        VpcCIDR: 10.180.0.0/16
+        PublicSubnet1CIDR: 10.180.8.0/21
+        PublicSubnet2CIDR: 10.180.16.0/21
+        PrivateSubnet1CIDR: 10.180.24.0/21
+        PrivateSubnet2CIDR: 10.180.32.0/21
+
+  SecurityGroups:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/security-groups.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        VPC: !GetAtt VPC.Outputs.VPC
+
+  S3:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/s3.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+
+  DB:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/rds.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        Subnets: !GetAtt VPC.Outputs.PrivateSubnets
+        InstanceClass: db.t4g.micro
+        DBSecurityGroup: !GetAtt SecurityGroups.Outputs.DBSecurityGroup
+        pyMySQLLambdaLayer: !ImportValue
+          Fn::Sub: "${ToolchainStack}-pyMySQLLambdaLayer"
+
+  ElastiCache:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/elasticache.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        Subnets: !GetAtt VPC.Outputs.PrivateSubnets
+        NodeType: cache.t4g.micro
+        ECSecurityGroup: !GetAtt SecurityGroups.Outputs.ECSecurityGroup
+
+  DNS:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/route53.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        DomainName: !Ref DomainName
+        LoadBalancerDNSName: !GetAtt ALB.Outputs.LoadBalancerUrl
+        PrivateLoadBalancerDNSName: !GetAtt ALB.Outputs.PrivateLoadBalancerUrl
+        # BastionPublicIP: !GetAtt Bastion.Outputs.BastionPublicIP
+
+  ALB:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/load-balancers.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        DomainName: !Ref DomainName
+        VPC: !GetAtt VPC.Outputs.VPC
+        Subnets: !GetAtt VPC.Outputs.PublicSubnets
+        PrivateSubnets: !GetAtt VPC.Outputs.PrivateSubnets
+        SecurityGroup: !GetAtt SecurityGroups.Outputs.LoadBalancerSecurityGroup
+        LogBucket: !GetAtt S3.Outputs.LogBucket
+
+  WAF:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/waf.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        LoadBalancerArn: !GetAtt ALB.Outputs.LoadBalancer
+
+  # ECS:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/ecs-cluster.yaml"
+  #     Parameters:
+  #       EnvironmentName: !Ref AWS::StackName
+  #       InstanceType: t3a.medium
+  #       ClusterSize: 2
+  #       VPC: !GetAtt VPC.Outputs.VPC
+  #       SecurityGroup: !GetAtt SecurityGroups.Outputs.ECSHostSecurityGroup
+  #       Subnets: !GetAtt VPC.Outputs.PrivateSubnets
+  Bastion:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/bastion.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        VPC: !GetAtt VPC.Outputs.VPC
+        Subnets: !GetAtt VPC.Outputs.PublicSubnets
+        IngressCidr: 68.202.222.110/32
+        SecurityGroups: !GetAtt SecurityGroups.Outputs.SSHSecurityGroup
+        EC2AMI: !Sub /test/images/RHELStigImage/${BaseTag}
+        InstanceType: t3a.medium
+        KeyPair: "Steven's Pubkey"
+
+  EC2:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/ec2.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        DomainName: !Ref DomainName
+        VPC: !GetAtt VPC.Outputs.VPC
+        Subnets: !GetAtt VPC.Outputs.PrivateSubnets
+        SecurityGroups: !Join [",", [!GetAtt SecurityGroups.Outputs.ECSHostSecurityGroup, !GetAtt SecurityGroups.Outputs.SSHSecurityGroup] ]
+        EC2AMI: !Sub /test/images/DrupalImage/${ImageTag}
+        InstanceType: t3a.medium
+        KeyPair: "Steven's Pubkey"
+        Listener: !GetAtt ALB.Outputs.Listener
+        PrivateListener: !GetAtt ALB.Outputs.PrivateListener2
+        Path: /*
+        DBEndpoint: !GetAtt DB.Outputs.DBEndpoint
+        DBPassword: !GetAtt DB.Outputs.DBPassword
+        ECEndpoint: !GetAtt ElastiCache.Outputs.ECEndpoint
+        ECPort: !GetAtt ElastiCache.Outputs.ECPort
+        ECAuthToken: !GetAtt ElastiCache.Outputs.ECAuthToken
+        AppBucket: !GetAtt S3.Outputs.AppBucket
+        SolrEndpoint: !GetAtt DNS.Outputs.PrivateALBRecord
+
+  Solr:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/solr.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        VPC: !GetAtt VPC.Outputs.VPC
+        Subnets: !GetAtt VPC.Outputs.PrivateSubnets
+        SecurityGroups: !Join [",", [!GetAtt SecurityGroups.Outputs.SolrSecurityGroup, !GetAtt SecurityGroups.Outputs.SSHSecurityGroup] ]
+        Listener: !GetAtt ALB.Outputs.PrivateListener
+        EC2AMI: !Sub /test/images/SolrImage/${SolrTag}
+        InstanceType: t3a.medium
+        LoadBalancerCertificate: !GetAtt ALB.Outputs.LoadBalancerCertificate
+        KeyPair: "Steven's Pubkey"
+
+  Maintenance:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/maintenance.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+
+  Cron:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/cron.yaml"
+      Parameters:
+        AutoScaleGroupName: !GetAtt EC2.Outputs.AutoScaleGroupName
+        CronDocument: !ImportValue
+          Fn::Sub: "${ToolchainStack}-CronDocument"
+
+  EFS:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/efs.yaml"
+      Parameters:
+        EnvironmentName: !Ref AWS::StackName
+        AvailabilityZone: !Select [0, !GetAZs ""]
+        Subnet1: !GetAtt VPC.Outputs.PrivateSubnet1
+        SecurityGroups: !GetAtt SecurityGroups.Outputs.EFSSecurityGroup
+  
+  # DrupalService:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/services/drupal/service.yaml"
+  #     Parameters:
+  #       EnvironmentName: !Ref AWS::StackName
+  #       VPC: !GetAtt VPC.Outputs.VPC
+  #       Cluster: !GetAtt ECS.Outputs.Cluster
+  #       ECRImage: !Join
+  #           - ''
+  #           - - !ImportValue
+  #                 Fn::Sub: "${ToolchainStack}-RepositoryUri"
+  #             - ':'
+  #             - !Ref AppVersion
+  #       DesiredCount: 2
+  #       Listener: !GetAtt ALB.Outputs.Listener
+  #       Path: /*
+  #       ECSServiceAutoScalingRoleARN: !GetAtt ECS.Outputs.ECSServiceAutoScalingRole
+  #       ECSTaskExecutionRoleARN: !GetAtt ECS.Outputs.ECSTaskExecutionRole
+  #       DiscoveryService: !GetAtt VPC.Outputs.DiscoveryService
+  #       SecurityGroup: !GetAtt SecurityGroups.Outputs.ECSHostSecurityGroup
+  #       Subnets: !GetAtt VPC.Outputs.PrivateSubnets
+  #       DBEndpoint: !GetAtt DB.Outputs.DBEndpoint
+  #       DBPassword: !GetAtt DB.Outputs.DBPassword
+  #       ECEndpoint: !GetAtt ElastiCache.Outputs.ECEndpoint
+  #       ECPort: !GetAtt ElastiCache.Outputs.ECPort
+  #       AppBucket: !GetAtt S3.Outputs.AppBucket
+  #       S3UserKeyID: !GetAtt S3.Outputs.S3UserKeyID
+  #       S3UserSecretKey: !GetAtt S3.Outputs.S3UserSecretKey
+  #       SESUserKeyID: !ImportValue
+  #         Fn::Sub: "${ToolchainStack}-SESUserKeyID"
+  #       SESUserSecretKey: !ImportValue
+  #         Fn::Sub: "${ToolchainStack}-SESUserSecretKey"
+
+  # LifecycleHook:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub "https://s3.amazonaws.com/${TemplateBucket}/infrastructure/lifecyclehook.yaml"
+  #     Parameters:
+  #       Cluster: !GetAtt ECS.Outputs.Cluster
+  #       ECSAutoScalingGroupName: !GetAtt ECS.Outputs.ECSAutoScalingGroupName
+
+Outputs:
+  WebsiteServiceUrl:
+    Description: The URL endpoint for the website service
+    Value: !Join ["", [!GetAtt ALB.Outputs.LoadBalancerUrl, "/"]]
+  # DrupalService:
+  #   Description: The Drupal ECS Service name
+  #   Value: !Join ["", [!GetAtt DrupalService.Outputs.Service, "/"]]

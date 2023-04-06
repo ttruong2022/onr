@@ -1,0 +1,25 @@
+.block-facets-ajax {
+  h2,
+  h3 {
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+    list-style-type: none;
+
+    .facet-item {
+      padding: 0.25rem 0;
+
+      label {
+        padding-left: 0.3rem;
+      }
+    }
+  }
+
+  .facets-soft-limit-link {
+    display: block;
+    padding-top: 0.5rem;
+  }
+}

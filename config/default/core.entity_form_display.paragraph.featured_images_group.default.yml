@@ -1,0 +1,29 @@
+uuid: 7aa95b23-0a66-46c1-8a97-7bc98874be85
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_images_group.field_featured_images
+    - paragraphs.paragraphs_type.featured_images_group
+  module:
+    - paragraphs
+id: paragraph.featured_images_group.default
+targetEntityType: paragraph
+bundle: featured_images_group
+mode: default
+content:
+  field_featured_images:
+    type: entity_reference_paragraphs
+    weight: 0
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,48 @@
+@import '../../01-core/variables';
+
+.grid-col-12 {
+  .block--type-contact-block {
+    width: 100%;
+
+    @include mq-min-nonphone {
+      width: 75%;
+    }
+
+    @include mq-min-nonmobile {
+      width: 50%;
+    }
+    
+  }
+
+  &[class*=':grid-col'] {
+    .block--type-contact-block {
+      @media screen and (min-width: 0) {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.block--type-contact-block {
+  margin: 1.5rem auto;
+  background-color: $onr-lightgrey;
+  padding: 1rem;
+
+  .title {
+    &.display-inline {
+      font-family: 'Public Sans ExtraBold', sans-serif;
+    }
+  }
+
+  h2 {
+    margin: 0 0 0.5rem;
+  }
+
+  > div {
+    margin: 0.5rem 0;
+  }
+
+  .field__label {
+    font-weight: bold;
+  }
+}

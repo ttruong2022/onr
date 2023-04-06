@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Theme override to display a region.
+ *
+ * Available variables:
+ * - content: The content for this region, typically blocks.
+ * - attributes: HTML attributes for the region <div>.
+ * - region: The name of the region variable as defined in the theme's
+ *   .info.yml file.
+ *
+ * @see template_preprocess_region_header()
+ */
+#}
+{%
+  set classes = [
+  'region',
+  'region-' ~ region|clean_class,
+  'usa-navbar',
+]
+%}
+{% if content %}
+<div{{ attributes.addClass(classes) }}>
+  {{ drupal_entity('block', 'onr_branding', check_access=false) }}
+
+  {% include "@component/search-bar/header-search-bar.html.twig" %}
+
+  <div data-quickedit-entity-id="block_content/4" class="contextual-region block block-block-content block--type-basic block--view-mode-full block-headersublinks" data-once="quickedit" data-quickedit-entity-instance-id="0">
+    {{ drupal_entity('block_content', 4) }}
+  </div>
+
+</div>
+{% endif %}

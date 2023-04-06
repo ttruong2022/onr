@@ -1,0 +1,30 @@
+uuid: a59f3bae-5d3c-4caa-b48e-de9565f06ebb
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_opportunity_type
+field_name: field_opportunity_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: baa
+      label: BAA
+    -
+      value: foa
+      label: FOA
+    -
+      value: baa_call
+      label: 'BAA Call'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

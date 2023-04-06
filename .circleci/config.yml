@@ -1,0 +1,328 @@
+version: 2.1
+orbs:
+  slack: circleci/slack@4.3.0
+  pr-semver: mobomo/pr-semver@1.0.0
+  jira-releases: mobomo/jira-releases@1.0.0
+
+jobs:
+
+  build-and-deploy-nightly:
+    docker:
+      - image: mobomo/drupalstand-ci:8.0-latest
+    steps:
+      - checkout
+      - run:
+          name: Install composer requirements
+          command: |
+            composer install
+      - run:
+          name: Install GRC
+          command: |
+            apk add py-pip
+            pip install git-remote-codecommit
+      - run:
+          name: Push nightly tag to CodeCommit
+          command: |
+            vendor/bin/blt artifact:deploy \
+              --environment ci \
+              --commit-msg "Nightly Build - ${CIRCLE_BUILD_NUM}" \
+              --branch "nightly-build" \
+              --tag "0.0.${CIRCLE_BUILD_NUM}" \
+              --ignore-dirty \
+              --no-interaction \
+              --verbose
+
+  sonarscan:
+    working_directory: /usr/src
+    docker:
+      - image: sonarsource/sonar-scanner-cli
+    steps:
+      - checkout:
+          path: /usr/src
+      - run:
+          name: Run SonarQube scan
+          command: sonar-scanner -Dsonar.projectKey=ONR
+
+  analyze:
+    docker:
+      - image: mobomo/drupalstand-ci:8.0-latest
+    environment:
+      BASH_ENV: /etc/profile
+    steps:
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=`pwd`/vendor/bin:$PATH" >> $BASH_ENV
+            source $BASH_ENV
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            composer install \
+              --no-interaction \
+              --no-progress
+            npm install --prefix webroot/themes/custom/onr
+            npm install --prefix webroot/themes/custom/onr_amp
+      - run:
+          name: Analyze
+          command: |
+            ./vendor/bin/phpstan analyze \
+              --no-progress \
+              --memory-limit 1G \
+              | tee /tmp/phpstan-report.log
+      - store_artifacts:
+          path: /tmp/phpstan-report.log
+  analyzeFull:
+    docker:
+      - image: mobomo/drupalstand-ci:8.0-latest
+    environment:
+      BASH_ENV: /etc/profile
+    steps:
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=`pwd`/vendor/bin:$PATH" >> $BASH_ENV
+            source $BASH_ENV
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            composer install \
+              --no-interaction \
+              --no-progress
+            npm install --prefix webroot/themes/custom/onr
+            npm install --prefix webroot/themes/custom/onr_amp
+      - run:
+          name: Analyze
+          command: |
+            ./vendor/bin/phpstan analyze \
+              --no-progress \
+              --memory-limit 1G \
+              -c phpstan.neon.dist \
+              | tee /tmp/phpstan-report.log \
+              || true
+      - store_artifacts:
+          path: /tmp/phpstan-report.log
+  lint:
+    docker:
+      - image: mobomo/drupalstand-ci:8.0-latest
+    environment:
+      BASH_ENV: /etc/profile
+    steps:
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=`pwd`/vendor/bin:$PATH" >> $BASH_ENV
+            source $BASH_ENV
+      - checkout
+#      - restore_cache:
+#          name: Restore Composer to cache
+#          keys:
+#            - composer-cache
+#      - restore_cache:
+#          name: Restore vendor and node_modules to cache
+#          keys:
+#            - "{{ .Environment.CACHE_VERSION }}-composer-onr-{{ checksum \"composer.lock\" }}"
+      - run:
+          name: Globally install gulp-cli.
+          command: npm install --global gulp-cli
+      - run:
+          name: Install dependencies
+          command: |
+            composer install --no-interaction --no-progress
+            npm install --prefix webroot/themes/custom/onr
+            npm install --prefix webroot/themes/custom/onr_amp
+#      - save_cache:
+#          name: Save Composer to cache
+#          key: composer-cache-v1
+#          paths:
+#            - ~/.composer/cache
+#      - save_cache:
+#          name: Save vendor and node_modules to cache
+#          key: "{{ .Environment.CACHE_VERSION }}-composer-onr-{{ checksum \"composer.lock\" }}"
+#          paths:
+#            - vendor
+#            - webroot/themes/custom/onr/node_modules
+      - run:
+          name: Install Linters and Sniffers
+          command: |
+            composer global require --dev drupal/coder php-parallel-lint/php-parallel-lint --no-interaction
+            COMPOSER_DIR=$(composer -n config --global home)
+      - run:
+          name: PHP Lint
+          command: |
+            COMPOSER_DIR=$(composer -n config --global home)
+            $COMPOSER_DIR/vendor/bin/parallel-lint -e php,module,inc,install,test,profile,theme ./webroot/modules/custom ./webroot/themes/custom
+      - run:
+          name: PHP CodeSniff (ignore warnings)
+          command: |
+            COMPOSER_DIR=$(composer -n config --global home)
+            $COMPOSER_DIR/vendor/bin/phpcs -ns --standard=./.phpcs.xml.dist
+      - run:
+          name: Theme Lint
+          command: |
+            cd webroot/themes/custom/onr && npx gulp lintCi
+
+  unit_test:
+    docker:
+     - image: mobomo/drupalstand-ci:8.0-latest
+     - image: cimg/mariadb:10.5.12
+       environment:
+         MYSQL_DATABASE: drupal
+         MYSQL_USER: drupal
+         MYSQL_PASSWORD: drupal
+         MYSQL_ROOT_PASSWORD: root
+    environment:
+      BASH_ENV: /etc/profile
+      DRUPAL_DB_NAME: drupal
+      DRUPAL_DB_USER: drupal
+      DRUPAL_DB_PASS: drupal
+      DRUPAL_DB_HOST: '127.0.0.1'
+      DRUPAL_DB_PORT: 3306
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+      MYSQL_ROOT_PASSWORD: root
+      DRUPAL_MYSQL_HOST: '127.0.0.1'
+    steps:
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=`pwd`/vendor/bin:$PATH" >> $BASH_ENV
+            source $BASH_ENV
+      - checkout
+#      - restore_cache:
+#          keys:
+#            - composer-cache-v1
+#      - restore_cache:
+#          keys:
+#            - "{{ .Environment.CACHE_VERSION }}-composer-onr-{{ checksum \"composer.lock\" }}"
+      - run:
+          name: Install dependencies
+          command: |
+            composer install \
+              --no-interaction \
+              --no-progress
+            npm install --prefix webroot/themes/custom/onr
+            npm install --prefix webroot/themes/custom/onr_amp
+#      - save_cache:
+#          key: composer-cache-v1
+#          paths:
+#            - ~/.composer/cache
+#      - save_cache:
+#          key: "{{ .Environment.CACHE_VERSION }}-composer-onr-{{ checksum \"composer.lock\" }}"
+#          paths:
+#            - vendor
+#            - webroot/themes/custom/onr/node_modules
+#            - webroot/themes/custom/onr_amp/node_modules
+      - run:
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      - run:
+          name: Initialize Drupal + Verify Config can import
+          command: |
+            echo "memory_limit = 768M" >> /etc/php8/conf.d/my-php.ini
+            ./vendor/bin/drush site:install minimal --yes --account-name=admin --account-pass=admin install_configure_form.enable_update_status_module=NULL install_configure_form.enable_update_status_emails=NULL
+             cat ./config/default/system.site.yml | grep uuid | tail -c +7 | head -c 36 | ./vendor/bin/drush config-set -y system.site uuid - ;
+            ./vendor/bin/drush config:import --yes || true
+            ./vendor/bin/drush config:import --yes || true
+            ./vendor/bin/drush config:import --yes
+      - run:
+          name: Unit Test
+          command: |
+            php ./vendor/bin/phpunit -c ./phpunit.xml
+
+  test:
+    working_directory: /app
+    parallelism: 1
+    docker:
+      - image: mobomo/cypress
+    steps:
+      - checkout:
+          path: ~/project
+      - run:
+          name: Prepare for testing
+          command: |
+            cp -r ~/project/tests/* /app/cypress
+            cp ~/project/tests/cypress.json /app
+      - run:
+          name: Testing
+          command: |
+            npx cypress run --env TAGS="@e2e-test" --spec "cypress/integration/**/*.feature"
+      - store_test_results:
+          path: /app/test-results
+      - store_artifacts:
+          path: /app/cypress/videos
+      - store_artifacts:
+          path: /app/cypress/screenshots
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - lint
+      - sonarscan
+      - analyze
+      - unit_test
+
+  weekly:
+    triggers:
+      - schedule:
+          cron: "0 6 * * 1" # Monday @ 6am
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - analyzeFull
+
+#  nightly:
+#    triggers:
+#      - schedule:
+#          cron: "0 6 * * *" # Nightly @ 6am
+#          filters:
+#            branches:
+#              only:
+#                - master
+#    jobs:
+#      - build-and-deploy-nightly
+  
+  cypress:
+    jobs:
+      - approve-cypress:
+          type: approval
+          filters:
+            branches:
+              only:
+                - master
+      - test:
+          requires:
+            - approve-cypress
+          filters:
+            branches:
+              only:
+                - master
+
+  build-and-deploy:
+    jobs:
+      - approve-dev-deployment:
+          type: approval
+          filters:
+            branches:
+              only:
+                - master
+      - build-and-deploy-nightly:
+          requires:
+            - approve-dev-deployment
+          filters:
+            branches:
+              only:
+                - master

@@ -1,0 +1,18 @@
+uuid: bac9b6f6-162e-4d1b-aa9b-b7085c674dfb
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.magazine
+id: node.magazine.title
+field_name: title
+entity_type: node
+bundle: magazine
+label: 'Issue Title'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

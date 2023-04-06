@@ -1,0 +1,17 @@
+uuid: b3f7e84e-2e63-4ea9-8cc8-2f37c55f01f9
+langcode: en
+status: true
+dependencies:
+  module:
+    - elogger
+title: 'Default cron handler'
+id: elogger_cron
+weight: 0
+module: elogger
+callback: elogger_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

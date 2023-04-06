@@ -1,0 +1,6 @@
+adding:
+  enabled: true
+  index_now_preferred_engine: ''
+  index_now_on_entity_save: false
+removing:
+  enabled: false

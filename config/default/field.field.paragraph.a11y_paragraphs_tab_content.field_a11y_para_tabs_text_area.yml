@@ -1,0 +1,26 @@
+uuid: 427c4979-00dd-4f91-bf54-e4478f901b4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_a11y_para_tabs_text_area
+    - filter.format.full_html
+    - paragraphs.paragraphs_type.a11y_paragraphs_tab_content
+  module:
+    - text
+_core:
+  default_config_hash: r1JxX7nKQJO9zj4gBLYfuzEa5fYE0Zo0yYZIu_4wonE
+id: paragraph.a11y_paragraphs_tab_content.field_a11y_para_tabs_text_area
+field_name: field_a11y_para_tabs_text_area
+entity_type: paragraph
+bundle: a11y_paragraphs_tab_content
+label: 'Text Area'
+description: 'Add text to your panel.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

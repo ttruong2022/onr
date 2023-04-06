@@ -1,0 +1,8 @@
+uuid: 6fb4258b-c1f3-40e4-8f58-4255a7d2a794
+langcode: en
+status: true
+dependencies: {  }
+id: banner-navigation
+label: 'Banner Navigation'
+description: 'Links within the government banner'
+locked: false

@@ -1,0 +1,8 @@
+uuid: daa9e97c-0a20-44a4-83bd-1bc0915406e7
+langcode: en
+status: true
+dependencies: {  }
+id: contact_block
+label: 'Contact Block'
+revision: 1
+description: 'Reusable block to display contact information.'

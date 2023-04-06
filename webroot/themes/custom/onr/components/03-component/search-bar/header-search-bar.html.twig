@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Theme override for a 'form' element.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the form.
+ *
+ * @see template_preprocess_form()
+ */
+#}
+<div class="navbar--container">
+	<form class="usa-search usa-search--small" action="/search" method="get" id="search-block-form" accept-charset="UTF-8">
+		<div role="search">
+			<label class="usa-sr-only" for="query">Search</label>
+			<input aria-label="Search" class="usa-input" id="extended-search-field-small" type="search" placeholder="Search ONR" name="keyword_search" title="Search Terms" />
+			<button class="usa-button" type="submit">
+				<img src="{{ uswds_images }}usa-icons/search.svg" class="usa-search__submit-icon" alt="Search">
+			</button>
+		</div>
+	</form>
+</div>

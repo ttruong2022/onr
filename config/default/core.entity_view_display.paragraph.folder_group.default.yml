@@ -1,0 +1,25 @@
+uuid: 141f9405-5587-450c-9ed7-9920b80dc000
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.folder_group.field_folders
+    - paragraphs.paragraphs_type.folder_group
+  module:
+    - entity_reference_revisions
+id: paragraph.folder_group.default
+targetEntityType: paragraph
+bundle: folder_group
+mode: default
+content:
+  field_folders:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

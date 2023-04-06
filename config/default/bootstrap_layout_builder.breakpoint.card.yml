@@ -1,0 +1,10 @@
+uuid: 8f58f85c-87b1-4b53-aa14-fc9ad776a13e
+langcode: en
+status: 0
+dependencies: {  }
+_core:
+  default_config_hash: p8OBNZmOHbVqoKXbtTnirKaBRnBZci4cvBRnQ-RfXlc
+id: card
+label: Card
+base_class: 'card:grid-col'
+weight: '-2'

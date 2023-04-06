@@ -1,0 +1,29 @@
+{{ attach_library('onr/opportunities-item') }}
+
+<article{{ attributes.addClass('full-view') }}>
+    <div class="grid-row">
+        <div class="opportunity-item">
+            {{ content.body }}
+            {% if content.field_files %}
+                <div class="files margin-top-4">
+                    
+                    <ul>
+                        {% for key, item in content.field_files if key|first != '#' %}
+
+                            <li class="document-link margin-y-1">{{ drupal_entity('media',  item['#plain_text'], 'default') }}</li>
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <p class="date-info"><strong>Published:</strong> {{ node.published_at.value|date('F d, Y g:i A') }} EST</p>
+            {% if node.field_full_proposals is not empty %}
+                {{ content.field_full_proposals }}
+            {% endif %}
+            {% if node.field_white_papers is not empty %}
+                {{ content.field_white_papers }}
+            {% endif %}
+        </div>
+    </div>
+</article>

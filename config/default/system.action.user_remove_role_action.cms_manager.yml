@@ -1,0 +1,14 @@
+uuid: 15ac11c6-a77b-48d0-8945-50555548e04a
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.cms_manager
+  module:
+    - user
+id: user_remove_role_action.cms_manager
+label: 'Remove the CMS Manager role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: cms_manager

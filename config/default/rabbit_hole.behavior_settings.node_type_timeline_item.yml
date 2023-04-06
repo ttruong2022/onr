@@ -1,0 +1,14 @@
+uuid: ef339312-21e8-4207-85a8-8e38d42263ef
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.timeline_item
+id: node_type_timeline_item
+entity_type_id: node_type
+entity_id: timeline_item
+action: page_redirect
+allow_override: 1
+redirect: /
+redirect_code: 301
+redirect_fallback_action: access_denied

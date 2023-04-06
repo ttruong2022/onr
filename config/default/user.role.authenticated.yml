@@ -1,0 +1,41 @@
+uuid: 1453ec6a-a1f8-473f-8e89-9d1cfb710351
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+    - filter.format.full_html
+  module:
+    - coffee
+    - contextual
+    - editoria11y
+    - filter
+    - media
+    - media_entity_download
+    - node
+    - sitemap
+    - system
+    - workbench_access
+_core:
+  default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
+id: authenticated
+label: 'Authenticated user'
+weight: -9
+is_admin: false
+permissions:
+  - 'access coffee'
+  - 'access content'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access sitemap'
+  - 'download media'
+  - 'revert all revisions'
+  - 'use text format basic_html'
+  - 'use text format full_html'
+  - 'use workbench access'
+  - 'view all revisions'
+  - 'view editoria11y checker'
+  - 'view media'
+  - 'view own unpublished content'
+  - 'view own unpublished media'
+  - 'view workbench access information'

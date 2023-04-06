@@ -1,0 +1,14 @@
+uuid: bfe70a3f-4e01-490e-ad9c-f3f22781ea84
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.person_group
+id: taxonomy_vocabulary_person_group
+entity_type_id: taxonomy_vocabulary
+entity_id: person_group
+action: page_redirect
+allow_override: 1
+redirect: /
+redirect_code: 301
+redirect_fallback_action: access_denied

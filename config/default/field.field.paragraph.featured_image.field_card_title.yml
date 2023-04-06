@@ -1,0 +1,19 @@
+uuid: 4524c8c1-60d6-445b-9e6a-d1b50cf881eb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_card_title
+    - paragraphs.paragraphs_type.featured_image
+id: paragraph.featured_image.field_card_title
+field_name: field_card_title
+entity_type: paragraph
+bundle: featured_image
+label: 'Card Title'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,31 @@
+uuid: cd924fce-c396-4ab8-857b-bd4b3393cccc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - filter.format.basic_html
+    - paragraphs.paragraphs_type.uswds_process_item
+  module:
+    - linkchecker
+    - text
+third_party_settings:
+  linkchecker:
+    scan: true
+    extractor: html_link_extractor
+_core:
+  default_config_hash: oFgYcqn1O0CyA6S0NF_ri34PgUvgQzCoBFvGfPFlGXo
+id: paragraph.uswds_process_item.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: uswds_process_item
+label: Text
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

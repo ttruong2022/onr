@@ -1,0 +1,60 @@
+@import '../../01-core/variables';
+
+.site-logo {
+  align-self: center;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+
+  .usa-header--extended &.usa-logo {
+    @include mq-min-nonphone {
+      margin: 0.5rem 0;
+      max-width: unset;
+    }
+
+    @include mq-min-width('desktop-lg') {
+      margin: 1rem 0;
+    }
+  }
+
+  .logo-img {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: auto;
+      height: 50px;
+
+      $logo-sizes: (
+        'tablet': 55px,
+        'tablet-lg': 65px,
+        'desktop': 75px,
+        'desktop-lg': 90px
+      );
+
+      @each $size, $height in $logo-sizes {
+        @include mq-min-width($size) {
+          height: $height;
+        }
+      }
+    }
+
+    .logo-text {
+      @include mq-min-width('tablet') {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      @include mq-min-width('desktop-lg') {
+        font-size: 2.5rem;
+        font-weight: bold;
+      }
+
+      padding-left: 0.5rem;
+      text-transform: uppercase;
+      color: $onr-title-blue;
+      font-family: 'Google-Abel', sans-serif;
+      font-size: $h4;
+      font-weight: 100;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+uuid: 9d817874-da8b-4b65-9d02-2718ee8806ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_year
+    - node.type.magazine
+    - taxonomy.vocabulary.years
+id: node.magazine.field_year
+field_name: field_year
+entity_type: node
+bundle: magazine
+label: Year
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      years: years
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,14 @@
+uuid: c530cf59-6ce4-4418-9261-f7ed5c7ccf52
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.departments
+id: taxonomy_vocabulary_departments
+entity_type_id: taxonomy_vocabulary
+entity_id: departments
+action: page_redirect
+allow_override: 1
+redirect: /
+redirect_code: 301
+redirect_fallback_action: access_denied

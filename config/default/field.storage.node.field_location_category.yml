@@ -1,0 +1,23 @@
+uuid: 31dd2d40-d307-400b-b054-d7886959f88a
+langcode: en
+status: true
+dependencies:
+  module:
+    - dynamic_entity_reference
+    - media
+    - node
+id: node.field_location_category
+field_name: field_location_category
+entity_type: node
+type: dynamic_entity_reference
+settings:
+  exclude_entity_types: false
+  entity_type_ids:
+    media: media
+module: dynamic_entity_reference
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

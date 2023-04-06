@@ -1,0 +1,23 @@
+uuid: fd0e7058-46dc-487c-9c74-f7409cfaff7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_button_text
+    - paragraphs.paragraphs_type.uswds_modal
+_core:
+  default_config_hash: va5qWE-A3VWMW0v7mnit5cFdOHf7FfksKJTRxl-c2_U
+id: paragraph.uswds_modal.field_button_text
+field_name: field_button_text
+entity_type: paragraph
+bundle: uswds_modal
+label: 'Button Text'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 'Click Me'
+default_value_callback: ''
+settings: {  }
+field_type: string

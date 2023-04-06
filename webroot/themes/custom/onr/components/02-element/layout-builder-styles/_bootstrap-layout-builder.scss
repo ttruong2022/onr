@@ -1,0 +1,23 @@
+@import '../../01-core/variables';
+
+.onr-orange {
+  background-color: $onr-orange;
+}
+
+.onr-blue {
+  background-color: $onr-blue;
+}
+
+.onr-dark-blue {
+  background-color: $onr-dark-blue;
+}
+
+.onr-lightgrey {
+  background-color: $onr-lightgrey;
+}
+
+.equal-height {
+  .block--type-basic {
+    height: 100%;
+  }
+}

@@ -1,0 +1,23 @@
+uuid: 22cecd66-7463-4ac1-a7ca-3351ca7013fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_location_icon
+    - media.type.image
+id: media.image.field_location_icon
+field_name: field_location_icon
+entity_type: media
+bundle: image
+label: 'Location Icon'
+description: 'Allow icon to be available to Location content type'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

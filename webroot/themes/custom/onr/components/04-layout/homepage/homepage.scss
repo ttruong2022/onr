@@ -1,0 +1,177 @@
+@import '../../01-core/variables';
+
+/**
+* On each section where it's available, configure a container class of "home-section"
+* On the full-bleed section, configure the container class of "full-bleed background-[color name]"
+*
+* For the partner section, the container class should include "partner-block"
+* And each link should be in a div with the class "nre-partner__link"
+*
+**/
+
+%remove-spacing {
+  margin: 0;
+  padding: 0;
+}
+
+.path-frontpage {
+  .usa-hero {
+    .usa-hero__callout {
+      margin: 0 auto 6rem;
+      max-width: 50rem;
+
+      .grid-container {
+        @extend %remove-spacing;
+      }
+
+      .grid-gap {
+        &.grid-row {
+          @extend %remove-spacing;
+        }
+      }
+
+      [class*=grid-col] {
+        @extend %remove-spacing;
+        padding-right: 1rem;
+        padding-left: 1rem;
+
+        &:first-child {
+          padding-left: 0;
+        }
+
+        &:last-child {
+          padding-right: 0;
+
+          p {
+            margin-top: 1rem;
+            margin-right: auto;
+            margin-left: auto;
+          }
+        }
+
+        p {
+          @extend %remove-spacing;
+        }
+      }
+    }
+  }
+
+  div {
+    &.block {
+      & > h2 {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .home-section {
+    &:not(.full-bleed) {
+      .block {
+        &:last-of-type {
+          &:not(:only-of-type) {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+          }
+        }
+
+        & > h2 {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+
+
+  }
+
+  &:not(.user-logged-in) {
+    .homepage-decoration {
+      display: block;
+      position: relative;
+
+      &::before {
+        display: block;
+        position: absolute;
+        top: -2.5rem;
+        right: calc(50% - 8.5px);
+        line-height: 0;
+        color: #ee6c4d;
+        font-size: 3rem;
+        content: '\2022';
+      }
+
+      &::after {
+        display: block;
+        position: absolute;
+        top: -2rem;
+        left: 50%;
+        border-left: 1px solid #ee6c4d;
+        height: 2rem;
+        content: ' ';
+      }
+    }
+
+    .folder--container {
+      margin-top: -6rem;
+      border-top: 1px solid $orange;
+      background-color: transparent;
+    }
+  }
+
+  .block--type-featured-image {
+    .usa-card {
+      .usa-card__header {
+        padding-bottom: 1rem;
+      }
+
+      .usa-card__body + .usa-card__header {
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  .usa-card__header {
+    h2 {
+      color: inherit;
+      font-family: 'Public Sans ExtraBold', serif;
+    }
+  }
+
+  ul {
+    &.tabs-tab-list {
+      li {
+        h2 {
+          padding: 0.75rem 0;
+          font-size: 72px;
+        }
+      }
+    }
+  }
+
+  .partner-block {
+
+    @media screen and (max-width: $uswds-desktop-breakpoint) {
+      [class*='mobile:grid-col'] {
+        margin-bottom: 1rem;
+        width: 50%;
+      }
+    }
+
+    .field--type-text-long {
+      .grid-row {
+        > div {
+          align-self: center;
+
+          img {
+            margin-right: auto;
+            margin-left: auto;
+          }
+
+          a {
+            text-decoration: none;
+            color: $onr-blue;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+uuid: edf18635-0a7f-4583-8d71-22dd9bc94de0
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_flag_cards
+id: block_content.uswds_flag_cards
+target_entity_type_id: block_content
+target_bundle: uswds_flag_cards
+default_langcode: site_default
+language_alterable: false

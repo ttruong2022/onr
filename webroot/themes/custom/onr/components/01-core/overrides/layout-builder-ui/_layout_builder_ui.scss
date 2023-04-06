@@ -1,0 +1,123 @@
+// Styling for the Layout Builder UI
+// -----------------------------------------------------------------------------
+
+@import '../../variables';
+
+&.layout-builder-form {
+
+  #drupal-off-canvas { // sass-lint:disable-line no-ids, id-name-format
+    .usa-nav__primary {
+      display: block;
+
+      > .usa-nav__primary-item {
+        display: block;
+        padding-bottom: 0.5rem;
+      }
+    }
+
+    // Removes duplicate checkboxes from appearing
+    .form-type-checkbox {
+      display: flex;
+
+      .usa-checkbox__label {
+        padding-left: 2.5rem;
+
+        &:before {
+          display: none;
+        }
+      }
+    }
+
+    .usa-label {
+      max-width: unset;
+    }
+
+    .ajax-progress-throbber {
+      display: none;
+    }
+
+    input {
+      &[type=submit] {
+        &.button--primary {
+          color: $white;
+        }
+      }
+    }
+
+    .onr-orange {
+      border-radius: 0;
+      background-color: $onr-orange;
+    }
+
+    .onr-blue {
+      border-radius: 0;
+      background-color: $onr-blue;
+    }
+
+    .onr-dark-blue {
+      border-radius: 0;
+      background-color: $onr-dark-blue;
+    }
+
+    .onr-lightgrey {
+      border-radius: 0;
+      background-color: $onr-lightgrey;
+    }
+  }
+
+  .block-layout-builder {
+    overflow: visible;
+
+    p {
+      margin-top: 0;
+    }
+  }
+
+
+  // Blue usa alert needed some margin.
+  .usa-alert {
+    margin: 1rem 0;
+    width: 100%;
+  }
+
+  // Disable default uswds max-width
+  .layout-builder-form,
+  .js-form-type-vertical-tabs {
+    max-width: unset;
+  }
+
+  // Full Width + Padding for revision block.
+  .js-form-type-vertical-tabs {
+    margin-bottom: 1.5rem;
+  }
+
+  .field--name-moderation-state {
+    margin: 1rem 0;
+    border: 1px solid #f2f4f3;
+    padding: 1rem;
+
+    .container-inline {
+      margin: 0;
+    }
+  }
+
+  .full-bleed {
+    position: unset;
+    left: unset;
+    margin: unset;
+    width: unset;
+  }
+
+  .layout-builder__layout {
+    > div {
+
+      &:first-child {
+        color: unset;
+      }
+
+      h2 {
+        color: unset;
+      }
+    }
+  }
+}

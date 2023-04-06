@@ -1,0 +1,76 @@
+uuid: e4d16b0f-118e-4236-a878-05dce8ea89b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_location_category
+    - node.type.location
+  module:
+    - dynamic_entity_reference
+id: node.location.field_location_category
+field_name: field_location_category
+entity_type: node
+bundle: location
+label: Icon
+description: 'Displays next to the header - may be default based on Location Type; may be custom uploaded icon'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  media:
+    handler: views
+    handler_settings:
+      view:
+        view_name: entity_reference_icons
+        display_name: entity_reference_2
+        arguments: {  }
+  node:
+    handler: 'default:node'
+    handler_settings: {  }
+  content_moderation_state:
+    handler: 'default:content_moderation_state'
+    handler_settings: {  }
+  crop:
+    handler: 'default:crop'
+    handler_settings: {  }
+  block_content:
+    handler: 'default:block_content'
+    handler_settings: {  }
+  menu_link_content:
+    handler: 'default:menu_link_content'
+    handler_settings: {  }
+  elog:
+    handler: 'default:elog'
+    handler_settings: {  }
+  file:
+    handler: 'default:file'
+    handler_settings: {  }
+  linkcheckerlink:
+    handler: 'default:linkcheckerlink'
+    handler_settings: {  }
+  paragraph:
+    handler: 'default:paragraph'
+    handler_settings: {  }
+  redirect:
+    handler: 'default:redirect'
+    handler_settings: {  }
+  search_api_task:
+    handler: 'default:search_api_task'
+    handler_settings: {  }
+  section_association:
+    handler: 'default:section_association'
+    handler_settings: {  }
+  shortcut:
+    handler: 'default:shortcut'
+    handler_settings: {  }
+  taxonomy_term:
+    handler: 'default:taxonomy_term'
+    handler_settings: {  }
+  path_alias:
+    handler: 'default:path_alias'
+    handler_settings: {  }
+  user:
+    handler: 'default:user'
+    handler_settings: {  }
+field_type: dynamic_entity_reference

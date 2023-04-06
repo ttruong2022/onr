@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Contains onr_views_cache.module.
+ */
+
+use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Cache\Cache;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_nodepresave().
+ *
+ * @throws \InvalidArgumentException
+ */
+function onr_views_cache_node_presave(NodeInterface $node) {
+
+  $current_state = $node->get('moderation_state')->getString();
+  if ($current_state === 'published') {
+    /*
+     * Timeline bundle clears Timeline views.
+     * Article clear News Release views (both regular and ONR Global).
+     * Location clear location block.
+     * Person clears leadership blocks.
+     * Magazine clears future force blocks.
+     * Opportunity Item clears Funding opportunity blocks.
+     */
+    $cache_tags = ['node_list:' . $node->getType()];
+
+    if ($node->hasField('field_tags')) {
+      $field_tags = $node->get('field_tags');
+      foreach ($field_tags->referencedEntities() as $tag) {
+        if ($tag->get('name')->value === 'Programs') {
+          $cache_tags[] = 'programs'; // clears ONR Research and Technology Areas + Division Blocks
+        }
+      }
+    }
+    Cache::invalidateTags($cache_tags);
+  }
+
+}
+
+/**
+ * Implements hook_block_content_presave().
+ */
+function onr_views_cache_block_content_presave(BlockContentInterface $block_content) {
+  $cache_tags = ['block_list:' . $block_content->bundle()]; // clears all contact views.
+  Cache::invalidateTags($cache_tags);
+}

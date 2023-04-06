@@ -1,0 +1,38 @@
+@import '../../01-core/variables';
+
+.block--type-basic {
+  h2 {
+    margin-top: 0;
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+
+  &.global {
+    padding: 2rem;
+
+    @mixin set-color($color) {
+      > *,
+      a {
+        color: $color !important;
+      }
+
+      svg {
+        path {
+          stroke: $color;
+        }
+      }
+    }
+
+    &.onr-orange,
+    &.onr-lightgrey {
+      @include set-color($black);
+    }
+
+    &.onr-blue,
+    &.onr-dark-blue {
+      @include set-color($white);
+    }
+  }
+}

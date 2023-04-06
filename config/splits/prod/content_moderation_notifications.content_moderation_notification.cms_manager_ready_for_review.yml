@@ -1,0 +1,18 @@
+uuid: c366a768-25d4-4e00-9d91-c9ecc2cd4085
+langcode: en
+status: true
+dependencies: {  }
+id: cms_manager_ready_for_review
+workflow: editorial
+transitions:
+  ready_to_review: ready_to_review
+roles:
+  cms_manager: cms_manager
+author: false
+site_mail: true
+emails: ''
+subject: 'ONR Website [site:url]: [node:title][media:name:value] moved to Ready to Review'
+body:
+  value: "<p>[node:author][media:uid:entity:display-name] has submitted [replace] for your Review on [site:url].</p>\r\n\r\n<p><strong>Please login to publish this piece of content.</strong></p>\r\n"
+  format: full_html
+label: 'CMS Manager - Ready for Review'

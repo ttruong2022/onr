@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implements hook_views_data_alter().
+ *
+ * Defines a new field with content built by the
+ * module_name_handler_field_custom_field class.
+ *
+ * @see hook_views_data()
+ */
+function onr_views_handler_views_data_alter(&$data) {
+  // This example adds an example field to the users table.
+  $data['block_content']['programs'] = [
+    'title' => t('Associated Programs'),
+    'group' => t('Custom block'),
+    'field' => [
+      'title' => t('Associated Program'),
+      'help' => t('display associated programs.'),
+      'id' => 'programs',
+    ],
+  ];
+}

@@ -1,0 +1,21 @@
+uuid: 1895ab8c-3dcd-43f9-bbf2-37611d7ec70e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_search_api_best_bets
+    - node.type.page
+  module:
+    - search_api_best_bets
+id: node.page.field_search_api_best_bets
+field_name: field_search_api_best_bets
+entity_type: node
+bundle: page
+label: 'Search API Best Bets'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: search_api_best_bets

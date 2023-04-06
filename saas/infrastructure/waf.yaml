@@ -1,0 +1,103 @@
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  LoadBalancerArn:
+    Description: The Application Load Balancer ARN
+    Type: String
+
+# Conditions:
+#   CreateDevResources: !Equals 
+#     - !Ref EnvironmentName
+#     - dev
+Resources:
+  IPSet:
+    Type: AWS::WAFv2::IPSet
+    # Condition: CreateDevResources
+    Properties:
+      Description: !Sub '${EnvironmentName} Allowed IP ranges'
+      Name: !Sub '${EnvironmentName}IPSet'
+      Scope: REGIONAL
+      IPAddressVersion: IPV4
+      Addresses:
+        - '68.202.222.110/32'
+        - '10.180.0.0/16'
+
+  WebACL:
+    Type: AWS::WAFv2::WebACL
+    # Condition: CreateDevResources
+    DependsOn:
+      - IPSet
+    Properties:
+      Name: !Sub '${EnvironmentName}IPRestrictionWebACL'
+      Scope: REGIONAL
+      DefaultAction:
+        Allow:
+          CustomRequestHandling: 
+            InsertHeaders:
+              - Name: "X-Subject-Cn"
+                Value: "authenticated"
+      Description: 'To limit access to specific IPs only'
+      Rules:
+        - Name: 'IpLimitationRule'
+          Priority: 0
+          Statement:
+            AndStatement:
+              Statements:
+                - NotStatement:
+                    Statement:
+                      IPSetReferenceStatement:
+                        Arn: !GetAtt IPSet.Arn
+                - RegexMatchStatement:
+                    RegexString: '/user/login|/admin.*'
+                    FieldToMatch:
+                      UriPath: {}
+                    TextTransformations:
+                      - Priority: 0
+                        Type: 'NONE'
+                - NotStatement:
+                    Statement:
+                      ByteMatchStatement:
+                        SearchString: "letmein"
+                        FieldToMatch:
+                          SingleQueryArgument:
+                            Name: "onr"
+                        TextTransformations: 
+                          - Priority: 0
+                            Type: "NONE"
+                        PositionalConstraint: "EXACTLY"
+                - NotStatement:
+                    Statement:
+                      ByteMatchStatement:
+                        SearchString: "SSESS"
+                        FieldToMatch:
+                          SingleHeader:
+                            Name: "cookie"
+                        TextTransformations:
+                          - Priority: 0
+                            Type: "NONE"
+                        PositionalConstraint: "CONTAINS"
+                # - NotStatement:
+                #     Statement:
+                #       GeoMatchStatement:
+                #         CountryCodes:
+                #           - "US"
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: 'IpLimitationRule'
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: 'WebACLMetric'
+      Capacity: 1
+
+  MyWebACLAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    # Condition: CreateDevResources
+    Properties:
+      ResourceArn: !Ref LoadBalancerArn
+      WebACLArn: !GetAtt WebACL.Arn

@@ -1,0 +1,22 @@
+uuid: 57415d62-104e-4622-8463-545d7b2142f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - onr
+_core:
+  default_config_hash: DpZlrQG0Mvt0opEqgOtzkIE-6uZFgXz-Uke8eFOYneM
+id: onr_breadcrumbs
+theme: onr
+region: breadcrumb
+weight: -100
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

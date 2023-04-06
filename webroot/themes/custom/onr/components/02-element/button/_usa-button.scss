@@ -1,0 +1,33 @@
+@import '../../01-core/variables';
+
+.usa-hero,
+.main-content {
+
+  .usa-button {
+    &:not(.usa-modal__close) {
+      &:not(.usa-button--unstyled) {
+        &:not(.js-form-submit) {
+          position: relative;
+          margin-top: 1rem;
+          margin-right: 0;
+          border-radius: 24px;
+          padding-right: 1.75rem;
+          text-transform: uppercase;
+          font-size: 1.125rem;
+          font-weight: normal;
+
+          &:after {
+            display: inline-block;
+            transform: translateX(15px);
+            margin-left: -10px;
+            background-image: url('#{$theme-image-path}/angle-arrow-right-white.svg');
+            background-size: 100% 100%;
+            width: 10px;
+            height: 13px;
+            content: ' ';
+          }
+        }
+      }
+    }
+  }
+}

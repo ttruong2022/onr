@@ -1,0 +1,18 @@
+uuid: 6ac2cffc-c38d-41c9-be1f-aebfcf0f93cd
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.field_override_mad_module
+field_name: field_override_mad_module
+entity_type: media
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

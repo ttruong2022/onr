@@ -1,0 +1,29 @@
+uuid: 871117de-8770-47d7-a5ba-0700bde680be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.magazine
+  module:
+    - linkchecker
+    - text
+third_party_settings:
+  linkchecker:
+    scan: true
+    extractor: html_link_extractor
+id: node.magazine.body
+field_name: body
+entity_type: node
+bundle: magazine
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: true
+  allowed_formats: {  }
+field_type: text_with_summary

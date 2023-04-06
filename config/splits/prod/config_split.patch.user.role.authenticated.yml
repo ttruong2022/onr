@@ -1,0 +1,8 @@
+adding:
+  dependencies:
+    module:
+      - google_analytics
+      - shortcut
+  permissions:
+    - 'opt-in or out of google analytics tracking'
+removing: {  }

@@ -1,0 +1,21 @@
+uuid: 80ed1f88-4afd-4af8-9d2e-26f40bbda533
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_opportunity_type
+    - node.type.opportunities_item
+  module:
+    - options
+id: node.opportunities_item.field_opportunity_type
+field_name: field_opportunity_type
+entity_type: node
+bundle: opportunities_item
+label: 'Opportunity Type'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

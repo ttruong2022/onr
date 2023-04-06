@@ -1,0 +1,22 @@
+uuid: 6c285037-853e-47dc-9830-a8141454fc44
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: articles
+label: Articles
+type: 'canonical_entities:node'
+pattern: '/media-center/news-releases/[node:title]'
+selection_criteria:
+  ecca411a-01f7-4cd5-a656-5fa5a075f513:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: ecca411a-01f7-4cd5-a656-5fa5a075f513
+    context_mapping:
+      node: node
+    bundles:
+      article: article
+selection_logic: and
+weight: -5
+relationships: {  }

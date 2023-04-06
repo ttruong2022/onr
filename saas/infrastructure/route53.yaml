@@ -1,0 +1,93 @@
+Description: >
+  This template deploys an SES service used for Drupal notifications.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+  DomainName:
+    Description: Base domain name
+    Type: String
+  LoadBalancerDNSName:
+    Description: The DNS name for the load balancer.
+    Type: String
+  PrivateLoadBalancerDNSName:
+    Description: The DNS name for the private load balancer.
+    Type: String
+
+  # VPC:
+  #   Description: Choose which VPC the private DNS should be deployed to
+  #   Type: AWS::EC2::VPC::Id
+  # BastionPublicIP:
+  #   Description: The Bastion IP
+  #   Type: String
+
+Resources:
+
+  # DNS:
+  #   Type: "AWS::Route53::HostedZone"
+  #   Properties:
+  #     HostedZoneConfig:
+  #       Comment: 'Private hosted zone for private network'
+  #     Name: !Sub ${EnvironmentName}.local
+  #     VPCs:
+  #       - VPCId: !Ref VPC
+  #         VPCRegion: !Ref AWS::Region
+
+  # InstanceRecordSetGroup:
+  #   Type: AWS::Route53::RecordSetGroup
+  #   Properties:
+  #     Comment: Creating records for mail server
+  #     HostedZoneId: Z1PA6795UKMFR9
+  #     RecordSets:
+  #     - Name: !Sub bastion.${EnvironmentName}.local
+  #       ResourceRecords:
+  #         - !GetAtt BastionIP
+  #       TTL: 900
+  #       Type: A
+  
+  # asdfasdfSecurityGroup:
+  #   Type: AWS::EC2::SecurityGroup
+  #   Properties:
+  #     GroupDescription: Allow communication to RDS from web instances
+
+  ELBRecordSetGroup:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Sub ${DomainName}. 
+      Comment: Origin and bastion records
+      RecordSets:
+      - Name: !Sub ${EnvironmentName}.${DomainName}
+        Type: CNAME
+        TTL: 300
+        ResourceRecords:
+          - !Ref LoadBalancerDNSName
+      - Name: !Sub solr.${EnvironmentName}.${DomainName}
+        Type: CNAME
+        TTL: 300
+        ResourceRecords:
+          - !Ref PrivateLoadBalancerDNSName
+      - Name: !Sub admin.${EnvironmentName}.${DomainName}
+        Type: CNAME
+        TTL: 300
+        ResourceRecords:
+          - !Ref PrivateLoadBalancerDNSName
+      # - Name: !Sub bastion-${EnvironmentName}.${DomainName}
+      #   Type: A
+      #   TTL: 300
+      #   ResourceRecords:
+      #     - !Ref BastionPublicIP
+
+Outputs:
+  # RecordSetGroupName:
+  #   Description: "DNS record set group name"
+  #   Value: !Ref ELBRecordSetGroup
+  ALBRecord:
+    Description: "Public ALB DNS record"
+    Value: !Sub ${EnvironmentName}.${DomainName}
+  PrivateALBRecord:
+    Description: "Private ALB DNS record"
+    Value: !Sub solr.${EnvironmentName}.${DomainName}
+  PrivateALBRecord:
+    Description: "Private ALB DNS record 2"
+    Value: !Sub admin.${EnvironmentName}.${DomainName}

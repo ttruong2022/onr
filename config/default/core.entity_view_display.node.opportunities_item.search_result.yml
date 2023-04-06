@@ -1,0 +1,66 @@
+uuid: f405f65c-99f7-461b-827b-d8a2948e0de7
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.opportunities_item.body
+    - field.field.node.opportunities_item.field_files
+    - field.field.node.opportunities_item.field_full_proposals
+    - field.field.node.opportunities_item.field_funding_numbers
+    - field.field.node.opportunities_item.field_group
+    - field.field.node.opportunities_item.field_highlight
+    - field.field.node.opportunities_item.field_opportunity_type
+    - field.field.node.opportunities_item.field_search_api_best_bets
+    - field.field.node.opportunities_item.field_search_api_exclude_entity
+    - field.field.node.opportunities_item.field_tags
+    - field.field.node.opportunities_item.field_white_papers
+    - node.type.opportunities_item
+  module:
+    - layout_builder
+    - smart_trim
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.opportunities_item.search_result
+targetEntityType: node
+bundle: opportunities_item
+mode: search_result
+content:
+  body:
+    type: smart_trim
+    label: hidden
+    settings:
+      trim_length: 300
+      trim_type: chars
+      trim_suffix: ..
+      wrap_output: true
+      wrap_class: trimmed
+      more_link: false
+      more_class: more-link
+      more_text: More
+      summary_handler: full
+      trim_options:
+        text: true
+        trim_zero: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  content_moderation_control: true
+  field_files: true
+  field_full_proposals: true
+  field_funding_numbers: true
+  field_group: true
+  field_highlight: true
+  field_opportunity_type: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  field_white_papers: true
+  langcode: true
+  links: true
+  published_at: true
+  search_api_excerpt: true

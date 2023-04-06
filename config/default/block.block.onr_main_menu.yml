@@ -1,0 +1,27 @@
+uuid: 0644f3c7-35ca-4cfe-a5cb-8a0a690748e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - onr
+_core:
+  default_config_hash: iZBQexyTvFmwF23zNGCcPviVPioDsnNv2F3PGwb-ics
+id: onr_main_menu
+theme: onr
+region: primary_menu
+weight: 10
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 3
+  expand_all_items: true
+visibility: {  }

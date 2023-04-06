@@ -1,0 +1,10 @@
+uuid: 6f8a6a4e-6e41-4c77-83e6-d733299b5a41
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.baguettebox
+label: baguetteBox
+targetEntityType: media
+cache: true

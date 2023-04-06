@@ -1,0 +1,52 @@
+uuid: 25b052ac-6e20-4d3c-9833-70d1b16cf522
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.page.body
+    - field.field.node.page.field_components
+    - field.field.node.page.field_group
+    - field.field.node.page.field_metatags
+    - field.field.node.page.field_search_api_best_bets
+    - field.field.node.page.field_search_api_exclude_entity
+    - field.field.node.page.field_tags
+    - field.field.node.page.layout_builder__layout
+    - node.type.page
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: cSv5lDnbIgDug475Hdz3woED2XMqYv3awI-J9u1JLbY
+id: node.page.teaser
+targetEntityType: node
+bundle: page
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  links:
+    weight: 101
+    region: content
+hidden:
+  field_components: true
+  field_group: true
+  field_metatags: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  langcode: true
+  layout_builder__layout: true
+  published_at: true
+  search_api_excerpt: true

@@ -1,0 +1,7 @@
+easy_responsive_images_media_embed_allowed_view_modes:
+  ar_16x9: ar_16x9
+  ar_1x1: ar_1x1
+  ar_3x2: ar_3x2
+  ar_4x3: ar_4x3
+  ar_9x16: ar_9x16
+  natural_height: natural_height

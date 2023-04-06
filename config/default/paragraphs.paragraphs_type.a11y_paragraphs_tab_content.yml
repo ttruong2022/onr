@@ -1,0 +1,12 @@
+uuid: 6b42faf3-436e-4232-b72e-a632525e1866
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ihES30hnk67wMqFz9YNCpuRQ_bCeRomIMwdMi8m1ZoU
+id: a11y_paragraphs_tab_content
+label: 'A11Y Paragraphs Tab Content'
+icon_uuid: null
+icon_default: null
+description: 'Adds a text field to your A11Y Paragraphs Tabs Content Panel.'
+behavior_plugins: {  }

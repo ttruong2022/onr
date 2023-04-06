@@ -1,0 +1,201 @@
+uuid: 767dbd99-43de-4aaa-9060-274ea383802c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.magazine.body
+    - field.field.node.magazine.field_featured_image
+    - field.field.node.magazine.field_file_single
+    - field.field.node.magazine.field_group
+    - field.field.node.magazine.field_magazine_type
+    - field.field.node.magazine.field_metatags
+    - field.field.node.magazine.field_search_api_best_bets
+    - field.field.node.magazine.field_search_api_exclude_entity
+    - field.field.node.magazine.field_tags
+    - field.field.node.magazine.field_year
+    - node.type.magazine
+    - workflows.workflow.editorial
+  module:
+    - amazing_multiselect
+    - content_moderation
+    - media_library
+    - metatag
+    - path
+    - publication_date
+    - search_api_best_bets
+    - search_api_exclude_entity
+    - text
+id: node.magazine.default
+targetEntityType: node
+bundle: magazine
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 14
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_featured_image:
+    type: media_library_widget
+    weight: 15
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_file_single:
+    type: media_library_widget
+    weight: 16
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_group:
+    type: options_select
+    weight: 18
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_magazine_type:
+    type: options_select
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_metatags:
+    type: metatag_firehose
+    weight: 9
+    region: content
+    settings:
+      sidebar: true
+      use_details: true
+    third_party_settings: {  }
+  field_search_api_best_bets:
+    type: search_api_best_bets_widget
+    weight: 10
+    region: content
+    settings:
+      elevate_label: 'Elevate query'
+      elevate_placeholder: 'Write search queries....'
+      elevate_description: 'Specify queries that will elevate this entity to the top of the result. Separate multiple by comma.'
+      exclude_label: 'Exclude query'
+      exclude_placeholder: 'Write search queries....'
+      exclude_description: 'Specify queries that will exclude this entity from the search result. Separate multiple by comma.'
+      disable_exclude: 0
+    third_party_settings: {  }
+  field_search_api_exclude_entity:
+    type: search_api_exclude_entity_widget
+    weight: 11
+    region: content
+    settings:
+      field_label: 'Yes, exclude this entity from the search indexes.'
+    third_party_settings: {  }
+  field_tags:
+    type: amazing_multiselect_field_widget
+    weight: 17
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_year:
+    type: options_select
+    weight: 13
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  publish_on:
+    type: datetime_timestamp
+    weight: 31
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  publish_state:
+    type: scheduler_moderation
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  scheduler_settings:
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 8
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  unpublish_on:
+    type: datetime_timestamp
+    weight: 32
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  unpublish_state:
+    type: scheduler_moderation
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  url_redirects:
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  promote: true
+  sticky: true

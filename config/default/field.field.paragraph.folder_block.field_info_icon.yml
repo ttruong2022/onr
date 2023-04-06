@@ -1,0 +1,25 @@
+uuid: 7fad9514-958a-4b9b-9128-43afef1c6ebd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_info_icon
+    - paragraphs.paragraphs_type.folder_block
+id: paragraph.folder_block.field_info_icon
+field_name: field_info_icon
+entity_type: paragraph
+bundle: folder_block
+label: 'Folder Icon'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: entity_reference_icons
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

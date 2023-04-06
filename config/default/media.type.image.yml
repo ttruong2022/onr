@@ -1,0 +1,25 @@
+uuid: af541d7f-b674-4cc1-8782-b69d3e113def
+langcode: en
+status: true
+dependencies:
+  module:
+    - crop
+third_party_settings:
+  crop:
+    image_field: field_media_image
+_core:
+  default_config_hash: 6Qope5wG7HUpV0tPOBMtDI_GZkHFcF1Xj4hgD9Cu_hM
+id: image
+label: Image
+description: 'Use local images for reusable media.'
+source: image
+queue_thumbnail_downloads: false
+new_revision: true
+source_configuration:
+  source_field: field_media_image
+field_map:
+  name: name
+  mimetype: field_media_image
+  filesize: field_media_image
+  width: field_media_image
+  height: field_media_image

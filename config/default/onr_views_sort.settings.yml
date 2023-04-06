@@ -1,0 +1,9 @@
+replace_views:
+  'department_all_contacts:default': 'department_all_contacts:default'
+  'department_all_contacts:block_1': 'department_all_contacts:block_1'
+  'department_all_contacts:block_2': 'department_all_contacts:block_2'
+  'department_all_contacts:block_3': 'department_all_contacts:block_3'
+  'department_all_contacts:block_4': 'department_all_contacts:block_4'
+  'department_all_contacts:block_5': 'department_all_contacts:block_5'
+  'department_all_contacts:block_6': 'department_all_contacts:block_6'
+replace_text: 'Dr.|Mr.|Mrs|Ms.|Miss|Lt.|CAPT|Capt|CDR|Cdr.|LCDR |Lt.|Cdr.|Cdr.'

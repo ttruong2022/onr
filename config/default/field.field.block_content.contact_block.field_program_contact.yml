@@ -1,0 +1,23 @@
+uuid: 8272f470-a4a1-4620-8a1c-6f4c41fbcfec
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.storage.block_content.field_program_contact
+id: block_content.contact_block.field_program_contact
+field_name: field_program_contact
+entity_type: block_content
+bundle: contact_block
+label: 'Program Contact'
+description: 'Check if this is a Program Contact'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

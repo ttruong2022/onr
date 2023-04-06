@@ -1,0 +1,100 @@
+uuid: d3d9edf0-7d82-4e66-8e3c-c01176869819
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.opportunities_item.body
+    - field.field.node.opportunities_item.field_files
+    - field.field.node.opportunities_item.field_full_proposals
+    - field.field.node.opportunities_item.field_funding_numbers
+    - field.field.node.opportunities_item.field_group
+    - field.field.node.opportunities_item.field_highlight
+    - field.field.node.opportunities_item.field_opportunity_type
+    - field.field.node.opportunities_item.field_search_api_best_bets
+    - field.field.node.opportunities_item.field_search_api_exclude_entity
+    - field.field.node.opportunities_item.field_tags
+    - field.field.node.opportunities_item.field_white_papers
+    - node.type.opportunities_item
+  module:
+    - datetime
+    - text
+    - user
+id: node.opportunities_item.teaser
+targetEntityType: node
+bundle: opportunities_item
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_full_proposals:
+    type: datetime_custom
+    label: hidden
+    settings:
+      timezone_override: ''
+      date_format: 'F d, Y g:i A'
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_funding_numbers:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_highlight:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_white_papers:
+    type: datetime_custom
+    label: hidden
+    settings:
+      timezone_override: ''
+      date_format: 'F d, Y g:i A'
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  published_at:
+    type: timestamp
+    label: hidden
+    settings:
+      date_format: long
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_files: true
+  field_group: true
+  field_opportunity_type: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  langcode: true
+  search_api_excerpt: true

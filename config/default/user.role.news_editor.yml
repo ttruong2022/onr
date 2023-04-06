@@ -1,0 +1,21 @@
+uuid: 9dc0442f-dca8-4483-8f5c-caaafdd0d562
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.article
+    - node.type.page
+  module:
+    - node
+    - publication_date
+id: news_editor
+label: 'News Editor'
+weight: -7
+is_admin: null
+permissions:
+  - 'create article content'
+  - 'create page content'
+  - 'edit any article content'
+  - 'revert article revisions'
+  - 'set article published on date'
+  - 'view article revisions'

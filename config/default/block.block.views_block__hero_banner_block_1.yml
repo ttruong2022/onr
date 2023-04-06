@@ -1,0 +1,38 @@
+uuid: 5e4780ef-d613-4268-bacf-a81ba4b8517b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.hero_banner
+  module:
+    - node
+    - system
+    - views
+  theme:
+    - onr
+id: views_block__hero_banner_block_1
+theme: onr
+region: hero
+weight: 0
+provider: null
+plugin: 'views_block:hero_banner-block_1'
+settings:
+  id: 'views_block:hero_banner-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      landing_page: landing_page
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

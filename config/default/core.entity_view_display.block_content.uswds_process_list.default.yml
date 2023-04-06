@@ -1,0 +1,26 @@
+uuid: bef42055-ee80-4592-b55d-67a373a56909
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.uswds_process_list
+    - field.field.block_content.uswds_process_list.field_uswds_component
+  module:
+    - entity_reference_revisions
+id: block_content.uswds_process_list.default
+targetEntityType: block_content
+bundle: uswds_process_list
+mode: default
+content:
+  field_uswds_component:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

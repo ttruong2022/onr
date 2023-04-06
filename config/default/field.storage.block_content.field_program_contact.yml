@@ -1,0 +1,18 @@
+uuid: 1ae22008-4ce8-4877-bc55-7ca0a4537e6a
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content.field_program_contact
+field_name: field_program_contact
+entity_type: block_content
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,7 @@
+easy_responsive_images_media_embed.settings:
+  path: '/admin/config/media/easy_responsive_images_media_embed'
+  defaults:
+    _form: '\Drupal\easy_responsive_images_media_embed\Form\EasyResponsiveImageEmbedForm'
+    _title: 'Easy Responsive Image Media Embed Settings'
+  requirements:
+    _permission: 'administer image styles'

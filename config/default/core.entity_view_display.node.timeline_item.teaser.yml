@@ -1,0 +1,44 @@
+uuid: cd070ff6-b396-4883-b50a-763c8312a5ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.timeline_item.body
+    - field.field.node.timeline_item.field_date
+    - field.field.node.timeline_item.field_group
+    - field.field.node.timeline_item.field_photo
+    - node.type.timeline_item
+  module:
+    - text
+    - user
+id: node.timeline_item.teaser
+targetEntityType: node
+bundle: timeline_item
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_date: true
+  field_group: true
+  field_photo: true
+  langcode: true
+  published_at: true
+  search_api_excerpt: true

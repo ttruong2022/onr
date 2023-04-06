@@ -1,0 +1,62 @@
+diff --git a/content_moderation_notifications.module b/content_moderation_notifications.module
+index c1f9369..1957a47 100644
+--- a/content_moderation_notifications.module
++++ b/content_moderation_notifications.module
+@@ -55,6 +55,13 @@ function content_moderation_notifications_mail($key, &$message, $params) {
+ 
+       $context = $params['context'];
+ 
++      if (isset($context['node']) && $context['node'] instanceof \Drupal\node\Entity\Node) {
++        $params['message'] = str_replace('[replace]', 'Node: [node:title]', $params['message']);
++      }
++      else {
++        $params['message'] = str_replace('[replace]', 'Media: [media:name:value]', $params['message']);
++      }
++
+       $subject = PlainTextOutput::renderFromHtml($token_service->replace($params['subject'], $context, ['clear' => TRUE]));
+       $body = $token_service->replace($params['message'], $context, ['clear' => TRUE]);
+ 
+diff --git a/src/Form/ContentModerationNotificationsFormBase.php b/src/Form/ContentModerationNotificationsFormBase.php
+index 47fb799..4c02a8d 100644
+--- a/src/Form/ContentModerationNotificationsFormBase.php
++++ b/src/Form/ContentModerationNotificationsFormBase.php
+@@ -208,7 +208,7 @@ class ContentModerationNotificationsFormBase extends EntityForm {
+     if ($this->moduleHandler->moduleExists('token')) {
+       $form['body']['token_tree_link'] = [
+         '#theme' => 'token_tree_link',
+-        '#token_types' => array_unique(['user', $selected_workflow, 'node']),
++        '#token_types' => array_unique(['user', $selected_workflow, 'node', 'media']),
+         '#weight' => 10,
+       ];
+     }
+diff --git a/src/Notification.php b/src/Notification.php
+index 257f2a7..2d36b90 100644
+--- a/src/Notification.php
++++ b/src/Notification.php
+@@ -199,14 +199,18 @@ class Notification implements NotificationInterface {
+       $data['to'] = array_unique($data['to']);
+ 
+       // Force to BCC.
+-      $data['params']['headers']['Bcc'] = implode(',', $data['to']);
+-
+-      $recipient = '';
+-      if (!$notification->disableSiteMail()) {
+-        $recipient = \Drupal::config('system.site')->get('mail');
+-      }
+-      if (!empty($data['params']['headers']['Bcc'])) {
+-        $this->mailManager->mail('content_moderation_notifications', 'content_moderation_notification', $recipient, $data['langcode'], $data['params'], NULL, TRUE);
++     // $data['params']['headers']['Bcc'] = implode(',', $data['to']);
++
++//      $recipient = '';
++//      if (!$notification->disableSiteMail()) {
++//        $recipient = \Drupal::config('system.site')->get('mail');
++//      }
++//      if (!empty($data['params']['headers']['Bcc'])) {
++//        $this->mailManager->mail('content_moderation_notifications', 'content_moderation_notification', $recipient, $data['langcode'], $data['params'], NULL, TRUE);
++//      }
++      $recipients = implode(',', $data['to']);
++      if (!empty($recipients)) {
++        $this->mailManager->mail('content_moderation_notifications', 'content_moderation_notification', $recipients, $data['langcode'], $data['params'], NULL, TRUE);
+       }
+     }
+   }

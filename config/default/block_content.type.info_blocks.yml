@@ -1,0 +1,8 @@
+uuid: db693ba7-b004-4b21-bf0d-fed9a69c0bf8
+langcode: en
+status: true
+dependencies: {  }
+id: info_blocks
+label: 'Info Blocks'
+revision: 1
+description: 'Block containing unlimited number of "Info Block".'

@@ -1,0 +1,172 @@
+@import './variables';
+@import './fonts';
+@import './overrides/logged-in';
+
+body {
+  font-family: $body-font;
+
+  // Enable smooth scrolling on the whole document.
+  @media screen and (min-width: $uswds-tablet-breakpoint) {
+    scroll-behavior: smooth;
+  }
+
+  p {
+    line-height: 24px;
+  }
+}
+
+.grid-container {
+  max-width: $container-max-width !important;
+}
+
+h1 {
+  text-transform: uppercase;
+  line-height: 44px;
+  font-size: 36px;
+
+  @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+    line-height: 64px;
+    font-size: $h1;
+  }
+}
+
+.path-frontpage {
+  h1 {
+    line-height: 44px;
+    font-size: 36px;
+
+    @include mq-min-width('mobile-lg') {
+      margin-top: 0;
+      line-height: 67px;
+      font-size: 67px;
+    }
+
+    @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+      line-height: 110px;
+      font-size: 110px;
+    }
+
+    span {
+      @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+        line-height: 110px;
+        font-size: 110px;
+      }
+    }
+  }
+}
+
+h2 {
+  line-height: 36px;
+  font-size: 32px;
+
+
+  @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+    line-height: 40px;
+    font-size: $h2;
+  }
+}
+
+h3 {
+  line-height: 32px;
+  font-size: $h3;
+
+  @media screen and (min-width: $uswds-mobile-lg-breakpoint) {
+    line-height: 34px;
+  }
+}
+
+h4 {
+  line-height: 30px;
+  font-size: $h4;
+}
+
+h5 {
+  line-height: 28px;
+  font-size: $h5;
+  font-weight: bold;
+}
+
+h6 {
+  line-height: 24px;
+  font-size: $h6;
+  font-weight: normal;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: $onr-title-blue;
+  font-family: $header-font;
+  font-weight: 100;
+}
+
+h5,
+h6 {
+  color: $black;
+  font-family: $body-font !important;
+}
+
+.usa-section {
+  padding-top: 0;
+  padding-bottom: 2rem;
+
+  &:first-of-type {
+    padding-top: 0;
+  }
+}
+
+strong {
+  font-family: $bolder-font;
+}
+
+.main-content {
+  > .grid-container {
+
+    &:not(:first-child) {
+      padding-top: 2rem;
+    }
+  }
+}
+
+.field--type-text-with-summary,
+.field--type-text-long {
+
+  ul,
+  ol {
+    &:not([class]) {
+      // Adding some margin for sub lists
+      ul,
+      ol {
+        margin: 1rem 0;
+      }
+
+      // Adding some padding around list items
+      li {
+        padding: 0.25rem 0;
+        line-height: 24px;
+      }
+    }
+  }
+}
+
+figcaption {
+  padding-top: 0.75rem;
+}
+
+@media (min-width: $uswds-desktop-breakpoint) and (max-width: $uswds-desktop-sm-breakpoint) {
+  .desktop-sm\:grid-col-6 {
+    flex: 0 1 auto;
+    width: 50%;
+  }
+}
+
+@media (max-width: $uswds-mobile-lg-breakpoint) {
+  .grid-row {
+    > div {
+      &:not(:last-child) {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+}

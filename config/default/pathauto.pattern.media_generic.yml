@@ -1,0 +1,14 @@
+uuid: 1c56f1d1-9e84-452c-b1bf-17a919d35a48
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media_generic
+label: 'Media Generic'
+type: 'canonical_entities:media'
+pattern: '/media/[media:bundle]/[media:name]'
+selection_criteria: {  }
+selection_logic: and
+weight: 0
+relationships: {  }

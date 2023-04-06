@@ -1,0 +1,8 @@
+uuid: 51bcb4fb-f23e-4c97-b7be-ba6324332d11
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_modal
+label: 'USWDS Modal'
+revision: 1
+description: ''

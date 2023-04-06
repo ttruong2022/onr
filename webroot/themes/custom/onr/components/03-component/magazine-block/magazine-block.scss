@@ -1,0 +1,66 @@
+@import '../../01-core/variables';
+
+.a11y-paragraphs-tabs__wrapper {
+  .magazine-block {
+    .title {
+      margin-right: auto;
+      margin-left: auto;
+      padding-top: 0.5rem;
+      max-width: 280px;
+      text-align: center;
+      font-size: $slightly-larger;
+    }
+
+    .image {
+      // Desktop
+      @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+        max-width: 280px;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 3/4;
+      }
+    }
+
+    .views-row {
+      padding-top: 2.5rem;
+      padding-bottom: 2rem;
+
+      &:first-child,
+      &:nth-child(2),
+      &:nth-child(3) {
+        padding-top: 1rem;
+      }
+
+      // Desktop
+      @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  .tabs-tab-list {
+
+    > li {
+
+      &:not(:last-child) {
+        position: relative;
+
+        &:after {
+          position: absolute;
+          right: 0;
+          bottom: 25%;
+          border-right: 2px solid $onr-dark-blue;
+          height: 50%;
+          content: '';
+        }
+      }
+
+      .tabs-trigger {
+        font-size: $large;
+      }
+    }
+  }
+}

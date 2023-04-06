@@ -1,0 +1,28 @@
+@import '../../01-core/variables';
+
+.menu--banner-navigation {
+  @extend %inline-piped-list;
+
+  &.nav {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: $uswds-tablet-lg-breakpoint) {
+      display: block;
+      flex-direction: unset;
+    }
+  }
+
+  &,
+  .user-logged-in & {
+    padding-right: 0;
+  }
+
+  li {
+    a {
+      &.ext {
+        padding-right: 1rem;
+      }
+    }
+  }
+}

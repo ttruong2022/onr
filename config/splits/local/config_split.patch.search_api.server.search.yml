@@ -1,0 +1,8 @@
+adding:
+  backend_config:
+    connector_config:
+      scheme: http
+removing:
+  backend_config:
+    connector_config:
+      scheme: https

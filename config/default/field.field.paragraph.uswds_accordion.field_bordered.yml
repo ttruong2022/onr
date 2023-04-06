@@ -1,0 +1,23 @@
+uuid: bbf82460-8b4d-49bc-a7d7-be9c140ec092
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_bordered
+    - paragraphs.paragraphs_type.uswds_accordion
+id: paragraph.uswds_accordion.field_bordered
+field_name: field_bordered
+entity_type: paragraph
+bundle: uswds_accordion
+label: Bordered
+description: 'Add a border around the accordion.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

@@ -1,0 +1,114 @@
+uuid: 221c349f-0b4f-4b7a-8c44-7d9a4e4eddbb
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.ar_16x9
+    - core.entity_view_mode.media.ar_1x1
+    - core.entity_view_mode.media.ar_3x2
+    - core.entity_view_mode.media.ar_4x3
+    - core.entity_view_mode.media.ar_9x16
+    - core.entity_view_mode.media.full
+    - core.entity_view_mode.media.natural_height
+  module:
+    - blazy
+    - editor
+    - linkit
+    - media
+    - uswds_ckeditor_integration
+_core:
+  default_config_hash: WNeK5FbcY8pXgEpbD_KgRzlF1-5PL3BJXwqaBctPTqw
+name: 'Full HTML'
+format: full_html
+weight: -10
+filters:
+  filter_align:
+    id: filter_align
+    provider: filter
+    status: true
+    weight: 8
+    settings: {  }
+  filter_caption:
+    id: filter_caption
+    provider: filter
+    status: true
+    weight: 9
+    settings: {  }
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: true
+    weight: 10
+    settings: {  }
+  editor_file_reference:
+    id: editor_file_reference
+    provider: editor
+    status: true
+    weight: 11
+    settings: {  }
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: -10
+    settings:
+      allowed_html: '<em> <strong> <cite> <blockquote cite> <code> <ol start type> <li> <dl> <dt> <dd> <h2 id class=""> <h3 id class=""> <h4 id class=""> <h5 id class=""> <h6 id class=""> <img src alt data-entity-type data-entity-uuid data-align data-caption> <table style width height class=""> <caption> <tbody> <thead> <tfoot> <th data-sortable scope id headers colspan> <td id headers colspan> <tr scope id> <u> <s> <sup> <sub> <button aria-expanded aria-controls class=""> <hr class=""> <drupal-media data-entity-type data-entity-uuid data-view-mode data-align data-caption alt title data-*> <iframe longdesc name scrolling src title align height frameborder width> <pre> <p class="*"> <br> <a href hreflang name data-entity-substitution data-entity-type data-entity-uuid title id target rel aria-label class="*"> <div aria-live id data-* class="*"> <ul type class="arrow-list horizontal-list three-col-list two-col-list">'
+      filter_html_help: true
+      filter_html_nofollow: false
+  media_embed:
+    id: media_embed
+    provider: media
+    status: true
+    weight: 100
+    settings:
+      default_view_mode: default
+      allowed_view_modes:
+        default: default
+        ar_16x9: ar_16x9
+        ar_1x1: ar_1x1
+        ar_3x2: ar_3x2
+        ar_4x3: ar_4x3
+        ar_9x16: ar_9x16
+        full: full
+        natural_height: natural_height
+      allowed_media_types: {  }
+  filter_table_attributes:
+    id: filter_table_attributes
+    provider: uswds_ckeditor_integration
+    status: true
+    weight: 0
+    settings: {  }
+  linkit:
+    id: linkit
+    provider: linkit
+    status: true
+    weight: 0
+    settings:
+      title: true
+  blazy_filter:
+    id: blazy_filter
+    provider: blazy
+    status: false
+    weight: 3
+    settings:
+      media_switch: ''
+      hybrid_style: ''
+      box_style: ''
+      box_caption: ''
+      filter_tags:
+        img: img
+        iframe: iframe
+      use_data_uri: '0'
+  filter_autop:
+    id: filter_autop
+    provider: filter
+    status: true
+    weight: 0
+    settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: true
+    weight: 0
+    settings:
+      filter_url_length: 72

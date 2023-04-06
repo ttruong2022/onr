@@ -1,0 +1,37 @@
+uuid: dcac2309-01fb-4a97-8ea8-ba3dcf91401f
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:f1ee3a7e-99a0-4299-b70c-360e1759008d'
+  module:
+    - block_classes
+    - block_content
+    - node
+  theme:
+    - onr
+third_party_settings:
+  block_classes:
+    block_class: about-onr
+id: abouttheofficeofnavalresearch
+theme: onr
+region: content
+weight: -3
+provider: null
+plugin: 'block_content:f1ee3a7e-99a0-4299-b70c-360e1759008d'
+settings:
+  id: 'block_content:f1ee3a7e-99a0-4299-b70c-360e1759008d'
+  label: 'About the Office of Naval Research'
+  label_display: visible
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      article: article

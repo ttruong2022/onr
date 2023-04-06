@@ -1,0 +1,10 @@
+uuid: 4b80878b-2090-46dd-b944-04a2933e6e7e
+langcode: en
+status: true
+dependencies: {  }
+id: info_block
+label: 'Info Block'
+icon_uuid: null
+icon_default: null
+description: 'Used to create Info blocks for ONR.'
+behavior_plugins: {  }

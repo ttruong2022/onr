@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="grid-container block--featured-image">
+	<div class="content">
+		<ul class="usa-card-group">
+
+			{% set breakpoints = [
+				'desktop:grid-col-4',
+				'tablet:grid-col-4',
+				'mobile:grid-col-12',
+			] %}
+
+			{% for row in rows %}
+				{%
+					set row_classes = [
+					'usa-card'
+				]
+				%}
+				<li{{ row.attributes.addClass(row_classes).addClass(breakpoints) }}>
+					{{- row.content -}}
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>

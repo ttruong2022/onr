@@ -1,0 +1,50 @@
+uuid: 4116155c-c801-4839-9f7e-7d8f936569bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.landing_page.body
+    - field.field.node.landing_page.field_components
+    - field.field.node.landing_page.field_full_bleed_bottom
+    - field.field.node.landing_page.field_group
+    - field.field.node.landing_page.field_hero_image
+    - field.field.node.landing_page.field_hero_text
+    - field.field.node.landing_page.field_metatags
+    - field.field.node.landing_page.field_search_api_best_bets
+    - field.field.node.landing_page.field_search_api_exclude_entity
+    - field.field.node.landing_page.field_tags
+    - field.field.node.landing_page.layout_builder__layout
+    - node.type.landing_page
+  module:
+    - user
+id: node.landing_page.teaser
+targetEntityType: node
+bundle: landing_page
+mode: teaser
+content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  body: true
+  field_components: true
+  field_full_bleed_bottom: true
+  field_group: true
+  field_hero_image: true
+  field_hero_text: true
+  field_metatags: true
+  field_search_api_best_bets: true
+  field_search_api_exclude_entity: true
+  field_tags: true
+  langcode: true
+  layout_builder__layout: true
+  published_at: true
+  search_api_excerpt: true

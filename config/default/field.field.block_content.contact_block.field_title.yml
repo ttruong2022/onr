@@ -1,0 +1,19 @@
+uuid: 5cd1416c-9418-483b-ae85-417cd2609f56
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.storage.block_content.field_title
+id: block_content.contact_block.field_title
+field_name: field_title
+entity_type: block_content
+bundle: contact_block
+label: Title
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
